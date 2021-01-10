@@ -8,16 +8,6 @@ public class Book {
     private String priceOld;
     private String priceNew;
 
-    @Override
-    public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", author='" + author + '\'' +
-                ", title='" + title + '\'' +
-                ", priceOld='" + priceOld + '\'' +
-                ", priceNew='" + priceNew + '\'' +
-                '}';
-    }
 
     public Integer getId() {
         return id;
@@ -57,6 +47,17 @@ public class Book {
 
     public void setPriceNew(String priceNew) {
         this.priceNew = priceNew;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", author='" + author + '\'' +
+                ", title='" + title + '\'' +
+                ", priceOld='" + priceOld + '\'' +
+                ", priceNew='" + priceNew + '\'' +
+                '}';
     }
 
 
