@@ -7,16 +7,22 @@ insert into authors (firstName, lastName) values ('Gert', 'Kira');
 insert into authors (firstName, lastName) values ('Clerc', 'Djakovic');
 insert into authors (firstName, lastName) values ('Stacee', 'Elsy');
 insert into authors (firstName, lastName) values ('Dorotea', 'Bonhill');
+insert into authors (firstName, lastName) values ('JO', 'Knight');
+insert into authors (firstName, lastName) values ('Alice', 'Elsy');
+insert into authors (firstName, lastName) values ('Ivan', 'Emptyes');
+insert into authors (firstName, lastName) values ('Stas', 'Djakovic');
+insert into authors (firstName, lastName) values ('Olov', 'Elsy');
+insert into authors (firstName, lastName) values ('Kiopes', 'Lostens');
 
 insert into books (author_id, title, priceOld, price) values (1, 'exploit real-time e-commerce', '$203.23', '$43.37');
 insert into books (author_id, title, priceOld, price) values (2, 'utilize real-time interfaces', '$260.31', '$35.96');
-insert into books (author_id, title, priceOld, price) values (3, 'extend strategic e-services', '$272.00', '$151.04');
+insert into books (author_id, title, priceOld, price) values (14, 'extend strategic e-services', '$272.00', '$151.04');
 insert into books (author_id, title, priceOld, price) values (4, 'iterate integrated solutions', '$271.58', '$141.40');
 insert into books (author_id, title, priceOld, price) values (5, 'cultivate magnetic e-commerce', '$278.43', '$54.44');
 insert into books (author_id, title, priceOld, price) values (6, 'architect vertical ROI', '$282.54', '$102.61');
 insert into books (author_id, title, priceOld, price) values (7, 'disintermediate extensible architectures', '$295.38', '$181.27');
 insert into books (author_id, title, priceOld, price) values (8, 'extend leading-edge methodologies', '$283.08', '$97.96');
-insert into books (author_id, title, priceOld, price) values (9, 'integrate one-to-one systems', '$258.51', '$52.25');
+insert into books (author_id, title, priceOld, price) values (12, 'integrate one-to-one systems', '$258.51', '$52.25');
 insert into books (author_id, title, priceOld, price) values (1, 'revolutionize 24/7 infrastructures', '$260.79', '$33.69');
 insert into books (author_id, title, priceOld, price) values (2, 'enhance innovative e-services', '$256.54', '$160.98');
 insert into books (author_id, title, priceOld, price) values (3, 'maximize 24/365 e-tailers', '$262.07', '$34.06');
@@ -31,6 +37,6 @@ insert into books (author_id, title, priceOld, price) values (2, 'target innovat
 insert into books (author_id, title, priceOld, price) values (3, 'generate open-source e-business', '$276.57', '$113.25');
 insert into books (author_id, title, priceOld, price) values (4, 'implement user-centric e-markets', '$254.70', '$115.31');
 insert into books (author_id, title, priceOld, price) values (5, 'utilize magnetic supply-chains', '$279.70', '$77.86');
-insert into books (author_id, title, priceOld, price) values (6, 'e-enable dot-com supply-chains', '$297.83', '$110.15');
-insert into books (author_id, title, priceOld, price) values (7, 'facilitate efficient eyeballs', '$232.30', '$131.48');
+insert into books (author_id, title, priceOld, price) values (10, 'e-enable dot-com supply-chains', '$297.83', '$110.15');
+insert into books (author_id, title, priceOld, price) values (11, 'facilitate efficient eyeballs', '$232.30', '$131.48');
 
