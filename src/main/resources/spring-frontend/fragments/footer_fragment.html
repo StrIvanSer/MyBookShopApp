@@ -71,29 +71,31 @@
             </div>
             <div class="row-block">
                 <ul class="menu menu_vt Footer-menu">
-                    <li class="menu-item"><a class="menu-link" href="/index.html">Главная</a>
+                    <li class="menu-item"><a class="menu-link" th:text="#{topbar.main}" th:href="@{/}">Главная</a>
                     </li>
-                    <li class="menu-item"><a class="menu-link" href="/genres/index.html">Жанры</a>
+                    <li class="menu-item"><a class="menu-link" href="/genres/index.html"
+                                             th:text="#{topbar.genres}">Жанры</a>
                     </li>
-                    <li class="menu-item"><a class="menu-link" href="/books/recent.html">Новинки</a>
+                    <li class="menu-item"><a class="menu-link" href="/books/recent.html" th:href="@{/recent}" th:text="#{topbar.news}">Новинки</a>
                     </li>
-                    <li class="menu-item"><a class="menu-link" href="/books/popular.html">Популярное</a>
+                    <li class="menu-item"><a class="menu-link" href="/books/popular.html" th:href="@{/popular}" th:text="#{topbar.popular}">Популярное</a>
                     </li>
-                    <li class="menu-item"><a class="menu-link" href="/authors/index.html">Авторы</a>
+                    <li class="menu-item"><a class="menu-link" href="/authors/index.html" th:text="#{topbar.authors}"
+                                             th:href="@{/authors}">Авторы</a>
                     </li>
                 </ul>
             </div>
             <div class="row-block">
                 <ul class="menu menu_vt Footer-menu">
-                    <li class="menu-item"><a class="menu-link" href="/signin.html">Войти</a>
+                    <li class="menu-item"><a class="menu-link" href="/signin.html" th:href="@{/signin}" th:text="#{registr.signin}" >Войти</a>
                     </li>
-                    <li class="menu-item"><a class="menu-link" href="/documents/index.html">Документы</a>
+                    <li class="menu-item"><a class="menu-link" href="/documents/index.html"  th:href="@{/documents}" th:text="#{document.main}">Документы</a>
                     </li>
-                    <li class="menu-item"><a class="menu-link" href="/about.html">О компании</a>
+                    <li class="menu-item"><a class="menu-link" href="/about.html" th:href="@{/about}" th:text="#{footer.about}">О компании</a>
                     </li>
-                    <li class="menu-item"><a class="menu-link" href="/faq.html">Помощь</a>
+                    <li class="menu-item"><a class="menu-link" href="/faq.html" th:href="@{/help}" th:text="#{footer.help}">Помощь</a>
                     </li>
-                    <li class="menu-item"><a class="menu-link" href="/contacts.html">Контакты</a>
+                    <li class="menu-item"><a class="menu-link" href="/contacts.html"th:href="@{/contacts}" th:text="#{footer.contacts}" >Контакты</a>
                     </li>
                 </ul>
             </div>

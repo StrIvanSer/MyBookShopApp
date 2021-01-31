@@ -1,5 +1,7 @@
 package com.example.MyBookShopApp.data;
 
+import java.util.Date;
+
 public class Book {
 
     private Integer id;
@@ -7,7 +9,15 @@ public class Book {
     private String title;
     private String priceOld;
     private String priceNew;
+    private Date release;
 
+    public Date getRelease() {
+        return release;
+    }
+
+    public void setRelease(Date release) {
+        this.release = release;
+    }
 
     public Integer getId() {
         return id;
@@ -57,8 +67,7 @@ public class Book {
                 ", title='" + title + '\'' +
                 ", priceOld='" + priceOld + '\'' +
                 ", priceNew='" + priceNew + '\'' +
+                ", release='" + release + '\'' +
                 '}';
     }
-
-
 }

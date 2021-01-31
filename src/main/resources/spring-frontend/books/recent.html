@@ -9,7 +9,7 @@
 <html class="ie9" lang="ru">
 <![endif]-->
 <html lang="ru" xmlns:th="http://www.thymeleaf.org"> <!--<![endif]-->
-<head th:replace="~{fragments/head_fragment :: headFragment (pageName=#{topbar.authors})}"></head>
+<head th:replace="~{fragments/head_fragment :: headFragment (pageName=#{topbar.news})}"></head>
 <body class="Site">
 <!--if lt IE 8
 p.error-browser
@@ -24,54 +24,62 @@ p.error-browser
 <div class="Middle">
     <div class="wrap">
         <main class="Middle-main">
-            <ul class="breadcrumbs">
-                <li class="breadcrumbs-item"><a href="/index.html">Главная</a>
-                </li>
-                <li class="breadcrumbs-item"><a href="/genres/index.html">Книги</a>
-                </li>
-                <li class="breadcrumbs-item breadcrumbs-item_current"><span>Новинки</span>
-                </li>
+            <ul class="breadcrumbs" th:replace="~{fragments/middle_menu :: middle_menu (pageName=#{topbar.recent})}">
             </ul>
             <div class="Section">
                 <div class="Section-header">
-                    <h1 class="Section-title">Новинки
+                    <h1 class="Section-title" th:text="#{topbar.recent}">Новинки
                     </h1>
-                    <form class="form form_inline Section-header-form" action="#" method="post">
+                    <form class="form form_inline Section-header-form" th:action="@{/recent}" method="post">
                         <div class="form-group">
-                            <label class="form-label">с
+                            <label class="form-label" th:text="#{recent.datefrom}">с
                             </label>
-                            <input class="form-input form-input_date form-input_date_uninit" id="fromdaterecent"
-                                   name="fromdaterecent" type="text" placeholder="Дата" data-refreshoffset="20"
-                                   data-refreshlimit="20" data-refreshshow="changedate" data-refreshfrom="0"
-                                   autocomplete="off"/>
+                            <input
+                                    class="form-input form-input_date form-input_date_uninit"
+                                    id="fromdaterecent"
+                                    name="fromdaterecent"
+                                    type="text"
+                                    placeholder="Дата"
+                                    th:placeholder="#{recent.date}"
+                                    data-refreshoffset="20"
+                                    data-refreshlimit="20"
+                                    data-refreshshow="changedate"
+                                    data-refreshfrom="0"
+                                    autocomplete="off"
+                            />
                         </div>
                         <div class="form-group">
-                            <label class="form-label">по
+                            <label class="form-label" th:text="#{recent.dateto}">по
                             </label>
-                            <input class="form-input form-input_date form-input_date_uninit" id="enddaterecent"
-                                   name="enddaterecent" type="text" placeholder="Дата" data-refreshoffset="20"
-                                   data-refreshlimit="20" data-refreshshow="changedate" data-refreshto="0"
-                                   autocomplete="off"/>
+                            <input
+                                    class="form-input form-input_date form-input_date_uninit"
+                                    id="enddaterecent"
+                                    name="enddaterecent"
+                                    type="text"
+                                    placeholder="Дата"
+                                    th:placeholder="#{recent.date}"
+                                    data-refreshoffset="20"
+                                    data-refreshlimit="20"
+                                    data-refreshshow="changedate"
+                                    data-refreshto="0"
+                                    autocomplete="off"
+                            />
                         </div>
                     </form>
                 </div>
-                <div class="Cards Cards_refresh">
-                    <div class="Card">
+                <div class="Cards Cards_refresh" >
+                    <div class="Card" th:each="book:${recentBooks}">
                         <div class="Card-picture"><a href="#"><img src="/assets/img/content/main/card.jpg"
                                                                    alt="card.jpg"/></a>
                         </div>
                         <div class="Card-content">
-                            <strong class="Card-title"><a href="#">Техника</a>
+                            <strong class="Card-title" th:text="${book.title}"><a href="#">Техника</a>
                             </strong>
-                            <div class="Card-description">Кондратенко Александр Петрович
+                            <div class="Card-description" th:text="${book.author}">Кондратенко Александр Петрович
                             </div>
-                            <div class="Card-cost"><span class="Card-priceOld">₽300.00</span><span class="Card-price">₽190.00</span>
+                            <div class="Card-cost"><span class="Card-priceOld" th:text="${book.priceOld}">₽300.00</span><span class="Card-price" th:text="${book.priceNew}">₽190.00</span>
                             </div>
                         </div>
-                    </div>
-                    <div class="Cards-footer Cards-footer_center"><a class="btn btn_primary" href="#"
-                                                                     data-refreshshow="recent" data-refreshoffset="20"
-                                                                     data-refreshlimit="20">Показать еще</a>
                     </div>
                 </div>
             </div>

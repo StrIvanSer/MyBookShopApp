@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -18,6 +20,18 @@ public class MainPageController {
     @Autowired
     public MainPageController(BookService bookService) {
         this.bookService = bookService;
+    }
+
+    @ModelAttribute("popularBooks")
+    public List<Book> popularBooks() {
+        return bookService.getPopularBooks();
+    }
+
+    @ModelAttribute("recentBooks")
+    public List<Book> recentBooks() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, -1);
+        return bookService.getRecentBooksData(cal.getTime(), new Date());
     }
 
 
@@ -32,9 +46,24 @@ public class MainPageController {
         return "index";
     }
 
-//    @GetMapping("/genres")
-//    public String genresPage() {
-//        return "/genres/index";
-//    }
+    @GetMapping("/about")
+    public String aboutPage() {
+        return "about";
+    }
+
+    @GetMapping("/help")
+    public String helpPage() {
+        return "faq";
+    }
+
+    @GetMapping("/contacts")
+    public String contactsPage() {
+        return "contacts";
+    }
+
+    @GetMapping("/search")
+    public String searchPage() {
+        return "/search/index";
+    }
 
 }

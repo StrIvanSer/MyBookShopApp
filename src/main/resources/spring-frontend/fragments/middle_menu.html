@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<ul class="breadcrumbs" th:fragment="middle_menu (pageName)">
+    <li class="breadcrumbs-item"><a href="/index.html" th:text="#{topbar.main}" >Главная</a>
+    </li>
+    <li class="breadcrumbs-item"><a href="/genres/index.html" th:text="#{footer.book}">Книги</a>
+    </li>
+    <li class="breadcrumbs-item breadcrumbs-item_current" th:text="${pageName}"><span>Популярное</span>
+    </li>
+</ul>
+</html>

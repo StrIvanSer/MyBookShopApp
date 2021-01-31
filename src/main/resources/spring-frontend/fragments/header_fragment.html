@@ -9,7 +9,7 @@
                 <div class="row-block Header-logo"><a class="logo" href="/"><img class="logo-image"
                                                                                  src="/assets/img/logo.png"
                                                                                  alt="logo.png"/><span
-                        class="logo-text">BOOKSHOP 123123</span></a>
+                        class="logo-text" th:text="#{common.appname}">BOOKSHOP</span></a>
                 </div>
                 <div class="Header-searchWrap row-block">
                     <div class="Header-searchLink">
@@ -27,14 +27,14 @@
                             <form class="form form_search" action="#" method="post" data-searchlimit="20">
                                 <input class="search-input" id="query" name="query" type="text"
                                        placeholder="Search over 30 million book titles" value=""/>
-                                <button class="search-button" type="submit" name="search" id="search">Поиск
+                                <button class="search-button" type="submit" name="search" id="search" th:text="#{topbar.search}">Поиск
                                 </button>
                             </form>
                         </div>
                     </div>
                 </div>
                 <div class="row-block Header-cart">
-                    <div class="CartBlock"><a class="CartBlock-block" href="/postponed.html">
+                    <div class="CartBlock"><a class="CartBlock-block" th:href="@{/postponed}" href="/postponed.html">
                         <svg class="CartBlock-img" xmlns="http://www.w3.org/2000/svg" height="23" width="23"
                              viewBox="0 0 512 512">
                             <g>
@@ -44,7 +44,7 @@
                                 </g>
                             </g>
                         </svg>
-                        <span class="CartBlock-amount">0</span></a><a class="CartBlock-block" href="/cart.html">
+                        <span class="CartBlock-amount">0</span></a><a class="CartBlock-block" th:href="@{/cart}" href="/cart.html">
                         <svg class="CartBlock-img" xmlns="http://www.w3.org/2000/svg" width="30" height="23"
                              viewBox="0 0 30 23">
                             <g>
@@ -54,7 +54,7 @@
                                 </g>
                             </g>
                         </svg>
-                        <span class="CartBlock-amount">0</span></a><a class="CartBlock-block" href="/signin.html">
+                        <span class="CartBlock-amount">0</span></a><a class="CartBlock-block" th:href="@{/signin}" href="/signin.html">
                         <svg class="CartBlock-img" xmlns="http://www.w3.org/2000/svg" width="22" height="23"
                              viewBox="0 0 22 23">
                             <g>
@@ -88,14 +88,14 @@
         <div class="wrap">
             <nav class="menuModal" id="navigate">
                 <ul class="menu menu_main">
-                    <li class="menu-item menu-item_ACTIVE"><a class="menu-link" th:text="#{topbar.main}" th:href="@{/}">Главная</a>
+                    <li class="menu-item"><a class="menu-link" th:text="#{topbar.main}" th:href="@{/}">Главная</a>
                     </li>
-                    <li class="menu-item"><a class="menu-link" href="/genres/index.html"
+                    <li class="menu-item"><a class="menu-link"th:href="@{/genres}"
                                              th:text="#{topbar.genres}">Жанры</a>
                     </li>
-                    <li class="menu-item"><a class="menu-link" href="/books/recent.html" th:text="#{topbar.news}">Новинки</a>
+                    <li class="menu-item"><a class="menu-link" href="/books/recent.html" th:href="@{/recent}" th:text="#{topbar.news}">Новинки</a>
                     </li>
-                    <li class="menu-item"><a class="menu-link" href="/books/popular.html" th:text="#{topbar.popular}">Популярное</a>
+                    <li class="menu-item"><a class="menu-link" href="/books/popular.html" th:href="@{/popular}" th:text="#{topbar.popular}">Популярное</a>
                     </li>
                     <li class="menu-item"><a class="menu-link" href="/authors/index.html" th:text="#{topbar.authors}"
                                              th:href="@{/authors}">Авторы</a>
