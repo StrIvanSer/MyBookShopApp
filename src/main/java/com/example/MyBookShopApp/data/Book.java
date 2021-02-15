@@ -1,73 +1,36 @@
 package com.example.MyBookShopApp.data;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
 import java.util.Date;
 
+@Getter
+@Setter
+@Entity
+@NoArgsConstructor
+@EqualsAndHashCode
+@Table(name = "books")
 public class Book {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String author;
+
+    @ManyToOne
+    @JoinColumn(name = "author_id", referencedColumnName = "id")
+    private Author author;
+
     private String title;
     private String priceOld;
-    private String priceNew;
+    private String price;
     private Date release;
 
-    public Date getRelease() {
-        return release;
-    }
+    @OneToOne
+    @JoinColumn(name = "rating_books_id", referencedColumnName = "id")
+    private RatingBooks ratingBooks;
 
-    public void setRelease(Date release) {
-        this.release = release;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getPriceOld() {
-        return priceOld;
-    }
-
-    public void setPriceOld(String priceOld) {
-        this.priceOld = priceOld;
-    }
-
-    public String getPriceNew() {
-        return priceNew;
-    }
-
-    public void setPriceNew(String priceNew) {
-        this.priceNew = priceNew;
-    }
-
-    @Override
-    public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", author='" + author + '\'' +
-                ", title='" + title + '\'' +
-                ", priceOld='" + priceOld + '\'' +
-                ", priceNew='" + priceNew + '\'' +
-                ", release='" + release + '\'' +
-                '}';
-    }
 }
