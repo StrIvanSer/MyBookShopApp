@@ -32,8 +32,9 @@
                         <div class="Authors-letter">
                             <div class="Authors-item">
                                 <a th:each="author : ${authorsList.value}"
-                                                         th:href="@{/authors/slug}" href="/authors/slug.html" th:text="${author.firstName + ' ' + author.lastName}">Абгарян
-                                Наринэ</a>
+                                   th:href="${'/authors/slug/' + author.id}" href="/authors/slug.html"
+                                   th:text="${author.firstName + ' ' + author.lastName}">Абгарян
+                                    Наринэ</a>
                             </div>
                         </div>
                     </div>

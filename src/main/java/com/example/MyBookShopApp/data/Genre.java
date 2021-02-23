@@ -15,22 +15,19 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode
 @NoArgsConstructor
-@Table(name = "author")
-public class Author {
+@Table(name = "genre")
+public class Genre {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String firstName;
-    private String lastName;
-    @Column(name = "description", length = 1000)
-    private String description;
+    @Column(name = "name")
+    private String name;
+    @OneToMany(mappedBy = "genre")
+    List<Book> bookListByGenre = new ArrayList<>();
 
-    @OneToMany
-    private List<Book> bookList = new ArrayList<>();
-
-    @Override
-    public String toString() {
-        return firstName  + " " + lastName;
-    }
+    @ManyToOne
+    @JoinColumn(name = "genre_type_id", referencedColumnName = "id", foreignKey =
+    @ForeignKey(name = "fk_genre_genre_type"))
+    private GenreType genreType;
 }

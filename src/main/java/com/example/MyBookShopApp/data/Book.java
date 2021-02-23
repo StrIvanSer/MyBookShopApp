@@ -1,5 +1,6 @@
 package com.example.MyBookShopApp.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ import java.util.Date;
 @Entity
 @NoArgsConstructor
 @EqualsAndHashCode
-@Table(name = "books")
+@Table(name = "book")
 public class Book {
 
     @Id
@@ -29,8 +30,14 @@ public class Book {
     private String price;
     private Date release;
 
-    @OneToOne
-    @JoinColumn(name = "rating_books_id", referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "rating_book_id", referencedColumnName = "id", foreignKey =
+    @ForeignKey(name = "fk_book_rating_book"))
     private RatingBooks ratingBooks;
+
+    @ManyToOne
+    @JoinColumn(name = "genre_id", referencedColumnName = "id", foreignKey =
+    @ForeignKey(name = "fk_book_genre"))
+    private Genre genre;
 
 }
