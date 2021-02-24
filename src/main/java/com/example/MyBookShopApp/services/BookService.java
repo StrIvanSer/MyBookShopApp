@@ -2,12 +2,8 @@ package com.example.MyBookShopApp.services;
 
 import com.example.MyBookShopApp.data.Book;
 import com.example.MyBookShopApp.data.Genre;
-import com.example.MyBookShopApp.data.GenreType;
 import com.example.MyBookShopApp.repo.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -41,7 +37,7 @@ public class BookService {
         return bookRepository.findAllByGenre(genre);
     }
 
-    public List<Book> getAllBookByGenreType(GenreType genreType) {
+    public List<Book> getAllBookByGenreType(Genre.GenreType genreType) {
         return bookRepository.findAllByGenre_GenreType(genreType);
     }
 

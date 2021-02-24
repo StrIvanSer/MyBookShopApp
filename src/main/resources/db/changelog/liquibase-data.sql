@@ -22,7 +22,6 @@ insert into author (id, first_name, last_name, description) values (19, 'Hildega
 insert into author (id, first_name, last_name, description) values (20, 'Noellyn', 'De Fraine','Немецкий писатель XX века, представитель «потерянного поколения». Его роман «На Западном фронте без перемен» входит в большую тройку романов «потерянного поколения», изданных в 1929 году, наряду с произведениями «Прощай, оружие!» Эрнеста Хемингуэя и «Смерть героя» Ричарда Олдингтона.');
 insert into author (id, first_name, last_name, description) values (21, 'Gwenore', 'Winthrop','Американский писатель, публицист и прозаик, общественный деятель.');
 
-
 insert into rating_book (id, rating) values (1, 1);
 insert into rating_book (id, rating) values (2, 2);
 insert into rating_book (id, rating) values (3, 3);
@@ -34,26 +33,19 @@ insert into rating_book (id, rating) values (8, 8);
 insert into rating_book (id, rating) values (9, 9);
 insert into rating_book (id, rating) values (10, 10);
 
-
-INSERT INTO public.genre_type(type)
-	VALUES ('Легкое чтение'),
-	('Серьёзное чтение'),
-	('Деловая литература'),
-	('Драматургия');
-
-INSERT INTO public.genre(name, genre_type_id)
-	VALUES ('Фантастика', 1),
-	('Боевики', 1),
-	('Детективы', 1),
-	('Фэнтези', 1),
-	('Романы', 1),
-	('Биографии', 2),
-	('Деловая литература', 3),
-	('Банковское дело', 3),
-	('Бизнес-процессы', 3),
-	('Античная драма', 4),
-	('Комедия', 4),
-	('Драма, пьеса', 4);
+INSERT INTO public.genre(name, genre_type)
+	VALUES ('Фантастика', 0),
+	('Боевики', 0),
+	('Детективы', 0),
+	('Фэнтези', 0),
+	('Романы', 0),
+	('Биографии', 1),
+	('Деловая литература', 2),
+	('Банковское дело', 2),
+	('Бизнес-процессы', 2),
+	('Античная драма', 3),
+	('Комедия', 3),
+	('Драма, пьеса', 3);
 
 insert into book (id, price, price_old, release, rating_book_id, title, genre_id, author_id) values (1, 2412, 5091, '25.10.2020', 3, 'Nadja', 6, 13);
 insert into book (id, price, price_old, release, rating_book_id, title, genre_id, author_id) values (2, 2580, 5073, '04.10.2020', 4, 'Return of Dracula, The', 12, 2);
@@ -1055,4 +1047,9 @@ insert into book (id, price, price_old, release, rating_book_id, title, genre_id
 insert into book (id, price, price_old, release, rating_book_id, title, genre_id, author_id) values (998, 3462, 5947, '09.10.2020', 2, 'Inglorious Bastards (Quel maledetto treno blindato)', 11, 11);
 insert into book (id, price, price_old, release, rating_book_id, title, genre_id, author_id) values (999, 3404, 5130, '03.09.2020', 1, 'Rebirth of Mothra II', 10, 21);
 insert into book (id, price, price_old, release, rating_book_id, title, genre_id, author_id) values (1000, 2276, 4219, '01.10.2020', 9, 'Imitation of Life', 8, 6);
+
+ALTER TABLE  public.genre DROP CONSTRAINT IF EXISTS check_type_genre;
+
+ALTER TABLE public.genre
+    ADD CONSTRAINT check_type_genre CHECK (genre_type >= 0 AND genre_type <= 3);
 --rollback rollback;

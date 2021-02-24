@@ -1,45 +1,60 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
-    <changeSet author="strel (generated)" id="1614065949373-1">
+    <changeSet author="strel (generated)" id="1614183627830-1">
         <createSequence sequenceName="author_id_seq"/>
     </changeSet>
-    <changeSet author="strel (generated)" id="1614065949373-2">
+    <changeSet author="strel (generated)" id="1614183627830-2">
+        <createSequence sequenceName="author_id_seq1"/>
+    </changeSet>
+    <changeSet author="strel (generated)" id="1614183627830-3">
         <createSequence sequenceName="authors_id_seq"/>
     </changeSet>
-    <changeSet author="strel (generated)" id="1614065949373-3">
+    <changeSet author="strel (generated)" id="1614183627830-4">
         <createSequence sequenceName="book_id_seq"/>
     </changeSet>
-    <changeSet author="strel (generated)" id="1614065949373-4">
+    <changeSet author="strel (generated)" id="1614183627830-5">
+        <createSequence sequenceName="book_id_seq1"/>
+    </changeSet>
+    <changeSet author="strel (generated)" id="1614183627830-6">
         <createSequence sequenceName="books_id_seq"/>
     </changeSet>
-    <changeSet author="strel (generated)" id="1614065949373-5">
+    <changeSet author="strel (generated)" id="1614183627830-7">
         <createSequence sequenceName="clients_id_seq"/>
     </changeSet>
-    <changeSet author="strel (generated)" id="1614065949373-6">
+    <changeSet author="strel (generated)" id="1614183627830-8">
         <createSequence sequenceName="genre_id_seq"/>
     </changeSet>
-    <changeSet author="strel (generated)" id="1614065949373-7">
+    <changeSet author="strel (generated)" id="1614183627830-9">
+        <createSequence sequenceName="genre_id_seq1"/>
+    </changeSet>
+    <changeSet author="strel (generated)" id="1614183627830-10">
         <createSequence sequenceName="genre_type_id_seq"/>
     </changeSet>
-    <changeSet author="strel (generated)" id="1614065949373-8">
+    <changeSet author="strel (generated)" id="1614183627830-11">
         <createSequence sequenceName="rating_book_id_seq"/>
     </changeSet>
-    <changeSet author="strel (generated)" id="1614065949373-9">
+    <changeSet author="strel (generated)" id="1614183627830-12">
         <createSequence sequenceName="rating_book_id_seq1"/>
     </changeSet>
-    <changeSet author="strel (generated)" id="1614065949373-10">
+    <changeSet author="strel (generated)" id="1614183627830-13">
+        <createSequence sequenceName="rating_book_id_seq2"/>
+    </changeSet>
+    <changeSet author="strel (generated)" id="1614183627830-14">
         <createSequence sequenceName="rating_books_id_seq"/>
     </changeSet>
-    <changeSet author="strel (generated)" id="1614065949373-11">
+    <changeSet author="strel (generated)" id="1614183627830-15">
         <createSequence sequenceName="tag_id_seq"/>
     </changeSet>
-    <changeSet author="strel (generated)" id="1614065949373-12">
+    <changeSet author="strel (generated)" id="1614183627830-16">
         <createSequence sequenceName="test_entites_id_seq"/>
     </changeSet>
-    <changeSet author="strel (generated)" id="1614065949373-13">
+    <changeSet author="strel (generated)" id="1614183627830-17">
         <createSequence sequenceName="test_entites_id_seq1"/>
     </changeSet>
-    <changeSet author="strel (generated)" id="1614065949373-14">
+    <changeSet author="strel (generated)" id="1614183627830-18">
+        <createSequence sequenceName="test_entites_id_seq2"/>
+    </changeSet>
+    <changeSet author="strel (generated)" id="1614183627830-19">
         <createTable tableName="author">
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints primaryKey="true" primaryKeyName="author_pkey"/>
@@ -49,7 +64,7 @@
             <column name="last_name" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet author="strel (generated)" id="1614065949373-15">
+    <changeSet author="strel (generated)" id="1614183627830-20">
         <createTable tableName="author_book_list">
             <column name="author_id" type="INT">
                 <constraints nullable="false"/>
@@ -59,7 +74,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="strel (generated)" id="1614065949373-16">
+    <changeSet author="strel (generated)" id="1614183627830-21">
         <createTable tableName="book">
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints primaryKey="true" primaryKeyName="book_pkey"/>
@@ -73,24 +88,16 @@
             <column name="rating_book_id" type="INT"/>
         </createTable>
     </changeSet>
-    <changeSet author="strel (generated)" id="1614065949373-17">
+    <changeSet author="strel (generated)" id="1614183627830-22">
         <createTable tableName="genre">
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints primaryKey="true" primaryKeyName="genre_pkey"/>
             </column>
+            <column name="genre_type" type="INT"/>
             <column name="name" type="VARCHAR(255)"/>
-            <column name="genre_type_id" type="INT"/>
         </createTable>
     </changeSet>
-    <changeSet author="strel (generated)" id="1614065949373-18">
-        <createTable tableName="genre_type">
-            <column autoIncrement="true" name="id" type="SERIAL">
-                <constraints primaryKey="true" primaryKeyName="genre_type_pkey"/>
-            </column>
-            <column name="type" type="VARCHAR(255)"/>
-        </createTable>
-    </changeSet>
-    <changeSet author="strel (generated)" id="1614065949373-19">
+    <changeSet author="strel (generated)" id="1614183627830-23">
         <createTable tableName="rating_book">
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints primaryKey="true" primaryKeyName="rating_book_pkey"/>
@@ -98,7 +105,7 @@
             <column name="rating" type="INT"/>
         </createTable>
     </changeSet>
-    <changeSet author="strel (generated)" id="1614065949373-20">
+    <changeSet author="strel (generated)" id="1614183627830-24">
         <createTable tableName="test_entites">
             <column autoIncrement="true" name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" primaryKeyName="test_entites_pkey"/>
@@ -106,25 +113,22 @@
             <column name="data" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet author="strel (generated)" id="1614065949373-21">
+    <changeSet author="strel (generated)" id="1614183627830-25">
         <addUniqueConstraint columnNames="book_list_id" constraintName="uk_3d4j8ahu9qr5bj6bv8d7w9hsn" tableName="author_book_list"/>
     </changeSet>
-    <changeSet author="strel (generated)" id="1614065949373-22">
+    <changeSet author="strel (generated)" id="1614183627830-26">
         <addForeignKeyConstraint baseColumnNames="book_list_id" baseTableName="author_book_list" constraintName="fk33d90fhrqs7wu4fw51g167hdn" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="book"/>
     </changeSet>
-    <changeSet author="strel (generated)" id="1614065949373-23">
+    <changeSet author="strel (generated)" id="1614183627830-27">
         <addForeignKeyConstraint baseColumnNames="genre_id" baseTableName="book" constraintName="fk_book_genre" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="genre"/>
     </changeSet>
-    <changeSet author="strel (generated)" id="1614065949373-24">
+    <changeSet author="strel (generated)" id="1614183627830-28">
         <addForeignKeyConstraint baseColumnNames="rating_book_id" baseTableName="book" constraintName="fk_book_rating_book" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="rating_book"/>
     </changeSet>
-    <changeSet author="strel (generated)" id="1614065949373-25">
-        <addForeignKeyConstraint baseColumnNames="genre_type_id" baseTableName="genre" constraintName="fk_genre_genre_type" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="genre_type"/>
-    </changeSet>
-    <changeSet author="strel (generated)" id="1614065949373-26">
+    <changeSet author="strel (generated)" id="1614183627830-29">
         <addForeignKeyConstraint baseColumnNames="author_id" baseTableName="author_book_list" constraintName="fkd1fu87cvwqyjlpw1df70whqh1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="author"/>
     </changeSet>
-    <changeSet author="strel (generated)" id="1614065949373-27">
+    <changeSet author="strel (generated)" id="1614183627830-30">
         <addForeignKeyConstraint baseColumnNames="author_id" baseTableName="book" constraintName="fkklnrv3weler2ftkweewlky958" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="author"/>
     </changeSet>
 </databaseChangeLog>

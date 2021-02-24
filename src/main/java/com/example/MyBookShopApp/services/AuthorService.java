@@ -21,9 +21,9 @@ public class AuthorService {
         this.authorRepository = authorRepository;
     }
 
-    public Map<String, List<Author>> getAuthorsMap() {
+    public Map<String, List<Author>> getAuthorsInAlphabetOrder() {
         List<Author> authors = authorRepository.findAll();
-        return authors.stream().collect(Collectors.groupingBy((Author a) -> {return a.getLastName().substring(0,1);}));
+        return authors.stream().collect(Collectors.groupingBy((Author a) -> a.getLastName().substring(0,1)));
     }
 
     public Author getAuthorsById(Integer id) {
