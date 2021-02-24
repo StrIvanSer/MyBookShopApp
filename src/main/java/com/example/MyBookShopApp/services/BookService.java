@@ -30,9 +30,10 @@ public class BookService {
     }
 
     public List<Book> getRecentBooksData(Date dateFrom, Date dateTo) {
-        return bookRepository.findBooksByReleaseBetween(dateFrom, dateTo);
+        return bookRepository.findBooksByPubDateBetween(dateFrom, dateTo);
     }
-//
+
+    //
     public List<Book> getPopularBooks() {
         return bookRepository.getPopularBooks();
     }
@@ -43,6 +44,30 @@ public class BookService {
 
     public List<Book> getAllBookByGenreType(GenreType genreType) {
         return bookRepository.findAllByGenre_GenreType(genreType);
+    }
+
+    public List<Book> getBooksByAuthor(String authorName) {
+        return bookRepository.findBooksByAuthorFirstNameContaining(authorName);
+    }
+
+    public List<Book> getBooksByTitle(String title) {
+        return bookRepository.findBooksByTitleContaining(title);
+    }
+
+    public List<Book> getBooksWithPriceBetween(Integer min, Integer max) {
+        return bookRepository.findBooksByPriceOldBetween(min, max);
+    }
+
+    public List<Book> getBooksWithPrice(Integer price){
+        return bookRepository.findBooksByPriceOldIs(price);
+    }
+
+    public List<Book> getBooksWithMaxPriceDiscount(){
+        return bookRepository.getBookWithMaxDiscount();
+    }
+
+    public List<Book> getBestsellers(){
+        return bookRepository.getBestsellers();
     }
 
 }
