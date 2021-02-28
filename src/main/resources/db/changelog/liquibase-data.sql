@@ -34,26 +34,19 @@ insert into rating_book (id, rating) values (8, 8);
 insert into rating_book (id, rating) values (9, 9);
 insert into rating_book (id, rating) values (10, 10);
 
-
-INSERT INTO public.genre_type(type)
-	VALUES ('Легкое чтение'),
-	('Серьёзное чтение'),
-	('Деловая литература'),
-	('Драматургия');
-
-INSERT INTO public.genre(name, genre_type_id)
-	VALUES ('Фантастика', 1),
-	('Боевики', 1),
-	('Детективы', 1),
-	('Фэнтези', 1),
-	('Романы', 1),
-	('Биографии', 2),
-	('Деловая литература', 3),
-	('Банковское дело', 3),
-	('Бизнес-процессы', 3),
-	('Античная драма', 4),
-	('Комедия', 4),
-	('Драма, пьеса', 4);
+INSERT INTO public.genre(name, genre_type)
+	VALUES ('Фантастика', 0),
+	('Боевики', 0),
+	('Детективы', 0),
+	('Фэнтези', 0),
+	('Романы', 0),
+	('Биографии', 1),
+	('Деловая литература', 2),
+	('Банковское дело', 2),
+	('Бизнес-процессы', 2),
+	('Античная драма', 3),
+	('Комедия', 3),
+	('Драма, пьеса', 3);
 
 insert into book (id, pub_date, is_bestseller, slug, title, image, description, price, discount, author_id) values (1, '18.06.2020', 1, 'book-tnc-377', 'Road to Guantanamo, The', 'http://dummyimage.com/593x366.png/5fa2dd/ffffff', 'Donec vitae nisi. Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus. Curabitur at ipsum ac tellus semper interdum.', 250, 0.19, 11);
 insert into book (id, pub_date, is_bestseller, slug, title, image, description, price, discount, author_id) values (2, '27.05.2020', 0, 'book-jyi-223', 'Death of a President', 'http://dummyimage.com/606x571.png/cc0000/ffffff', 'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem. Praesent id massa id nisl venenatis lacinia.', 1166, 0.25, 18);

@@ -2,7 +2,6 @@ package com.example.MyBookShopApp.repo;
 
 import com.example.MyBookShopApp.data.Book;
 import com.example.MyBookShopApp.data.Genre;
-import com.example.MyBookShopApp.data.GenreType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,7 +19,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
     List<Book> findAllByGenre(Genre genre);
 
-    List<Book> findAllByGenre_GenreType(GenreType genreType);
+    List<Book> findAllByGenre_GenreType(Genre.GenreType genreType);
 
     @Query("select b from Book as b join b.ratingBooks as r order by r.rating desc")
     Page<Book> findAllByOrderByRatingDesc(Pageable nextPage);

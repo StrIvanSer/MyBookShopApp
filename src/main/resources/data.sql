@@ -1,7 +1,7 @@
 --liquibase formatted sql
 --changeset somebody:fill-table-data runInTransaction:true failOnError:true
 insert into author (id, first_name, last_name, description) values (1, 'Noami', 'Sexti','Британский писатель, журналист и публицист. Его работы отличаются простым стилем письма, критикой тоталитаризма и поддержкой демократического социализма. Самые известные работы Оруэлла включают сатирическую повесть «Скотный двор» и роман-антиутопию «1984»');
-insert into author (id, first_name, last_name, description)values (2, 'Zak', 'Morillas','Советский и российский астрофизик и журналист, главный редактор газеты «Троицкий вариант». Доктор физико-математических наук, ведущий научный сотрудник Института ядерных исследований РАН и Астрокосмического центра ФИАН. По мировоззрению - атеист. Один из основателей Корпуса экспертов по естественным наукам и математике.' );
+insert into author (id, first_name, last_name, description) values (2, 'Zak', 'Morillas','Советский и российский астрофизик и журналист, главный редактор газеты «Троицкий вариант». Доктор физико-математических наук, ведущий научный сотрудник Института ядерных исследований РАН и Астрокосмического центра ФИАН. По мировоззрению - атеист. Один из основателей Корпуса экспертов по естественным наукам и математике.' );
 insert into author (id, first_name, last_name, description) values (3, 'Leyla', 'Innocent','Русский писатель-сатирик и исполнитель собственных литературных произведений, киносценарист, телеведущий, актёр; народный артист Украины, народный артист Российской Федерации. В 1988-2020 годах был художественным руководителем Московского театра миниатюр, в 1990-2020 годах - президентом Всемирного клуба одесситов.');
 insert into author (id, first_name, last_name, description) values (4, 'Romonda', 'Lymer','Арлен Викторович Блюм родился 30 марта 1933 года. В 1951 году, после окончании средней школы № 1 в г. Медногорске Чкаловской (ныне Оренбургской) области, поступил в Ленинградский библиотечный институт, который окончил в 1955 году; с августа того же года — библиограф Челябинской областной публичной библиотеки.');
 insert into author (id, first_name, last_name, description) values (5, 'Ninetta', 'Beaven','Русский писатель, мыслитель, философ и публицист. Член-корреспондент Петербургской академии наук с 1877 года. Ранние произведения писателя, как и повесть «Записки из Мёртвого дома», способствовали возникновению жанра психологической прозы.');
@@ -12,7 +12,7 @@ insert into author (id, first_name, last_name, description) values (9, 'Gerladin
 insert into author (id, first_name, last_name, description) values (10, 'Velma', 'Pearcehouse','Американский писатель и филолог.');
 insert into author (id, first_name, last_name, description) values (11, 'Bernette', 'Cocks','Американский писатель, драматург, журналист. Известен, в частности, как автор романа «Пролетая над гнездом кукушки». Автор считается одним из главных писателей бит-поколения и поколения хиппи, оказавшим большое влияние на формирование этих движений и их культуру.');
 insert into author (id, first_name, last_name, description) values (12, 'Editha', 'Darlasson','Американская писательница и журналистка, автор романа «Унесённые ветром». Роман, вышедший в 1936 году, получил Национальную книжную премию за самый выдающийся роман 1936 года и Пулитцеровскую премию за художественную литературу в 1937 году, выдержав более 70 изданий в США, и был переведён на 37 языков мира.');
-insert into author (id, first_name, last_name, description)values (13, 'Xylia', 'Heckle','Американский писатель-фантаст, популяризатор науки, биохимик. Автор около 500 произведений, в основном художественных и научно-популярных. Многократный лауреат премий «Хьюго» и «Небьюла». Некоторые термины из его произведений - robotics, positronic, psychohistory - прочно вошли в английский и другие языки. В англо-американской литературной традиции Айзека Азимова вместе с Артуром Кларком и Робертом Хайнлайном относят к «Большой тройке» писателей-фантастов.');
+insert into author (id, first_name, last_name, description) values (13, 'Xylia', 'Heckle','Американский писатель-фантаст, популяризатор науки, биохимик. Автор около 500 произведений, в основном художественных и научно-популярных. Многократный лауреат премий «Хьюго» и «Небьюла». Некоторые термины из его произведений - robotics, positronic, psychohistory - прочно вошли в английский и другие языки. В англо-американской литературной традиции Айзека Азимова вместе с Артуром Кларком и Робертом Хайнлайном относят к «Большой тройке» писателей-фантастов.');
 insert into author (id, first_name, last_name, description) values (14, 'Holden', 'Duberry','Американский писатель, произведения которого увидели свет в журнале The New Yorker во второй половине 1940-х и в 1950-е годы. Сэлинджер вырос в Манхэттене, начал писать рассказы в средней школе.');
 insert into author (id, first_name, last_name, description) values (15, 'Amalia', 'Wanklyn','Польский философ, футуролог и писатель. Его книги переведены на 41 язык, продано более 30 млн экземпляров. Автор фундаментального философского труда «Сумма технологии», в котором предвосхитил создание виртуальной реальности, искусственного интеллекта, а также развил идеи автоэволюции человека, сотворения искусственных миров и многие другие.');
 insert into author (id, first_name, last_name, description) values (16, 'Charlton', 'Broe','Немецкий писатель и киносценарист.');
@@ -21,7 +21,6 @@ insert into author (id, first_name, last_name, description) values (18, 'Lucille
 insert into author (id, first_name, last_name, description) values (19, 'Hildegarde', 'Orkney','Американский писатель, известный по антиутопии «451 градус по Фаренгейту», циклу рассказов «Марсианские хроники» и частично автобиографической повести «Вино из одуванчиков». Брэдбери создал более восьмисот литературных произведений, в том числе несколько романов и повестей, сотни рассказов, десятки пьес, ряд статей, заметок и стихотворений.');
 insert into author (id, first_name, last_name, description) values (20, 'Noellyn', 'De Fraine','Немецкий писатель XX века, представитель «потерянного поколения». Его роман «На Западном фронте без перемен» входит в большую тройку романов «потерянного поколения», изданных в 1929 году, наряду с произведениями «Прощай, оружие!» Эрнеста Хемингуэя и «Смерть героя» Ричарда Олдингтона.');
 insert into author (id, first_name, last_name, description) values (21, 'Gwenore', 'Winthrop','Американский писатель, публицист и прозаик, общественный деятель.');
-
 
 insert into rating_book (id, rating) values (1, 1);
 insert into rating_book (id, rating) values (2, 2);
@@ -34,26 +33,19 @@ insert into rating_book (id, rating) values (8, 8);
 insert into rating_book (id, rating) values (9, 9);
 insert into rating_book (id, rating) values (10, 10);
 
-
-INSERT INTO public.genre_type(type)
-	VALUES ('Легкое чтение'),
-	('Серьёзное чтение'),
-	('Деловая литература'),
-	('Драматургия');
-
-INSERT INTO public.genre(name, genre_type_id)
-	VALUES ('Фантастика', 1),
-	('Боевики', 1),
-	('Детективы', 1),
-	('Фэнтези', 1),
-	('Романы', 1),
-	('Биографии', 2),
-	('Деловая литература', 3),
-	('Банковское дело', 3),
-	('Бизнес-процессы', 3),
-	('Античная драма', 4),
-	('Комедия', 4),
-	('Драма, пьеса', 4);
+INSERT INTO public.genre(name, genre_type)
+	VALUES ('Фантастика', 0),
+	('Боевики', 0),
+	('Детективы', 0),
+	('Фэнтези', 0),
+	('Романы', 0),
+	('Биографии', 1),
+	('Деловая литература', 2),
+	('Банковское дело', 2),
+	('Бизнес-процессы', 2),
+	('Античная драма', 3),
+	('Комедия', 3),
+	('Драма, пьеса', 3);
 
 insert into book (id, pub_date, is_bestseller, slug, title, image, description, price, discount, author_id) values (1, '18.06.2020', 1, 'book-tnc-377', 'Road to Guantanamo, The', 'http://dummyimage.com/593x366.png/5fa2dd/ffffff', 'Donec vitae nisi. Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus. Curabitur at ipsum ac tellus semper interdum.', 250, 0.19, 11);
 insert into book (id, pub_date, is_bestseller, slug, title, image, description, price, discount, author_id) values (2, '27.05.2020', 0, 'book-jyi-223', 'Death of a President', 'http://dummyimage.com/606x571.png/cc0000/ffffff', 'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem. Praesent id massa id nisl venenatis lacinia.', 1166, 0.25, 18);

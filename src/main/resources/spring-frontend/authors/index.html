@@ -29,11 +29,10 @@
                         <h2 class="Authors-title" id="a" th:id=" ${#strings.toLowerCase(authorsList.key)}"
                             th:text="${authorsList.key}">А
                         </h2>
-                        <div class="Authors-letter">
+                        <div class="Authors-letter"th:each="author : ${authorsList.value}">
                             <div class="Authors-item">
-                                <a th:each="author : ${authorsList.value}"
-                                   th:href="${'/authors/slug/' + author.id}" href="/authors/slug.html"
-                                   th:text="${author.firstName + ' ' + author.lastName}">Абгарян
+                                <a th:href="${'/authors/slug/' + author.id}" href="/authors/slug.html"
+                                   th:text="${author.lastName + ' ' + author.firstName}">Абгарян
                                     Наринэ</a>
                             </div>
                         </div>

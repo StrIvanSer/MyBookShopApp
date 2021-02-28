@@ -13,30 +13,30 @@
 <body class="Site">
 <!--if lt IE 8
 p.error-browser
-    | Р’Р°С€ Р±СЂР°СѓР·РµСЂ&nbsp;
-    em СѓСЃС‚Р°СЂРµР»!&nbsp;
-    a(href="http://browsehappy.com/") Р’С‹Р±РµСЂРёС‚Рµ РЅРѕРІСѓСЋ РІРµСЂСЃРёСЋ
+    | Ваш браузер&nbsp;
+    em устарел!&nbsp;
+    a(href="http://browsehappy.com/") Выберите новую версию
         +s
-        | Р±СЂР°СѓР·РµСЂР° Р·РґРµСЃСЊ&nbsp;
-    | РґР»СЏ РїСЂР°РІРёР»СЊРЅРѕРіРѕ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ СЃР°Р№С‚Р°.
+        | браузера здесь&nbsp;
+    | для правильного отображения сайта.
 -->
 <header th:replace="~{/fragments/header_fragment::headFragment}"></header>
 <div class="Middle">
     <div class="wrap">
         <main class="Middle-main">
             <ul class="breadcrumbs">
-                <li class="breadcrumbs-item"><a href="/index.html" th:href="@{/}" th:text="#{topbar.main}">Р“Р»Р°РІРЅР°СЏ</a>
+                <li class="breadcrumbs-item"><a href="/index.html" th:href="@{/}" th:text="#{topbar.main}">Главная</a>
                 </li>
                 <li class="breadcrumbs-item"><a href="/genres/index.html" th:href="@{/genres}"
-                                                th:text="#{topbar.genres}">Р–Р°РЅСЂС‹</a></li>
-                <li class="breadcrumbs-item"><a th:href="${'/genres/type' + genre.getGenreType()}" th:text="${genre.getGenreType().getType()}" >Р›РµРіРєРѕРµ
-                    С‡С‚РµРЅРёРµ</a>
+                                                th:text="#{topbar.genres}">Жанры</a></li>
+                <li class="breadcrumbs-item"><a th:href="${'/genres/type' + genres.getGenreType()}" th:text="${genres.getGenreType().genreTypeName}" >Легкое
+                    чтение</a>
                 </li>
                 <li class="breadcrumbs-item breadcrumbs-item_current" ><span
-                        th:text="${genre.getName()}">Р”РµС‚РµРєС‚РёРІС‹</span></li>
+                        th:text="${genres.getName()}">Детективы</span></li>
             </ul>
             <header class="Middle-header">
-                <h1 class="Middle-title" th:text="${genre.getName()}">Р”РµС‚РµРєС‚РёРІС‹</h1>
+                <h1 class="Middle-title" th:text="${genres.getName()}">Детективы</h1>
             </header>
             <div class="Section">
                 <div class="Cards Cards_refresh">
@@ -47,16 +47,16 @@ p.error-browser
                             </a>
                         </div>
                         <div class="Card-content">
-                            <strong class="Card-title" th:text="${book.getTitle()}"><a href="#">РўРµС…РЅРёРєР°</a>
+                            <strong class="Card-title" th:text="${book.getTitle()}"><a href="#">Техника</a>
                             </strong>
                             <div class="Card-description">
                                 <a th:href="${'/authors/slug/' + book.getAuthor().getId()}" href="/authors/slug.html"
-                                   th:text="${book.getAuthor().toString()}">РђР±РіР°СЂСЏРЅ
-                                    РќР°СЂРёРЅСЌ</a>
+                                   th:text="${book.getAuthor().toString()}">Абгарян
+                                    Наринэ</a>
                             </div>
                             <div class="Card-cost">
-                                <span class="Card-priceOld" th:text="${book.getPriceOld()}">в‚Ѕ300.00</span>
-                                <span class="Card-price" th:text="${book.getPrice()}">в‚Ѕ190.00</span>
+                                <span class="Card-priceOld" th:text="${book.getPriceOld()}">?300.00</span>
+                                <span class="Card-price" th:text="${book.getPrice()}">?190.00</span>
                             </div>
                         </div>
                     </div>

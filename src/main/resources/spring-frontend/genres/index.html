@@ -20,16 +20,16 @@
             <div class="Section">
                 <div class="Tags Tags_genres">
                     <div class="Tags Tags_embed">
-                        <div class="Tags" th:if="${typeGenres.size() > 0}" th:each="type:${typeGenres}">
+                        <div class="Tags" th:if="${genres.size() > 0}" th:each="type:${genres}">
                             <div class="Tags-title">
                                 <div class="Tag">
-                                    <a th:href="${'/genres/type' + type}">
-                                        <span th:text="${type.type}">Фантастика</span>
+                                    <a th:href="${'/genres/type' + type.key}">
+                                        <span th:text="${type.key.toString()}">Фантастика</span>
 
                                     </a>
                                 </div>
                             </div>
-                            <div class="Tag" th:each="genre:${genres.get(type.id)}">
+                            <div class="Tag" th:each="genre:${genres.get(type.key)}">
                                 <a th:href="${'/genres/' + genre}">
                                     <span th:text="${genre.name}">Фантастика</span>
                                     <span class="undefined-amount" th:text="${'(' + genre.getBookListByGenre().size() + ')'}">(44333)</span>
