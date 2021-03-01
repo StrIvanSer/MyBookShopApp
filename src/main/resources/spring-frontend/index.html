@@ -27,11 +27,11 @@ p.error-browser
         <main class="Middle-main">
             <div class="Section">
                 <div class="Section">
-                    <div th:replace="~{fragments/main_page_books :: mainPageBooks(${recommendedBooks}, #{topbar.recommended})}"></div>
+                    <div th:replace="~{fragments/main_page_books :: mainPageBooks(${recommendedBooks}, #{topbar.recommended}, ${'recommended'} )}"></div>
 
-                    <div th:replace="~{fragments/main_page_books :: mainPageBooks(${recentBooks}, #{topbar.recent})}"></div>
+                    <div th:replace="~{fragments/main_page_books :: mainPageBooks(${recentBooks}, #{topbar.recent}, ${'recent'} )}"></div>
 
-                    <div th:replace="~{fragments/main_page_books :: mainPageBooks(${popularBooks}, #{topbar.popular})}"></div>
+                    <div th:replace="~{fragments/main_page_books :: mainPageBooks(${popularBooks}, #{topbar.popular}, ${'popular'} )}"></div>
                 </div>
             </div>
             <h2 class="Middle-title">Книги по тегам

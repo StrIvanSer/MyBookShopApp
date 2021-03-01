@@ -51,6 +51,6 @@ public class AuthorsController {
     @GetMapping("/api/authors")
     @ResponseBody
     public Map<String,List<Author>> authors() {
-        return authorService.getAuthorsMap();
+        return authorService.getAuthorsInAlphabetOrder();
     }
 }

@@ -26,8 +26,6 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
     List<Book> findBooksByAuthorFirstNameContaining(String authorName);
 
-    List<Book> findBooksByTitleContaining(String title);
-
     List<Book> findBooksByPriceOldBetween(Integer min, Integer max);
 
     List<Book> findBooksByPriceOldIs(Integer price);
@@ -37,5 +35,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
     @Query(value = "SELECT * FROM book WHERE discount = (SELECT MAX(discount) FROM book)", nativeQuery = true)
     List<Book> getBookWithMaxDiscount();
+
+    Page<Book> findBooksByTitleContaining(String bookTitle, Pageable nextPage);
 
 }

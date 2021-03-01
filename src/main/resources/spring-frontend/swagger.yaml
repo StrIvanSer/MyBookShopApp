@@ -99,10 +99,10 @@ paths:
                     required: false
                     type: integer
             responses:
-#                "200":
-#                    description: Successful response
-#                    schema:
-#                        $ref: '#/definitions/Data'
+                #                "200":
+                #                    description: Successful response
+                #                    schema:
+                #                        $ref: '#/definitions/Data'
                 "400":
                     description: Error
                     schema:
@@ -195,7 +195,7 @@ paths:
                     description: OK
                     schema:
                         $ref: '#/definitions/inline_response_200'
-#                        $ref: '#/definitions/inline_response_200_2'
+                #                        $ref: '#/definitions/inline_response_200_2'
                 "400":
                     description: Error
                     schema:
@@ -217,7 +217,7 @@ paths:
                 "200":
                     description: OK
                     schema:
-#                        $ref: '#/definitions/inline_response_200'
+                        #                        $ref: '#/definitions/inline_response_200'
                         $ref: '#/definitions/inline_response_200_1'
                 "400":
                     description: Error
@@ -239,7 +239,7 @@ paths:
                 "200":
                     description: OK
                     schema:
-#                        $ref: '#/definitions/inline_response_200'
+                        #                        $ref: '#/definitions/inline_response_200'
                         $ref: '#/definitions/inline_response_200_3'
                 "400":
                     description: Error
@@ -322,13 +322,13 @@ paths:
                 "200":
                     description: OK
                     schema:
-#                        $ref: '#/definitions/inline_response_200'
+                        #                        $ref: '#/definitions/inline_response_200'
                         $ref: '#/definitions/inline_response_200_4'
                 "400":
                     description: Error
                     schema:
                         $ref: '#/definitions/inline_response_400_3'
-                        
+
     /rateBook:
         post:
             tags:
@@ -350,7 +350,7 @@ paths:
                     description: Error
                     schema:
                         $ref: '#/definitions/inline_response_400_5'
-                        
+
     /rateBookReview:
         post:
             tags:
@@ -372,7 +372,7 @@ paths:
                     description: Error
                     schema:
                         $ref: '#/definitions/inline_response_400_5'
-                        
+
     /search/{query}:
         get:
             tags:
@@ -459,9 +459,9 @@ definitions:
                 example: 20
             books:
                 $ref: '#/definitions/Book'
-#                type: array
-#                items:
-#                    $ref: '#/definitions/Book'
+    #                type: array
+    #                items:
+    #                    $ref: '#/definitions/Book'
     Book:
         type: object
         properties:
@@ -559,7 +559,7 @@ definitions:
                 status: KEPT
                 price: 329
                 discountPrice: 197
-    
+
             -   id: 7
                 slug: 764416
                 title: "Bernard Smith: The Last Photo"
@@ -637,7 +637,7 @@ definitions:
                 status: KEPT
                 price: 329
                 discountPrice: 197
-    
+
             -   id: 14
                 slug: 764416
                 title: "Bernard Smith: The Last Photo"
@@ -727,7 +727,7 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/BooksID'
-                    
+
     BooksID:
         type: array
         items:
@@ -881,7 +881,7 @@ definitions:
                 type: integer
                 format: int
                 example: 1
-                
+
     Rating:
         type: object
         properties:
@@ -892,7 +892,7 @@ definitions:
                 type: integer
                 format: int
                 example: 1
-                
+
     inline_response_400_4:
         type: object
         properties:
@@ -902,7 +902,7 @@ definitions:
             error:
                 type: string
                 example: Указанный тэг не найден
-                
+
     inline_response_400_5:
         type: object
         properties:

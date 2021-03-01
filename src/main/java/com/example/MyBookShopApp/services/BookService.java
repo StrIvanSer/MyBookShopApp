@@ -4,10 +4,15 @@ import com.example.MyBookShopApp.data.Book;
 import com.example.MyBookShopApp.data.Genre;
 import com.example.MyBookShopApp.repo.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+
+import static org.springframework.data.domain.PageRequest.*;
 
 
 @Service
@@ -42,12 +47,12 @@ public class BookService {
         return bookRepository.findAllByGenre_GenreType(genreType);
     }
 
+//    public List<Book> getBooksByTitle(String title) {
+//        return bookRepository.findBooksByTitleContaining(title);
+//    }
+
     public List<Book> getBooksByAuthor(String authorName) {
         return bookRepository.findBooksByAuthorFirstNameContaining(authorName);
-    }
-
-    public List<Book> getBooksByTitle(String title) {
-        return bookRepository.findBooksByTitleContaining(title);
     }
 
     public List<Book> getBooksWithPriceBetween(Integer min, Integer max) {
@@ -64,6 +69,16 @@ public class BookService {
 
     public List<Book> getBestsellers(){
         return bookRepository.getBestsellers();
+    }
+
+    public Page<Book> getPageOfRecommendedBooks(Integer offset, Integer limit){
+        Pageable nextPage = of(offset,limit);
+        return bookRepository.findAll(nextPage);
+    }
+
+    public Page<Book> getPageOfSearchResultBooks(String searchWord, Integer offset, Integer limit){
+        Pageable nextPage = of(offset,limit);
+        return bookRepository.findBooksByTitleContaining(searchWord, nextPage);
     }
 
 }

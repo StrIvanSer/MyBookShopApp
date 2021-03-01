@@ -3,6 +3,7 @@ package com.example.MyBookShopApp.controllers;
 
 import com.example.MyBookShopApp.data.Book;
 import com.example.MyBookShopApp.services.BookService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@Api(description = "book data")
 public class BooksRestApiController {
 
     private final BookService bookService;
@@ -30,11 +32,11 @@ public class BooksRestApiController {
         return ResponseEntity.ok(bookService.getBooksByAuthor(authorName));
     }
 
-    @GetMapping("/books/by-title")
-    @ApiOperation("get books by book title")
-    public ResponseEntity<List<Book>> booksByTitle(@RequestParam("title") String title){
-        return ResponseEntity.ok(bookService.getBooksByTitle(title));
-    }
+//    @GetMapping("/books/by-title")
+//    @ApiOperation("get books by book title")
+//    public ResponseEntity<List<Book>> booksByTitle(@RequestParam("title") String title){
+//        return ResponseEntity.ok(bookService.getBooksByTitle(title));
+//    }
 
     @GetMapping("/books/by-price-range")
     @ApiOperation("get book by price range from min price to max price")
