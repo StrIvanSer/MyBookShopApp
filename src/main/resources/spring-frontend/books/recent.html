@@ -41,8 +41,8 @@ p.error-browser
                                     type="text"
                                     placeholder="Дата"
                                     th:placeholder="#{recent.date}"
-                                    data-refreshoffset="20"
-                                    data-refreshlimit="20"
+                                    data-refreshoffset="0"
+                                    data-refreshlimit="5"
                                     data-refreshshow="changedate"
                                     data-refreshfrom="0"
                                     autocomplete="off"
@@ -58,8 +58,8 @@ p.error-browser
                                     type="text"
                                     placeholder="Дата"
                                     th:placeholder="#{recent.date}"
-                                    data-refreshoffset="20"
-                                    data-refreshlimit="20"
+                                    data-refreshoffset="0"
+                                    data-refreshlimit="5"
                                     data-refreshshow="changedate"
                                     data-refreshto="0"
                                     autocomplete="off"
@@ -67,21 +67,7 @@ p.error-browser
                         </div>
                     </form>
                 </div>
-                <div class="Cards Cards_refresh" >
-                    <div class="Card" th:each="book:${recentBooks}">
-                        <div class="Card-picture"><a href="#"><img src="/assets/img/content/main/card.jpg"
-                                                                   alt="card.jpg"/></a>
-                        </div>
-                        <div class="Card-content">
-                            <strong class="Card-title" th:text="${book.title}"><a href="#">Техника</a>
-                            </strong>
-                            <div class="Card-description" th:text="${book.author}">Кондратенко Александр Петрович
-                            </div>
-                            <div class="Card-cost"><span class="Card-priceOld" th:text="${book.priceOld}">₽300.00</span><span class="Card-price" th:text="${book.price}">₽190.00</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div th:replace="~{fragments/card_books :: cardBooks(${recentBooks}, null , 'recent')}"></div>
             </div>
         </main>
     </div>

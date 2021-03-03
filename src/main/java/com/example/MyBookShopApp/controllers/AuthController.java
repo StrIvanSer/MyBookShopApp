@@ -4,15 +4,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class AuthController {
+public class AuthController extends BaseMainModelAttributeController {
 
     @GetMapping("/signin")
-    public String signinPage(){
+    public String signinPage() {
         return "/signin";
     }
 
     @GetMapping("/signup")
-    public String signupPage(){
+    public String signupPage() {
         return "/signup";
     }
 

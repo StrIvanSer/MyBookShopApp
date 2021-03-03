@@ -12,16 +12,16 @@ import java.util.List;
 
 public interface BookRepository extends JpaRepository<Book, Integer> {
 
-    List<Book> findBooksByPubDateBetween( Date dateFrom, Date dateTo);
+    Page<Book> findPageOfBooksByPubDateBetweenOrderByPubDate(Date dateFrom, Date dateTo, Pageable nextPage);
 
-    @Query(value = "SELECT * FROM book AS b JOIN rating_book AS rb ON rb.id = b.rating_book_id WHERE rb.rating > 7 " , nativeQuery = true)
-    List<Book> getPopularBooks();
+    @Query(value = "SELECT * FROM book AS b JOIN rating_book AS rb ON rb.id = b.rating_book_id WHERE rb.rating > 7 ", nativeQuery = true)
+    Page<Book> getPageOfPopularBooks(Pageable nextPage);
 
-    List<Book> findAllByGenre(Genre genre);
+    Page<Book> findAllByGenre(Genre genre, Pageable nextPage);
 
-    List<Book> findAllByGenre_GenreType(Genre.GenreType genreType);
+    Page<Book> findAllByGenre_GenreType(Genre.GenreType genreType, Pageable nextPage);
 
-    @Query("select b from Book as b join b.ratingBooks as r order by r.rating desc")
+    @Query("SELECT b FROM Book AS b JOIN b.ratingBooks AS r WHERE r.rating > 7 ORDER BY r.rating DESC")
     Page<Book> findAllByOrderByRatingDesc(Pageable nextPage);
 
     List<Book> findBooksByAuthorFirstNameContaining(String authorName);
@@ -30,12 +30,19 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
     List<Book> findBooksByPriceOldIs(Integer price);
 
-    @Query("from Book where isBestseller=1")
+    @Query("FROM Book WHERE isBestseller = 1")
     List<Book> getBestsellers();
 
     @Query(value = "SELECT * FROM book WHERE discount = (SELECT MAX(discount) FROM book)", nativeQuery = true)
     List<Book> getBookWithMaxDiscount();
 
-    Page<Book> findBooksByTitleContaining(String bookTitle, Pageable nextPage);
+    Page<Book> findBookByTitleContaining(String bookTitle, Pageable nextPage);
 
+    Page<Book> findAllByGenreId(Integer genreId, Pageable nextPage);
+
+    Page<Book> findByAuthorId(Integer authorId, Pageable nextPage);
+
+    @Query("SELECT b FROM Book AS b JOIN b.tagList AS t WHERE t.id = ?1")
+    Page<Book> findBooksByTag(Integer tagId, Pageable nextPage);
 }
+

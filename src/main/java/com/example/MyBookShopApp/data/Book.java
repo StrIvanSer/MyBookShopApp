@@ -11,7 +11,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -73,5 +75,9 @@ public class Book {
     @ForeignKey(name = "fk_book_genre"))
     @JsonIgnore
     private Genre genre;
+
+    @ManyToMany(mappedBy = "bookList")
+    @JsonIgnore
+    private List<Tag> tagList = new ArrayList<>();
 
 }
