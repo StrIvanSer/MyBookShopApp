@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 
-import static org.springframework.data.domain.PageRequest.of;
-
 /**
  * Сервис для работы с данными класса Book
  *
@@ -55,37 +53,37 @@ public class BookService {
     }
 
     public Page<Book> getPageOfSearchResultBooks(String searchWord, Integer offset, Integer limit) {
-        Pageable nextPage = of(offset, limit);
+        Pageable nextPage = PageRequest.of(offset, limit);
         return bookRepository.findBookByTitleContaining(searchWord, nextPage);
     }
 
     public Page<Book> getPageOfRecentBooksData(Date dateFrom, Date dateTo, Integer offset, Integer limit) {
-        Pageable nextPage = of(offset, limit);
+        Pageable nextPage = PageRequest.of(offset, limit);
         return bookRepository.findPageOfBooksByPubDateBetweenOrderByPubDate(dateFrom, dateTo, nextPage);
     }
 
     public Page<Book> getPageOfRecommendedBooks(Integer offset, Integer limit) {
-        Pageable nextPage = of(offset, limit);
+        Pageable nextPage = PageRequest.of(offset, limit);
         return bookRepository.findAll(nextPage);
     }
 
     public Page<Book> getPageOfPopularBooks(Integer page, Integer limit) {
-        Pageable nextPage = of(page, limit);
+        Pageable nextPage = PageRequest.of(page, limit);
         return bookRepository.getPageOfPopularBooks(nextPage);
     }
 
     public Page<Book> getPageBookByGenreType(Genre.GenreType genreType, Integer offset, Integer limit) {
-        Pageable nextPage = of(offset, limit);
+        Pageable nextPage = PageRequest.of(offset, limit);
         return bookRepository.findAllByGenre_GenreType(genreType, nextPage);
     }
 
     public Page<Book> getPageBookByGenre(Genre genre, Integer offset, Integer limit) {
-        Pageable nextPage = of(offset, limit);
+        Pageable nextPage = PageRequest.of(offset, limit);
         return bookRepository.findAllByGenre(genre, nextPage);
     }
 
     public Page<Book> getPageBookByGenreId(Integer genreId, Integer offset, Integer limit) {
-        Pageable nextPage = of(offset, limit);
+        Pageable nextPage = PageRequest.of(offset, limit);
         return bookRepository.findAllByGenreId(genreId, nextPage);
     }
 

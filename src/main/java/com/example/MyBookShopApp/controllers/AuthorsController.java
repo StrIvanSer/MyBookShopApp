@@ -5,8 +5,6 @@ import com.example.MyBookShopApp.data.Book;
 import com.example.MyBookShopApp.data.BooksPageDto;
 import com.example.MyBookShopApp.services.AuthorService;
 import com.example.MyBookShopApp.services.BookService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -17,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@Api(description = "authors data")
 public class AuthorsController extends BaseMainModelAttributeController {
 
     private final AuthorService authorService;
@@ -65,11 +62,10 @@ public class AuthorsController extends BaseMainModelAttributeController {
         return "/books/author";
     }
 
-    @ApiOperation("method to get map of authors")
-    @GetMapping("/api/authors")
-    @ResponseBody
-    public Map<String, List<Author>> authors() {
-        return authorService.getAuthorsInAlphabetOrder();
-    }
+//    @GetMapping("/api/authors")
+//    @ResponseBody
+//    public Map<String, List<Author>> authors() {
+//        return authorService.getAuthorsInAlphabetOrder();
+//    }
 
 }
