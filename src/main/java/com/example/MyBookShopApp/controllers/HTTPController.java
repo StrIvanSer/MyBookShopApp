@@ -11,6 +11,11 @@ public class HTTPController {
         return "redirect:/documents";
     }
 
+    @GetMapping("documents/slug.html")
+    public String getDocumentsSlugPage() {
+        return "redirect:/documents/slug";
+    }
+
     @GetMapping("index.html")
     public String getIndex() {
         return "redirect:/";

@@ -13,31 +13,30 @@
 <body class="Site">
 <!--if lt IE 8
 p.error-browser
-    | Ваш браузер&nbsp;
-    em устарел!&nbsp;
-    a(href="http://browsehappy.com/") Выберите новую версию
+    | Р’Р°С€ Р±СЂР°СѓР·РµСЂ&nbsp;
+    em СѓСЃС‚Р°СЂРµР»!&nbsp;
+    a(href="http://browsehappy.com/") Р’С‹Р±РµСЂРёС‚Рµ РЅРѕРІСѓСЋ РІРµСЂСЃРёСЋ
         +s
-        | браузера здесь&nbsp;
-    | для правильного отображения сайта.
+        | Р±СЂР°СѓР·РµСЂР° Р·РґРµСЃСЊ&nbsp;
+    | РґР»СЏ РїСЂР°РІРёР»СЊРЅРѕРіРѕ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ СЃР°Р№С‚Р°.
 -->
 <header th:replace="~{/fragments/header_fragment::headFragment}"></header>
 <div class="Middle">
     <div class="wrap">
         <main class="Middle-main">
             <ul class="breadcrumbs">
-                <li class="breadcrumbs-item"><a href="/index.html" th:href="@{/}" th:text="#{topbar.main}">Главная</a>
+                <li class="breadcrumbs-item"><a href="/index.html" th:href="@{/}" th:text="#{topbar.main}">Р“Р»Р°РІРЅР°СЏ</a>
                 </li>
                 <li class="breadcrumbs-item"><a href="/genres/index.html" th:href="@{/genres}"
-                                                th:text="#{topbar.genres}">Жанры</a></li>
+                                                th:text="#{topbar.genres}">Р–Р°РЅСЂС‹</a></li>
                 <li class="breadcrumbs-item"><a th:href="${'/genres/type' + genres.getGenreType()}"
-                                                th:text="${genres.getGenreType().genreTypeName}">Легкое
-                    чтение</a>
+                                                th:text="${genres.getGenreType().genreTypeName}">Р”РµС‚РµРєС‚РёРІС‹</a>
                 </li>
                 <li class="breadcrumbs-item breadcrumbs-item_current"><span
-                        th:text="${genres.getName()}">Детективы</span></li>
+                        th:text="${genres.getName()}">Р”РµС‚РµРєС‚РёРІС‹</span></li>
             </ul>
             <header class="Middle-header">
-                <h1 class="Middle-title" th:text="${genres.getName()}">Детективы</h1>
+                <h1 class="Middle-title" th:text="${genres.getName()}">Р”РµС‚РµРєС‚РёРІС‹</h1>
             </header>
             <div class="Section">
                 <div th:replace="~{fragments/card_books :: cardBooks(${booksGenre}, ${genres.getId()} , 'genre')}"></div>

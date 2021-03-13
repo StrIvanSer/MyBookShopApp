@@ -1,6 +1,8 @@
 package com.example.MyBookShopApp.data;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
@@ -38,6 +40,11 @@ public class Book {
     @JsonIgnore
     private Author author;
 
+    @JsonGetter("authors")
+    public String authorsFullName(){
+       return author.toString();
+    }
+
     @Column(name = "is_bestseller")
     @ApiModelProperty("if 1 then Bestseller")
     private Integer isBestseller;
@@ -56,13 +63,14 @@ public class Book {
     private String description;
 
     @Column(name = "price")
+    @JsonProperty("price")
     @ApiModelProperty("price old")
     private Integer priceOld;
 
-    @ApiModelProperty("discount")
     @Column(name = "discount")
-    private String price;
-
+    @JsonProperty("discount")
+    @ApiModelProperty("discount value for book")
+    private Double price;
 
     @ManyToOne
     @JoinColumn(name = "rating_book_id", referencedColumnName = "id", foreignKey =
@@ -79,5 +87,21 @@ public class Book {
     @ManyToMany(mappedBy = "bookList")
     @JsonIgnore
     private List<Tag> tagList = new ArrayList<>();
+
+    @JsonProperty
+    public Integer discountPrice(){
+        return priceOld - Math.toIntExact(Math.round(price * priceOld));
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", author=" + author +
+                ", title='" + title + '\'' +
+                ", priceOld='" + priceOld + '\'' +
+                ", price='" + price + '\'' +
+                '}';
+    }
 
 }

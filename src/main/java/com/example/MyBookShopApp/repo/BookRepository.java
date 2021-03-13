@@ -44,5 +44,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
     @Query("SELECT b FROM Book AS b JOIN b.tagList AS t WHERE t.id = ?1")
     Page<Book> findBooksByTag(Integer tagId, Pageable nextPage);
+
+    Book findBookBySlug(String slug);
 }
 
