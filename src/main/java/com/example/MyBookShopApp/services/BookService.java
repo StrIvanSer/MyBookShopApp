@@ -1,7 +1,7 @@
 package com.example.MyBookShopApp.services;
 
-import com.example.MyBookShopApp.data.Book;
-import com.example.MyBookShopApp.data.Genre;
+import com.example.MyBookShopApp.data.Book.Book;
+import com.example.MyBookShopApp.data.Book.Genre;
 import com.example.MyBookShopApp.repo.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -90,5 +90,19 @@ public class BookService {
     public Page<Book> getBooksByTag(Integer tagId, Integer page, Integer limit) {
         Pageable nextPage = PageRequest.of(page, limit);
         return bookRepository.findBooksByTag(tagId, nextPage);
+    }
+
+    public List<Book> getBooksByTitle(String title) {
+//        if (title.equals("") || title.length() <= 1){
+//            throw new BookstoreApiWrongParameterException("Wrong values passed to one or more parameters");
+//        }else {
+            List<Book> data = bookRepository.findBooksByTitleContaining(title);
+            return data;
+//            if (data.size() > 0){
+//                return data;
+//            }else {
+//                throw new BookstoreApiWrongParameterException("No data found with specified parameters...");
+//            }
+//        }
     }
 }

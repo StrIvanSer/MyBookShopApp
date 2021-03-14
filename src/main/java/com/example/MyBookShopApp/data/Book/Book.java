@@ -1,5 +1,6 @@
-package com.example.MyBookShopApp.data;
+package com.example.MyBookShopApp.data.Book;
 
+import com.example.MyBookShopApp.data.Author;
 import com.example.MyBookShopApp.data.file.BookFile;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;

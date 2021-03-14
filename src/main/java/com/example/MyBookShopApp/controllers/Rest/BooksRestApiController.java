@@ -1,7 +1,7 @@
 package com.example.MyBookShopApp.controllers.Rest;
 
 
-import com.example.MyBookShopApp.data.Book;
+import com.example.MyBookShopApp.data.Book.Book;
 import com.example.MyBookShopApp.services.BookService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,11 +34,11 @@ public class BooksRestApiController {
         return ResponseEntity.ok(bookService.getBooksByAuthor(authorName));
     }
 
-//    @GetMapping("/books/by-title")
-//    @ApiOperation("get books by book title")
-//    public ResponseEntity<List<Book>> booksByTitle(@RequestParam("title") String title){
-//        return ResponseEntity.ok(bookService.getBooksByTitle(title));
-//    }
+    @GetMapping("/books/by-title")
+    @ApiOperation("get books by book title")
+    public ResponseEntity<List<Book>> booksByTitle(@ApiParam(value = "title", required = true)  String title){
+        return ResponseEntity.ok(bookService.getBooksByTitle(title));
+    }
 
     @GetMapping("/books/by-price-range")
     @ApiOperation("get book by price range from min price to max price")

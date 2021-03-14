@@ -1,6 +1,6 @@
 package com.example.MyBookShopApp.repo.test;
 
-import com.example.MyBookShopApp.data.TestEntity;
+import com.example.MyBookShopApp.data.test.TestEntity;
 import com.example.MyBookShopApp.repo.AbstractHibernateDao;
 import org.springframework.stereotype.Repository;
 

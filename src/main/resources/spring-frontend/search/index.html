@@ -35,7 +35,7 @@
                 </header>
                 <div class="Cards Cards_search Cards_refresh">
                     <div class="Card" th:each="book : ${searchResults.getContent()}">
-                        <div class="Card-picture"><a href="#"><img th:src="${book.image}"
+                        <div class="Card-picture"><a href="#" th:href="@{'/books/' + ${book.slug}}"><img th:src="${book.image}"
                                                                    alt="card.jpg"/></a>
                         </div>
                         <div class="Card-content">

@@ -5,7 +5,7 @@
     <div class="Cards Cards_refresh">
         <div class="Card" th:each="book: ${books}">
             <div class="Card-picture">
-                <a href="#"><img th:src="${book.image}"
+                <a href="#" th:href="@{'/books/' + ${book.slug}}"><img th:src="${book.image}"
                                  alt="card.jpg"/>
                 </a>
             </div>

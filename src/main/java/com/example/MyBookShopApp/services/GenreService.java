@@ -1,6 +1,6 @@
 package com.example.MyBookShopApp.services;
 
-import com.example.MyBookShopApp.data.Genre;
+import com.example.MyBookShopApp.data.Book.Genre;
 import com.example.MyBookShopApp.repo.GenreRepo;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.example.MyBookShopApp.data.Genre.*;
+import static com.example.MyBookShopApp.data.Book.Genre.*;
 
 @Service
 public class GenreService {

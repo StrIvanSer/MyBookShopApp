@@ -1,6 +1,7 @@
-package com.example.MyBookShopApp.data;
+package com.example.MyBookShopApp.data.Book;
 
 
+import com.example.MyBookShopApp.data.Book.Book;
 import com.sun.istack.NotNull;
 import lombok.*;
 

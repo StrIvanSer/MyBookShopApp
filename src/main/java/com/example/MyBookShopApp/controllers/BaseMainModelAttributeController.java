@@ -1,6 +1,6 @@
 package com.example.MyBookShopApp.controllers;
 
-import com.example.MyBookShopApp.data.Book;
+import com.example.MyBookShopApp.data.Book.Book;
 import com.example.MyBookShopApp.data.SearchWordDto;
 import lombok.Getter;
 import lombok.Setter;

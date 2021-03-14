@@ -1,7 +1,7 @@
 package com.example.MyBookShopApp.controllers;
 
-import com.example.MyBookShopApp.data.BooksPageDto;
-import com.example.MyBookShopApp.data.Genre;
+import com.example.MyBookShopApp.data.Book.BooksPageDto;
+import com.example.MyBookShopApp.data.Book.Genre;
 import com.example.MyBookShopApp.services.BookService;
 import com.example.MyBookShopApp.services.GenreService;
 import org.springframework.stereotype.Controller;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import static com.example.MyBookShopApp.data.Genre.*;
+import static com.example.MyBookShopApp.data.Book.Genre.*;
 
 @Controller
 public class GenreBookController extends BaseMainModelAttributeController {
