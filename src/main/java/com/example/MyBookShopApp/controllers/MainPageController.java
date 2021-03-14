@@ -5,6 +5,7 @@ import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.data.book.BooksPageDto;
 import com.example.MyBookShopApp.data.SearchWordDto;
 import com.example.MyBookShopApp.data.book.Tag;
+import com.example.MyBookShopApp.errs.EmptySearchException;
 import com.example.MyBookShopApp.services.BookService;
 import com.example.MyBookShopApp.services.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,11 +103,15 @@ public class MainPageController extends BaseMainModelAttributeController {
 
     @GetMapping(value = {"/search/", "/search/{searchWord}"})
     public String getSearchResults(@PathVariable(value = "searchWord", required = false) SearchWordDto searchWordDto,
-                                   Model model) {
-        model.addAttribute("searchWordDto", ((isNull(searchWordDto)) ? new SearchWordDto() : searchWordDto));
-        model.addAttribute("searchResults",
-                bookService.getPageOfSearchResultBooks((nonNull(searchWordDto)) ? searchWordDto.getExample() : "", 0, 5));
-        return "/search/index";
+                                   Model model) throws EmptySearchException {
+        if (searchWordDto != null) {
+            model.addAttribute("searchWordDto", searchWordDto);
+            model.addAttribute("searchResults",
+                    bookService.getPageOfSearchResultBooks(searchWordDto.getExample(), 0, 5));
+            return "/search/index";
+        } else {
+            throw new EmptySearchException("Поиск по null невозможен");
+        }
     }
 
     @GetMapping("/search/page/{searchWord}")
@@ -114,11 +119,7 @@ public class MainPageController extends BaseMainModelAttributeController {
     public BooksPageDto getNextSearchPage(@RequestParam("offset") Integer offset,
                                           @RequestParam("limit") Integer limit,
                                           @PathVariable(value = "searchWord", required = false) SearchWordDto searchWordDto) {
-
-        return new BooksPageDto(bookService.getPageOfSearchResultBooks(
-                (searchWordDto.getExample().equals("undefined")) ? "" : searchWordDto.getExample()
-                , offset
-                , limit).getContent());
+        return new BooksPageDto(bookService.getPageOfSearchResultBooks(searchWordDto.getExample(), offset, limit).getContent());
     }
 
 }

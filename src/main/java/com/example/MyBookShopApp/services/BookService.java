@@ -2,6 +2,7 @@ package com.example.MyBookShopApp.services;
 
 import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.data.book.Genre;
+import com.example.MyBookShopApp.errs.BookstoreApiWrongParameterException;
 import com.example.MyBookShopApp.repo.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+
+import static java.util.Objects.isNull;
 
 /**
  * Сервис для работы с данными класса book
@@ -92,17 +95,16 @@ public class BookService {
         return bookRepository.findBooksByTag(tagId, nextPage);
     }
 
-    public List<Book> getBooksByTitle(String title) {
-//        if (title.equals("") || title.length() <= 1){
-//            throw new BookstoreApiWrongParameterException("Wrong values passed to one or more parameters");
-//        }else {
+    public List<Book> getBooksByTitle(String title) throws BookstoreApiWrongParameterException {
+        if (isNull(title) || title.equals("") || title.length() <= 1){
+            throw new BookstoreApiWrongParameterException("Wrong values passed to one or more parameters");
+        }else {
             List<Book> data = bookRepository.findBooksByTitleContaining(title);
-            return data;
-//            if (data.size() > 0){
-//                return data;
-//            }else {
-//                throw new BookstoreApiWrongParameterException("No data found with specified parameters...");
-//            }
-//        }
+            if (data.size() > 0){
+                return data;
+            }else {
+                throw new BookstoreApiWrongParameterException("No data found with specified parameters...");
+            }
+        }
     }
 }
