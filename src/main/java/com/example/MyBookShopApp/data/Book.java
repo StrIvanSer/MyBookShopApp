@@ -1,18 +1,17 @@
 package com.example.MyBookShopApp.data;
 
+import com.example.MyBookShopApp.data.file.BookFile;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiOperation;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -88,20 +87,13 @@ public class Book {
     @JsonIgnore
     private List<Tag> tagList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "book")
+    private List<BookFile> bookFileList = new ArrayList<>();
+
     @JsonProperty
     public Integer discountPrice(){
         return priceOld - Math.toIntExact(Math.round(price * priceOld));
     }
 
-    @Override
-    public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", author=" + author +
-                ", title='" + title + '\'' +
-                ", priceOld='" + priceOld + '\'' +
-                ", price='" + price + '\'' +
-                '}';
-    }
 
 }

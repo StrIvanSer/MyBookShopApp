@@ -1,5 +1,7 @@
 package com.example.MyBookShopApp.data;
 
+import com.example.MyBookShopApp.data.file.BookFile;
+import com.example.MyBookShopApp.repo.BookFileRepository;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,15 +23,15 @@ public class ResourceStorage {
     @Value("${upload.path}")
     String uploadPath;
 
-//    @Value("${download.path}")
-//    String downloadPath;
+    @Value("${download.path}")
+    String downloadPath;
 
-//    private final BookFileRepository bookFileRepository;
-//
-//    @Autowired
-//    public ResourceStorage(BookFileRepository bookFileRepository) {
-//        this.bookFileRepository = bookFileRepository;
-//    }
+    private final BookFileRepository bookFileRepository;
+
+    @Autowired
+    public ResourceStorage(BookFileRepository bookFileRepository) {
+        this.bookFileRepository = bookFileRepository;
+    }
 
     public String saveNewBookImage(MultipartFile file, String slug) throws IOException {
 
@@ -43,7 +45,7 @@ public class ResourceStorage {
 
             String fileName = slug + "." + FilenameUtils.getExtension(file.getOriginalFilename());
             Path path = Paths.get(uploadPath,fileName);
-            resourceURI = "/data/" + fileName;
+            resourceURI = "/data/book-image/" + fileName;
             file.transferTo(path); //uploading user file here
             Logger.getLogger(this.getClass().getSimpleName()).info(fileName + " uploaded OK!");
         }
@@ -51,25 +53,25 @@ public class ResourceStorage {
         return resourceURI;
     }
 
-//    public Path getBookFilePath(String hash) {
-//        BookFile bookFile = bookFileRepository.findBookFileByHash(hash);
-//        return Paths.get(bookFile.getPath());
-//    }
-//
-//    public MediaType getBookFileMime(String hash) {
-//        BookFile bookFile = bookFileRepository.findBookFileByHash(hash);
-//        String mimeType =
-//                URLConnection.guessContentTypeFromName(Paths.get(bookFile.getPath()).getFileName().toString());
-//        if (mimeType != null){
-//            return MediaType.parseMediaType(mimeType);
-//        }else{
-//            return MediaType.APPLICATION_OCTET_STREAM;
-//        }
-//    }
-//
-//    public byte[] getBookFileByteArray(String hash) throws IOException {
-//        BookFile bookFile = bookFileRepository.findBookFileByHash(hash);
-//        Path path = Paths.get(downloadPath, bookFile.getPath());
-//        return Files.readAllBytes(path);
-//    }
+    public Path getBookFilePath(String hash) {
+        BookFile bookFile = bookFileRepository.findBookFileByHash(hash);
+        return Paths.get(bookFile.getPath());
+    }
+
+    public MediaType getBookFileMime(String hash) {
+        BookFile bookFile = bookFileRepository.findBookFileByHash(hash);
+        String mimeType =
+                URLConnection.guessContentTypeFromName(Paths.get(bookFile.getPath()).getFileName().toString());
+        if (mimeType != null){
+            return MediaType.parseMediaType(mimeType);
+        }else{
+            return MediaType.APPLICATION_OCTET_STREAM;
+        }
+    }
+
+    public byte[] getBookFileByteArray(String hash) throws IOException {
+        BookFile bookFile = bookFileRepository.findBookFileByHash(hash);
+        Path path = Paths.get(downloadPath, bookFile.getPath());
+        return Files.readAllBytes(path);
+    }
 }

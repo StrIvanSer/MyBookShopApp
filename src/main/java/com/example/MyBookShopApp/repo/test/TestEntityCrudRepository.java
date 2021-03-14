@@ -1,4 +1,4 @@
-package com.example.MyBookShopApp.repo;
+package com.example.MyBookShopApp.repo.test;
 
 import com.example.MyBookShopApp.data.TestEntity;
 import org.springframework.data.repository.CrudRepository;
