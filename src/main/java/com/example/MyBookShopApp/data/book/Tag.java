@@ -1,7 +1,6 @@
-package com.example.MyBookShopApp.data.Book;
+package com.example.MyBookShopApp.data.book;
 
 
-import com.example.MyBookShopApp.data.Book.Book;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

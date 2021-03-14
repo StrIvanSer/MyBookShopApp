@@ -1,6 +1,6 @@
 package com.example.MyBookShopApp.data.file;
 
-import com.example.MyBookShopApp.data.Book.Book;
+import com.example.MyBookShopApp.data.book.Book;
 import lombok.Getter;
 import lombok.Setter;
 

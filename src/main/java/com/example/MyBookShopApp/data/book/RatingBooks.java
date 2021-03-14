@@ -1,4 +1,4 @@
-package com.example.MyBookShopApp.data.Book;
+package com.example.MyBookShopApp.data.book;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

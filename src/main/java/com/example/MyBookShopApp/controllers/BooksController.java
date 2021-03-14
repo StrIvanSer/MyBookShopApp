@@ -1,6 +1,6 @@
 package com.example.MyBookShopApp.controllers;
 
-import com.example.MyBookShopApp.data.Book.Book;
+import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.data.ResourceStorage;
 import com.example.MyBookShopApp.repo.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;

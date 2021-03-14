@@ -1,7 +1,7 @@
 package com.example.MyBookShopApp.data;
 
 
-import com.example.MyBookShopApp.data.Book.Book;
+import com.example.MyBookShopApp.data.book.Book;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

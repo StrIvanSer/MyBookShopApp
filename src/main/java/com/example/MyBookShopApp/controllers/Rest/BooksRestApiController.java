@@ -1,7 +1,7 @@
 package com.example.MyBookShopApp.controllers.Rest;
 
 
-import com.example.MyBookShopApp.data.Book.Book;
+import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.services.BookService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -1,7 +1,7 @@
 package com.example.MyBookShopApp.repo;
 
-import com.example.MyBookShopApp.data.Book.Book;
-import com.example.MyBookShopApp.data.Book.Genre;
+import com.example.MyBookShopApp.data.book.Book;
+import com.example.MyBookShopApp.data.book.Genre;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,7 +1,7 @@
 package com.example.MyBookShopApp.services;
 
-import com.example.MyBookShopApp.data.Book.Book;
-import com.example.MyBookShopApp.data.Book.Genre;
+import com.example.MyBookShopApp.data.book.Book;
+import com.example.MyBookShopApp.data.book.Genre;
 import com.example.MyBookShopApp.repo.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Сервис для работы с данными класса Book
+ * Сервис для работы с данными класса book
  *
  * @author Иван Стрельцов
  */
