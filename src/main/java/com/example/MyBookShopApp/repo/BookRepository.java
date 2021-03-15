@@ -48,5 +48,8 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     Book findBookBySlug(String slug);
 
     List<Book> findBooksByTitleContaining(String bookTitle);
+
+    List<Book> findBooksBySlugIn(String[] cookieSlugs);
+
 }
 

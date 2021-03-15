@@ -4,9 +4,14 @@ import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.data.SearchWordDto;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import javax.servlet.http.Cookie;
+import java.net.CookieStore;
 import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,6 +31,21 @@ public abstract class BaseMainModelAttributeController {
     @ModelAttribute("searchResults")
     public List<Book> searchResults() {
         return new ArrayList<>();
+    }
+
+    @ModelAttribute("cartSize")
+    public Integer recentBooks(@CookieValue(value = "cartContents", required = false) String cartContents) {
+        return 0;
+//        Cookie[] cookies = Cookie;
+//        if (cartContents == null || cartContents.equals("")) {
+//            return 0;
+//        } else {
+//            cartContents = cartContents.startsWith("/") ? cartContents.substring(1) : cartContents;
+//            cartContents = cartContents.endsWith("/") ? cartContents.substring(0, cartContents.length() - 1) : cartContents;
+//            String[] cookieSlugs = cartContents.split("/");
+//            return cookieSlugs.length;
+////            List<Book> booksFromCookieSlugs = bookRepository.findBooksBySlugIn(cookieSlugs);
+//        }
     }
 
 }

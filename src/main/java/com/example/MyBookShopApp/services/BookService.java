@@ -2,7 +2,7 @@ package com.example.MyBookShopApp.services;
 
 import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.data.book.Genre;
-import com.example.MyBookShopApp.errs.BookstoreApiWrongParameterException;
+import com.example.MyBookShopApp.errors.BookstoreApiWrongParameterException;
 import com.example.MyBookShopApp.repo.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

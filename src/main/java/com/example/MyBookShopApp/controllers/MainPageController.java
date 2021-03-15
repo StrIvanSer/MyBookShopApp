@@ -5,7 +5,7 @@ import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.data.book.BooksPageDto;
 import com.example.MyBookShopApp.data.SearchWordDto;
 import com.example.MyBookShopApp.data.book.Tag;
-import com.example.MyBookShopApp.errs.EmptySearchException;
+import com.example.MyBookShopApp.errors.EmptySearchException;
 import com.example.MyBookShopApp.services.BookService;
 import com.example.MyBookShopApp.services.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 
 
 /**

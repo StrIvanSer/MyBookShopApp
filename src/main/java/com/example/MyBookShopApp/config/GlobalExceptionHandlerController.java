@@ -1,6 +1,6 @@
 package com.example.MyBookShopApp.config;
 
-import com.example.MyBookShopApp.errs.EmptySearchException;
+import com.example.MyBookShopApp.errors.EmptySearchException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
