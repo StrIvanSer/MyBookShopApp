@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import static com.example.MyBookShopApp.data.book.Genre.*;
 
 @Controller
-public class GenreBookController extends BaseMainModelAttributeController {
+public class GenreBookController {
 
     private final GenreService genreService;
     private final BookService bookService;

@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class AuthorsController extends BaseMainModelAttributeController {
+public class AuthorsController {
 
     private final AuthorService authorService;
     private final BookService bookService;

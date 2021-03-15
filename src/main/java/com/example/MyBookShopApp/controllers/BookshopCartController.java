@@ -17,7 +17,7 @@ import java.util.StringJoiner;
 
 @Controller
 @RequestMapping("/books")
-public class BookshopCartController extends BaseMainModelAttributeController {
+public class BookshopCartController {
 
     @ModelAttribute(name = "bookCart")
     public List<Book> bookCart() {

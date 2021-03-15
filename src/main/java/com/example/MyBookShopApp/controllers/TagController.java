@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-public class TagController extends BaseMainModelAttributeController{
+public class TagController{
 
     private final TagService tagService;
     private final BookService bookService;

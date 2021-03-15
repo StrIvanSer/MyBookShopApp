@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class PostponedController extends BaseMainModelAttributeController {
+public class PostponedController {
 
     @GetMapping("/postponed")
     public String authorsPage(){

@@ -24,7 +24,7 @@ import java.util.List;
  * @author Иван Стрельцов
  */
 @Controller
-public class MainPageController extends BaseMainModelAttributeController {
+public class MainPageController {
 
     private final BookService bookService;
     private final TagService tagService;

@@ -21,7 +21,7 @@ import static com.example.MyBookShopApp.Util.StringToDateFormatter.formatToDate;
  * @author Иван Стрельцов
  */
 @Controller
-public class RecentController extends BaseMainModelAttributeController {
+public class RecentController {
 
     private final BookService bookService;
 

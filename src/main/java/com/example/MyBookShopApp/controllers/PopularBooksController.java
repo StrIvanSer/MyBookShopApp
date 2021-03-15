@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-public class PopularBooksController extends BaseMainModelAttributeController {
+public class PopularBooksController {
 
     private final BookService bookService;
 

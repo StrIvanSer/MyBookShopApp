@@ -1,17 +1,14 @@
 package com.example.MyBookShopApp.controllers;
 
-import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.data.SearchWordDto;
+import com.example.MyBookShopApp.data.book.Book;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import javax.servlet.http.Cookie;
-import java.net.CookieStore;
 import java.util.ArrayList;
-import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,9 +16,9 @@ import java.util.List;
  *
  * @author Иван Стрельцов
  */
-@Setter
-@Getter
-public abstract class BaseMainModelAttributeController {
+
+@ControllerAdvice
+public class BaseMainModelAttributeController {
 
     @ModelAttribute("searchWordDto")
     public SearchWordDto searchWordDto() {

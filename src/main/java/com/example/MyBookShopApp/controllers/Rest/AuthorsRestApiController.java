@@ -20,7 +20,7 @@ import java.util.Map;
 @RestController
 @Api(tags = {"Authors data"})
 @Tag(name = "Authors data", description = "Сервис управления авторами")
-public class AuthorsRestApiController extends BaseMainModelAttributeController {
+public class AuthorsRestApiController {
 
     private final AuthorService authorService;
 

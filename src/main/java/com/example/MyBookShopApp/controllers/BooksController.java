@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 
 @Controller
 @RequestMapping("/books")
-public class BooksController extends BaseMainModelAttributeController  {
+public class BooksController  {
 
     private final BookRepository bookRepository;
     private final ResourceStorage storage;
