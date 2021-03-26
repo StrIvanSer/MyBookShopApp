@@ -1,4 +1,4 @@
-package com.example.MyBookShopApp.controllers;
+package com.example.MyBookShopApp.controllers.user_action;
 
 
 import com.example.MyBookShopApp.data.book.Book;
@@ -34,14 +34,23 @@ public class BookshopCartController {
     @GetMapping("/cart")
     public String handleCartRequest(@CookieValue(value = "cartContents", required = false) String cartContents,
                                     Model model) {
+        int cost = 0;
+        int oldCost = 0;
         if (cartContents == null || cartContents.equals("")) {
             model.addAttribute("isCartEmpty", true);
+            model.addAttribute("cost", cost);
         } else {
             model.addAttribute("isCartEmpty", false);
             cartContents = cartContents.startsWith("/") ? cartContents.substring(1) : cartContents;
             cartContents = cartContents.endsWith("/") ? cartContents.substring(0, cartContents.length() - 1) : cartContents;
             String[] cookieSlugs = cartContents.split("/");
             List<Book> booksFromCookieSlugs = bookRepository.findBooksBySlugIn(cookieSlugs);
+            for (Book booksFromCookieSlug : booksFromCookieSlugs) {
+                cost = cost + booksFromCookieSlug.discountPrice();
+                oldCost = oldCost + booksFromCookieSlug.getPriceOld();
+            }
+            model.addAttribute("cost", cost);
+            model.addAttribute("oldCost", oldCost);
             model.addAttribute("bookCart", booksFromCookieSlugs);
         }
 

@@ -2,12 +2,18 @@ package com.example.MyBookShopApp.controllers;
 
 import com.example.MyBookShopApp.data.SearchWordDto;
 import com.example.MyBookShopApp.data.book.Book;
-import lombok.Getter;
-import lombok.Setter;
+import org.jsoup.Jsoup;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import springfox.documentation.service.Response;
+import org.jsoup.Connection;
+import org.jsoup.helper.HttpConnection;
+import org.jsoup.nodes.Document;
 
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +24,7 @@ import java.util.List;
  */
 
 @ControllerAdvice
-public class BaseMainModelAttributeController {
+public class BaseMainModelAttribute {
 
     @ModelAttribute("searchWordDto")
     public SearchWordDto searchWordDto() {
@@ -31,7 +37,12 @@ public class BaseMainModelAttributeController {
     }
 
     @ModelAttribute("cartSize")
-    public Integer recentBooks(@CookieValue(value = "cartContents", required = false) String cartContents) {
+    public Integer recentBooks(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//        Response res = (Response) Jsoup
+//                .connect("/books")
+//                .data("loginField", "login@login.com", "passField", "pass1234")
+//                .method(Connection.Method.POST)
+//                .execute();
         return 0;
 //        Cookie[] cookies = Cookie;
 //        if (cartContents == null || cartContents.equals("")) {

@@ -26,7 +26,7 @@ p.error-browser
 <div class="Middle">
     <div class="wrap">
         <main class="Middle-main">
-            <ul class="breadcrumbs" th:replace="~{fragments/middle_menu :: middle_menu (pageName=${slugBook.title})}">
+            <ul class="breadcrumbs" th:replace="~{fragments/middle_menu :: middle_menu (pageName='')}">
             </ul>
             <div class="Product">
                 <div class="ProductCard">
@@ -389,6 +389,7 @@ p.error-browser
                             <!--    +Amount._product-->
                             <div class="ProductCard-cartElement">
                                 <button class="btn btn_primary btn_outline" data-sendstatus="KEPT" data-bookid="[1111]"
+                                        th:attr="data-bookid = ${'postpone/' + slugBook.slug}"
                                         data-btntype="check" data-btnradio="buyblock" data-check="false"
                                         data-alttext="Отложена"><span class="btn-icon"><img
                                         src="/assets/img/icons/heart.svg" alt="heart.svg"/></span><span

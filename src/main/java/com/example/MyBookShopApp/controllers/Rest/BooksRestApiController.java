@@ -43,7 +43,7 @@ public class BooksRestApiController {
     @GetMapping("/books/by-title")
     @ApiOperation("get books by book title")
     public ResponseEntity<ApiResponse<Book>> booksByTitle(@ApiParam(value = "title", required = true) String title)
-            throws BookstoreApiWrongParameterException, MissingServletRequestParameterException {
+            throws BookstoreApiWrongParameterException{
         ApiResponse<Book> response = new ApiResponse<>();
         List<Book> data = bookService.getBooksByTitle(title);
         response.setDebugMessage("successful request");
