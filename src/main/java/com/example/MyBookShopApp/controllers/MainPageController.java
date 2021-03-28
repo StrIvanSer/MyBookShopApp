@@ -32,7 +32,7 @@ public class MainPageController {
     private static final Calendar calendar = Calendar.getInstance();
 
     static {
-        calendar.add(Calendar.MONTH, -1);
+        calendar.add(Calendar.MONTH, -3);
     }
 
     @Autowired

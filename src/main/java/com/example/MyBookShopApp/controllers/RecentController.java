@@ -33,7 +33,7 @@ public class RecentController {
     @GetMapping("/recent")
     public String getRecent(Model model) {
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MONTH, -1);
+        calendar.add(Calendar.MONTH, -3);
         model.addAttribute("recentBooks", bookService.getPageOfRecentBooksData(calendar.getTime(), new Date(), 0, 5));
         model.addAttribute("dateFrom", calendar.getTime());
         model.addAttribute("dateTo", new Date());
