@@ -2,6 +2,7 @@ package com.example.MyBookShopApp.repo;
 
 import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.data.book.Genre;
+import io.swagger.models.auth.In;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,15 +15,15 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
     Page<Book> findPageOfBooksByPubDateBetweenOrderByPubDate(Date dateFrom, Date dateTo, Pageable nextPage);
 
-    @Query(value = "SELECT * FROM book AS b JOIN rating_book AS rb ON rb.id = b.rating_book_id WHERE rb.rating > 7 ", nativeQuery = true)
+    @Query(value = "SELECT * FROM book AS b JOIN rating_book AS rb ON rb.book_id = b.id ORDER BY rb.five_star DESC ", nativeQuery = true)
     Page<Book> getPageOfPopularBooks(Pageable nextPage);
 
     Page<Book> findAllByGenre(Genre genre, Pageable nextPage);
 
     Page<Book> findAllByGenre_GenreType(Genre.GenreType genreType, Pageable nextPage);
 
-    @Query("SELECT b FROM Book AS b JOIN b.ratingBooks AS r WHERE r.rating > 7 ORDER BY r.rating DESC")
-    Page<Book> findAllByOrderByRatingDesc(Pageable nextPage);
+//    @Query("SELECT b FROM Book AS b JOIN b.ratingBooks AS r WHERE r.rating > 7 ORDER BY r.rating DESC")
+//    Page<Book> findAllByOrderByRatingDesc(Pageable nextPage);
 
     List<Book> findBooksByAuthorFirstNameContaining(String authorName);
 
@@ -50,6 +51,8 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     List<Book> findBooksByTitleContaining(String bookTitle);
 
     List<Book> findBooksBySlugIn(String[] cookieSlugs);
+
+    Book findBookById(Integer id);
 
 }
 

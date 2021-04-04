@@ -1,6 +1,5 @@
 package com.example.MyBookShopApp.data.book;
 
-import com.example.MyBookShopApp.data.Author;
 import com.example.MyBookShopApp.data.file.BookFile;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -11,6 +10,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -21,10 +21,10 @@ import java.util.List;
 @Setter
 @Entity
 @NoArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @Table(name = "book")
 @ApiModel(description = "entity representing a book")
-public class Book {
+public class Book extends RepresentationModel<Book> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -72,11 +72,11 @@ public class Book {
     @ApiModelProperty("discount value for book")
     private Double price;
 
-    @ManyToOne
-    @JoinColumn(name = "rating_book_id", referencedColumnName = "id", foreignKey =
-    @ForeignKey(name = "fk_book_rating_book"))
-    @JsonIgnore
-    private RatingBooks ratingBooks;
+//    @ManyToOne
+//    @JoinColumn(name = "rating_book_id", referencedColumnName = "id", foreignKey =
+//    @ForeignKey(name = "fk_book_rating_book"))
+//    @JsonIgnore
+//    private RatingBook ratingBook;
 
     @ManyToOne
     @JoinColumn(name = "genre_id", referencedColumnName = "id", foreignKey =
@@ -90,6 +90,14 @@ public class Book {
 
     @OneToMany(mappedBy = "book")
     private List<BookFile> bookFileList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "book")
+    @JsonIgnore
+    private List<BookReview> bookReviewList = new ArrayList<>();
+
+    @OneToOne(mappedBy = "book")
+    @JsonIgnore
+    private RatingBook rating;
 
     @JsonProperty
     public Integer discountPrice(){

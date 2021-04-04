@@ -25,9 +25,8 @@
                     <div class="Cart-block Cart-block_row">
                         <div class="Cart-block Cart-block_pict">
                             <div class="Cart-block Cart-block_pict">
-                                <a class="Cart-pict" href="#">
+                                <a class="Cart-pict" href="#" th:href="@{'/books/' + ${book.slug}}">
                                     <img class="Cart-img"
-                                         th:href="@{'/books/' + ${book.slug}}"
                                          th:src="${book.image}"
                                          src="/assets/img/content/main/card.jpg" alt="card.jpg"/>
                                 </a>
@@ -89,15 +88,22 @@
                                 <div class="Cart-buttons">
                                     <div class="Cart-btn">
                                         <button class="btn btn_primary btn_outline" data-sendstatus="CART"
-                                                data-bookid="[1122]"><span class="btn-icon"><img
-                                                src="/assets/img/icons/shopping-basket.svg" alt="shopping-basket.svg"/></span><span
+                                                th:attr="data-bookid = ${book.slug}" data-bookid="[1122]"><span
+                                                class="btn-icon">
+                                            <img
+                                                    src="/assets/img/icons/shopping-basket.svg"
+                                                    alt="shopping-basket.svg"/>
+                                        </span><span
                                                 class="btn-content">Купить</span>
                                         </button>
                                     </div>
                                     <div class="Cart-btn">
                                         <button class="btn btn_danger btn_outline" data-sendstatus="UNLINK"
-                                                data-bookid="[1122]"><span class="btn-icon"><img
-                                                src="/assets/img/icons/trash.svg" alt="trash.svg"/></span><span
+                                                th:attr="data-bookid = ${'removePostpone/' + book.slug}"
+                                                data-bookid="[1122]"><span class="btn-icon">
+                                            <img
+                                                    src="/assets/img/icons/trash.svg" alt="trash.svg"/>
+                                        </span><span
                                                 class="btn-content">Удалить</span>
                                         </button>
                                     </div>

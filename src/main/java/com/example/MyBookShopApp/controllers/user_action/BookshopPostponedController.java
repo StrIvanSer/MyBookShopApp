@@ -37,6 +37,7 @@ public class BookshopPostponedController {
                                Model model) {
         if (postponedContents == null || postponedContents.equals("")) {
             model.addAttribute("isPostponedEmpty", true);
+            model.addAttribute("bookPostponed", new ArrayList<Book>());
         } else {
             model.addAttribute("isPostponedEmpty", false);
             postponedContents = postponedContents.startsWith("/") ? postponedContents.substring(1) : postponedContents;
@@ -53,11 +54,11 @@ public class BookshopPostponedController {
     public String handleRemoveBookFromCart(@PathVariable("slug") String slug,
                                            @CookieValue(name = "postponedContents", required = false) String postponedContents,
                                            HttpServletResponse response, Model model) {
-        if (postponedContents != null && !postponedContents.equals("")) {
+        if (postponedContents != null || !postponedContents.equals("")) {
             ArrayList<String> cookieBooks = new ArrayList<>(Arrays.asList(postponedContents.split("/")));
             cookieBooks.remove(slug);
             Cookie cookie = new Cookie("postponedContents", String.join("/", cookieBooks));
-            cookie.setPath("/books");
+            cookie.setPath("/");
             response.addCookie(cookie);
             model.addAttribute("isPostponedEmpty", false);
         } else {
@@ -67,19 +68,20 @@ public class BookshopPostponedController {
     }
 
     @PostMapping("/changeBookStatus/postpone/{slug}")
-    public String handleChangeBookStatus(@PathVariable("slug") String slug,
-                                         @CookieValue(name = "postponedContents", required = false) String postponedContents,
-                                         HttpServletResponse response, Model model) {
+    public String handleChangeBookStatus(
+            @PathVariable("slug") String slug,
+            @CookieValue(name = "postponedContents", required = false) String postponedContents,
+            HttpServletResponse response, Model model) {
         if (postponedContents == null || postponedContents.equals("")) {
             Cookie cookie = new Cookie("postponedContents", slug);
-            cookie.setPath("/books");
+            cookie.setPath("/");
             response.addCookie(cookie);
             model.addAttribute("isPostponedEmpty", false);
         } else if (!postponedContents.contains(slug)) {
             StringJoiner stringJoiner = new StringJoiner("/");
             stringJoiner.add(postponedContents).add(slug);
             Cookie cookie = new Cookie("postponedContents", stringJoiner.toString());
-            cookie.setPath("/books");
+            cookie.setPath("/");
             response.addCookie(cookie);
             model.addAttribute("isPostponedEmpty", false);
         }

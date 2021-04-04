@@ -1,8 +1,12 @@
 package com.example.MyBookShopApp.controllers;
 
-import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.data.ResourceStorage;
+import com.example.MyBookShopApp.data.book.Book;
+import com.example.MyBookShopApp.data.book.BookReview;
+import com.example.MyBookShopApp.data.book.RatingBook;
 import com.example.MyBookShopApp.repo.BookRepository;
+import com.example.MyBookShopApp.services.BookReviewService;
+import com.example.MyBookShopApp.services.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
@@ -15,25 +19,32 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Date;
 import java.util.logging.Logger;
 
 @Controller
 @RequestMapping("/books")
-public class BooksController  {
+public class BooksController {
 
     private final BookRepository bookRepository;
     private final ResourceStorage storage;
+    private final BookReviewService bookReviewService;
+    private final RatingService ratingService;
 
     @Autowired
-    public BooksController(BookRepository bookRepository, ResourceStorage storage) {
+    public BooksController(BookRepository bookRepository, ResourceStorage storage, BookReviewService bookReviewService,
+                           RatingService ratingService) {
         this.bookRepository = bookRepository;
         this.storage = storage;
+        this.bookReviewService = bookReviewService;
+        this.ratingService = ratingService;
     }
 
     @GetMapping("/{slug}")
     public String bookPage(@PathVariable("slug") String slug, Model model) {
         Book book = bookRepository.findBookBySlug(slug);
         model.addAttribute("slugBook", book);
+        book.getRating().getAvgStar();
         return "/books/slug";
     }
 
@@ -65,5 +76,33 @@ public class BooksController  {
                 .contentType(mediaType)
                 .contentLength(data.length)
                 .body(new ByteArrayResource(data));
+    }
+
+    @PostMapping("/addReview/{slug}")
+    public String addReview(
+            @RequestParam("reviewAuthor") String reviewAuthor,
+            @RequestParam("reviewText") String reviewText,
+            @RequestParam("ratingReview") Integer ratingReview,
+            @PathVariable("slug") String slug
+    ) {
+        Book book = bookRepository.findBookBySlug(slug);
+        BookReview review = new BookReview();
+        review.setUserName(reviewAuthor);
+        review.setTime(new Date());
+        review.setBook(book);
+        review.setText(reviewText);
+        review.setUserId(0);
+        review.setRating(ratingReview);
+        bookReviewService.saveReview(review);
+
+        return "redirect:/books/" + slug;
+    }
+
+    @PostMapping("/changeBookStatus/review/{slug}")
+    public String handleChangeBookStatus(
+            @RequestParam("value") Integer value,
+            @PathVariable("slug") String slug) {
+        ratingService.saveRating(ratingService.findBookBySlug(slug), value);
+        return "redirect:/books/" + slug;
     }
 }

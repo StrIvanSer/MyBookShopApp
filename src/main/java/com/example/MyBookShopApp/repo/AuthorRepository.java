@@ -1,6 +1,6 @@
 package com.example.MyBookShopApp.repo;
 
-import com.example.MyBookShopApp.data.Author;
+import com.example.MyBookShopApp.data.book.Author;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 

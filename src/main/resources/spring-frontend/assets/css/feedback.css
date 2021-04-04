@@ -1,0 +1,94 @@
+fieldset {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #34495e;
+    border-radius: 5px;
+}
+fieldset legend {
+    color: #34495e;
+}
+/*label {*/
+/*    display: block;*/
+/*    margin-bottom: 5px;*/
+/*}*/
+input,
+select,
+output,
+textarea {
+    margin: 0 0 10px 0;
+    padding: 2px 5px;
+    width: 95%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    vertical-align: middle;
+    font-family: "Roboto";
+}
+input,
+select {
+    height: 24px;
+}
+output {
+    display: inline-block;
+    margin: 0 5px 10px 0;
+    width: 30px;
+    height: 20px;
+    text-align: center;
+}
+select[multiple] {
+    height: 100px;
+}
+input[type="submit"],
+input[type="reset"] {
+    display: inline-block;
+    margin: 0 5px;
+    padding: 6px 15px;
+    width: auto;
+    height: auto;
+    border: none;
+    border-radius: 5px;
+    background: #2c3e50;
+    color: #fff;
+}
+input[disabled] {
+    background-color: #ebebe3;
+}
+.one-third-width {
+    width: 33.3%;
+}
+.two-third-width {
+    width: 66.6%;
+}
+.half-width {
+    width: 50%;
+}
+.one-third-width,
+.two-third-width,
+.half-width {
+    display: inline-block;
+    margin-right: -4px;
+}
+.one-third-width input,
+.two-third-width select {
+    width: 80%;
+}
+.half-width input,
+.half-width select {
+    width: 80%;
+}
+.half-width input[type="range"] {
+    width: 65%;
+}
+.output-area {
+    vertical-align: top;
+}
+.buttons {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+/*body {*/
+/*    min-width: 553px;*/
+/*}*/
+/*main {*/
+/*    min-height: 400px;*/
+/*}*/

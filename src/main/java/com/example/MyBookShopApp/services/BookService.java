@@ -96,7 +96,7 @@ public class BookService {
     }
 
     public List<Book> getBooksByTitle(String title) throws BookstoreApiWrongParameterException {
-        if (isNull(title) || title.equals("") || title.length() <= 1){
+        if (isNull(title) || title.equals("") || title.length() < 1){
             throw new BookstoreApiWrongParameterException("Wrong values passed to one or more parameters");
         }else {
             List<Book> data = bookRepository.findBooksByTitleContaining(title);
@@ -106,5 +106,9 @@ public class BookService {
                 throw new BookstoreApiWrongParameterException("No data found with specified parameters...");
             }
         }
+    }
+
+    public Book getBookById(Integer id) {
+        return bookRepository.findBookById(id);
     }
 }

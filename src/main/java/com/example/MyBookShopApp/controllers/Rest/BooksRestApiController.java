@@ -10,16 +10,17 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MissingServletRequestParameterException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/api")
@@ -34,18 +35,39 @@ public class BooksRestApiController {
         this.bookService = bookService;
     }
 
-    @GetMapping("/books/by-author")
-    @ApiOperation("operation to get book list of bookshop by passed author first name")
-    public ResponseEntity<List<Book>> booksByAuthor(@ApiParam(value = "Имя автора", required = true) String authorName) {
-        return ResponseEntity.ok(bookService.getBooksByAuthor(authorName));
+    private void appendAuthorLink(ApiResponse<Book> response, List<Book> books) {
+        for (final Book book : books) {
+            Link selfLink = linkTo(methodOn(AuthorsRestApiController.class)
+                    .getAuthor(book.getAuthor().getId())).withRel("author");
+            book.add(selfLink);
+        }
+        response.setDebugMessage("successful request");
+        response.setMessage("data size: " + books.size() + " elements");
+        response.setStatus(HttpStatus.OK);
+        response.setTimeStamp(LocalDateTime.now());
+        response.setData(books);
     }
 
     @GetMapping("/books/by-title")
     @ApiOperation("get books by book title")
     public ResponseEntity<ApiResponse<Book>> booksByTitle(@ApiParam(value = "title", required = true) String title)
-            throws BookstoreApiWrongParameterException{
+            throws BookstoreApiWrongParameterException {
         ApiResponse<Book> response = new ApiResponse<>();
         List<Book> data = bookService.getBooksByTitle(title);
+        appendAuthorLink(response, data);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/books/by-author")
+    @ApiOperation("operation to get book list of bookshop by passed author first name")
+    public ResponseEntity<ApiResponse<Book>> booksByAuthor(@ApiParam(value = "Имя автора", required = true) String authorName) {
+        ApiResponse<Book> response = new ApiResponse<>();
+        List<Book> data = bookService.getBooksByAuthor(authorName);
+        for (final Book book : data) {
+            Link selfLink = linkTo(methodOn(BooksRestApiController.class)
+                    .getBookById(book.getId())).withRel("book");
+            book.add(selfLink);
+        }
         response.setDebugMessage("successful request");
         response.setMessage("data size: " + data.size() + " elements");
         response.setStatus(HttpStatus.OK);
@@ -63,14 +85,20 @@ public class BooksRestApiController {
 
     @GetMapping("/books/with-max-discount")
     @ApiOperation("get list of book with max price")
-    public ResponseEntity<List<Book>> maxPriceBooks() {
-        return ResponseEntity.ok(bookService.getBooksWithMaxPriceDiscount());
+    public ResponseEntity<ApiResponse<Book>> maxPriceBooks() {
+        ApiResponse<Book> response = new ApiResponse<>();
+        List<Book> data = bookService.getBooksWithMaxPriceDiscount();
+        appendAuthorLink(response, data);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/books/bestsellers")
     @ApiOperation("get bestseller books (which is_bestseller = 1)")
-    public ResponseEntity<List<Book>> bestSellerBooks() {
-        return ResponseEntity.ok(bookService.getBestsellers());
+    public ResponseEntity<ApiResponse<Book>> bestSellerBooks() {
+        ApiResponse<Book> response = new ApiResponse<>();
+        List<Book> data = bookService.getBestsellers();
+        appendAuthorLink(response, data);
+        return ResponseEntity.ok(response);
     }
 
 
@@ -84,6 +112,12 @@ public class BooksRestApiController {
     public ResponseEntity<ApiResponse<Book>> handleBookstoreApiWrongParameterException(Exception exception) {
         return new ResponseEntity<>(new ApiResponse<Book>(HttpStatus.BAD_REQUEST, "Bad parameter value...", exception)
                 , HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("book/{id:\\d+}")
+    @ApiOperation("get book by title")
+    public Book getBookById(@PathVariable final Integer id) {
+        return bookService.getBookById(id);
     }
 
 }
