@@ -19,7 +19,7 @@ public class RatingBook implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id", referencedColumnName = "id")
     private Book book;
     @Column(name = "one_star")
@@ -32,14 +32,5 @@ public class RatingBook implements Serializable {
     private Integer fourStart;
     @Column(name = "five_star")
     private Integer fiveStar;
-
-    public Integer getSizeStars() {
-        return oneStar + twoStart + threeStar + fourStart + fiveStar;
-    }
-
-    public Integer getAvgStar() {
-        return ((fiveStar * 5 + fourStart * 4 + threeStar * 3 + twoStart * 2 + oneStar) /
-                (oneStar + twoStart + threeStar + fourStart + fiveStar));
-    }
 
 }

@@ -53,10 +53,11 @@ p.error-browser
                                 <button class="trigger trigger_dropdown" type="button">
                                     <div
                                             class="Rating Rating_noStyleLink"
-                                            th:replace="~{fragments/rating_fragment :: ratingStars(${slugBook.rating.getAvgStar()}, ${slugBook.rating.getSizeStars()})}"
+                                            th:replace="~{fragments/rating_fragment :: ratingStars(${ratingTotalAndAvg.getAverage()}
+                                            , ${ratingTotalAndAvg.getTotal()})}"
                                     >
                                     </div>
-                                    <div th:replace="~{fragments/rating_fragment :: ratingsModal(${slugBook.rating})}"></div>
+                                    <div th:replace="~{fragments/rating_fragment :: ratingsModal(${rating})}"></div>
                                 </button>
                             </div>
 

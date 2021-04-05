@@ -6,6 +6,7 @@ import com.example.MyBookShopApp.data.book.BookReview;
 import com.example.MyBookShopApp.data.book.RatingBook;
 import com.example.MyBookShopApp.repo.BookRepository;
 import com.example.MyBookShopApp.services.BookReviewService;
+import com.example.MyBookShopApp.services.BookService;
 import com.example.MyBookShopApp.services.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -26,15 +27,15 @@ import java.util.logging.Logger;
 @RequestMapping("/books")
 public class BooksController {
 
-    private final BookRepository bookRepository;
+    private final BookService bookService;
     private final ResourceStorage storage;
     private final BookReviewService bookReviewService;
     private final RatingService ratingService;
 
     @Autowired
-    public BooksController(BookRepository bookRepository, ResourceStorage storage, BookReviewService bookReviewService,
+    public BooksController(BookService bookService, ResourceStorage storage, BookReviewService bookReviewService,
                            RatingService ratingService) {
-        this.bookRepository = bookRepository;
+        this.bookService = bookService;
         this.storage = storage;
         this.bookReviewService = bookReviewService;
         this.ratingService = ratingService;
@@ -42,9 +43,10 @@ public class BooksController {
 
     @GetMapping("/{slug}")
     public String bookPage(@PathVariable("slug") String slug, Model model) {
-        Book book = bookRepository.findBookBySlug(slug);
+        Book book = bookService.findBookBySlug(slug);
         model.addAttribute("slugBook", book);
-        book.getRating().getAvgStar();
+        model.addAttribute("rating", ratingService.findBookById(book.getId()));
+        model.addAttribute("ratingTotalAndAvg", ratingService.getTotalAndAvgStars(book.getId()));
         return "/books/slug";
     }
 
@@ -52,9 +54,9 @@ public class BooksController {
     public String saveNewBookImage(@RequestParam("file") MultipartFile file, @PathVariable("slug") String slug) throws IOException {
 
         String savePath = storage.saveNewBookImage(file, slug);
-        Book bookToUpdate = bookRepository.findBookBySlug(slug);
+        Book bookToUpdate = bookService.findBookBySlug(slug);
         bookToUpdate.setImage(savePath);
-        bookRepository.save(bookToUpdate); //save new path in db here
+        bookService.save(bookToUpdate); //save new path in db here
 
         return ("redirect:/books/" + slug);
     }
@@ -85,7 +87,8 @@ public class BooksController {
             @RequestParam("ratingReview") Integer ratingReview,
             @PathVariable("slug") String slug
     ) {
-        Book book = bookRepository.findBookBySlug(slug);
+        Book book = bookService.findBookBySlug(slug);
+        ;
         BookReview review = new BookReview();
         review.setUserName(reviewAuthor);
         review.setTime(new Date());
@@ -102,7 +105,7 @@ public class BooksController {
     public String handleChangeBookStatus(
             @RequestParam("value") Integer value,
             @PathVariable("slug") String slug) {
-        ratingService.saveRating(ratingService.findBookBySlug(slug), value);
+        ratingService.saveRating(ratingService.findBookById(bookService.findBookBySlug(slug).getId()), value);
         return "redirect:/books/" + slug;
     }
 }

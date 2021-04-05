@@ -2,7 +2,8 @@ package com.example.MyBookShopApp.services;
 
 
 import com.example.MyBookShopApp.data.book.RatingBook;
-import com.example.MyBookShopApp.repo.BookRepository;
+import com.example.MyBookShopApp.data.book.RatingCount;
+import com.example.MyBookShopApp.data.book.RatingCountI;
 import com.example.MyBookShopApp.repo.RatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,17 +13,15 @@ import org.springframework.stereotype.Service;
 public class RatingService {
 
     private final RatingRepository ratingRepository;
-    private final BookRepository bookRepository;
 
     @Autowired
-    public RatingService(RatingRepository ratingRepository, BookRepository bookRepository) {
+    public RatingService(RatingRepository ratingRepository) {
         this.ratingRepository = ratingRepository;
-        this.bookRepository = bookRepository;
     }
 
-    public RatingBook findBookBySlug(String slug) {
-        return bookRepository.findBookBySlug(slug).getRating();
-    }
+//    public RatingBook findBookBySlug(String slug) {
+//        return bookRepository.findBookBySlug(slug).getRating();
+//    }
 
     public void saveRating(RatingBook ratingBook, Integer value) {
         switch (value) {
@@ -44,4 +43,16 @@ public class RatingService {
         }
         ratingRepository.save(ratingBook);
     }
+
+
+    public RatingBook findBookById(Integer bookId) {
+        return ratingRepository.findByBookId(bookId);
+    }
+
+    public RatingCount getTotalAndAvgStars(Integer bookId){
+        RatingCountI totalAndAvgStars = ratingRepository.getTotalAndAvgStars(bookId);
+        return new RatingCount(totalAndAvgStars.getTotal(), totalAndAvgStars.getAverage());
+    }
+
+
 }

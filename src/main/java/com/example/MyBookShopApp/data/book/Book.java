@@ -72,12 +72,6 @@ public class Book extends RepresentationModel<Book> {
     @ApiModelProperty("discount value for book")
     private Double price;
 
-//    @ManyToOne
-//    @JoinColumn(name = "rating_book_id", referencedColumnName = "id", foreignKey =
-//    @ForeignKey(name = "fk_book_rating_book"))
-//    @JsonIgnore
-//    private RatingBook ratingBook;
-
     @ManyToOne
     @JoinColumn(name = "genre_id", referencedColumnName = "id", foreignKey =
     @ForeignKey(name = "fk_book_genre"))
@@ -95,9 +89,10 @@ public class Book extends RepresentationModel<Book> {
     @JsonIgnore
     private List<BookReview> bookReviewList = new ArrayList<>();
 
-    @OneToOne(mappedBy = "book")
-    @JsonIgnore
-    private RatingBook rating;
+//    @OneToOne(mappedBy = "book")
+//    @JsonIgnore
+//    @Transient
+//    private RatingBook rating;
 
     @JsonProperty
     public Integer discountPrice(){

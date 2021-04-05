@@ -111,4 +111,12 @@ public class BookService {
     public Book getBookById(Integer id) {
         return bookRepository.findBookById(id);
     }
+
+    public Book findBookBySlug(String slug) {
+        return bookRepository.findBookBySlug(slug);
+    }
+
+    public void save(Book bookToUpdate) {
+        bookRepository.save(bookToUpdate);
+    }
 }
