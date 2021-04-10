@@ -1,4 +1,4 @@
-package com.example.MyBookShopApp.data;
+package com.example.MyBookShopApp.controllers.Rest;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;

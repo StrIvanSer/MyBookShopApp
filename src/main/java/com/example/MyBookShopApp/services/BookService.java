@@ -1,9 +1,14 @@
 package com.example.MyBookShopApp.services;
 
 import com.example.MyBookShopApp.data.book.Book;
+import com.example.MyBookShopApp.data.book.Book2Type;
+import com.example.MyBookShopApp.data.book.Book2User;
 import com.example.MyBookShopApp.data.book.Genre;
 import com.example.MyBookShopApp.errors.BookstoreApiWrongParameterException;
+import com.example.MyBookShopApp.repo.Book2TypeRepository;
+import com.example.MyBookShopApp.repo.Book2UserRepository;
 import com.example.MyBookShopApp.repo.BookRepository;
+import com.example.MyBookShopApp.repo.UserTempRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 
+import static com.example.MyBookShopApp.data.book.Book2Type.TypeStatus.KEPT;
 import static java.util.Objects.isNull;
 
 /**
@@ -24,10 +30,18 @@ import static java.util.Objects.isNull;
 public class BookService {
 
     private final BookRepository bookRepository;
+    private final UserTempRepository userTempRepository;
+    private final Book2UserRepository book2UserRepository;
+    private final Book2TypeRepository book2TypeRepository;
+
 
     @Autowired
-    public BookService(BookRepository bookRepository) {
+    public BookService(BookRepository bookRepository, UserTempRepository userTempRepository,
+                       Book2UserRepository book2UserRepository, Book2TypeRepository book2TypeRepository) {
         this.bookRepository = bookRepository;
+        this.userTempRepository = userTempRepository;
+        this.book2UserRepository = book2UserRepository;
+        this.book2TypeRepository = book2TypeRepository;
     }
 
     public List<Book> getBooksByAuthor(String authorName) {
@@ -96,13 +110,13 @@ public class BookService {
     }
 
     public List<Book> getBooksByTitle(String title) throws BookstoreApiWrongParameterException {
-        if (isNull(title) || title.equals("") || title.length() < 1){
+        if (isNull(title) || title.equals("") || title.length() < 1) {
             throw new BookstoreApiWrongParameterException("Wrong values passed to one or more parameters");
-        }else {
+        } else {
             List<Book> data = bookRepository.findBooksByTitleContaining(title);
-            if (data.size() > 0){
+            if (data.size() > 0) {
                 return data;
-            }else {
+            } else {
                 throw new BookstoreApiWrongParameterException("No data found with specified parameters...");
             }
         }
@@ -118,5 +132,22 @@ public class BookService {
 
     public void save(Book bookToUpdate) {
         bookRepository.save(bookToUpdate);
+    }
+
+    public void appendToPostpone(Book book) {
+        Book2Type book2Type = new Book2Type();
+        book2Type.setType(KEPT);
+        book2TypeRepository.save(book2Type);
+        Book2User book2User = new Book2User();
+        book2User.setBook(book);
+        book2User.setUser(userTempRepository.findById(1).get());
+        book2User.setBook2Type(book2Type);
+        book2UserRepository.save(book2User);
+    }
+
+    public void removeFromPostpone(Book book) {
+        Book2User book2User = book.getBook2Users().stream().filter(user -> user.getUser().getId().equals(1)).findFirst().get();
+        book2UserRepository.delete(book2User);
+        book2TypeRepository.delete(book2User.getBook2Type());
     }
 }

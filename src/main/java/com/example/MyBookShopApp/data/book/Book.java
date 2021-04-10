@@ -16,6 +16,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -89,15 +90,17 @@ public class Book extends RepresentationModel<Book> {
     @JsonIgnore
     private List<BookReview> bookReviewList = new ArrayList<>();
 
-//    @OneToOne(mappedBy = "book")
-//    @JsonIgnore
-//    @Transient
-//    private RatingBook rating;
+    @OneToMany(mappedBy = "book")
+    private Set<Book2User> book2Users;
 
     @JsonProperty
     public Integer discountPrice(){
         return priceOld - Math.toIntExact(Math.round(price * priceOld));
     }
+
+//    public Book2User getBook2Users(){
+//       return book2Users.stream().filter(user->user.getUser().getId().equals(1))
+//    }
 
 
 }

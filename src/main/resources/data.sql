@@ -3125,3 +3125,26 @@ insert into rating_book (book_id, one_star, two_star, three_star, four_star, fiv
 insert into rating_book (book_id, one_star, two_star, three_star, four_star, five_star) values (998, 35, 11, 44, 83, 279);
 insert into rating_book (book_id, one_star, two_star, three_star, four_star, five_star) values (999, 46, 20, 21, 121, 219);
 insert into rating_book (book_id, one_star, two_star, three_star, four_star, five_star) values (1000, 28, 23, 22, 172, 239);
+
+INSERT INTO user_temp(name)
+    VALUES ('Стас'),
+    ('Игорь'),
+    ('Женя');
+
+INSERT INTO book2user_type(type)
+    VALUES (0),
+    (0),
+    (0),
+    (0),
+    (1),
+    (0);
+
+INSERT INTO book2user(user_id,  book_id, book_type_id)
+	VALUES (1, 143, 1),
+	(1, 273, 2),
+	(1, 54, 3),
+	(1, 1, 4),
+	(2, 2, 5),
+	(1, 273, 6);
+
+
