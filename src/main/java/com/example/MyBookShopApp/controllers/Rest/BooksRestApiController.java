@@ -1,7 +1,6 @@
 package com.example.MyBookShopApp.controllers.Rest;
 
 
-import com.example.MyBookShopApp.data.ApiResponse;
 import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.errors.BookstoreApiWrongParameterException;
 import com.example.MyBookShopApp.services.BookService;

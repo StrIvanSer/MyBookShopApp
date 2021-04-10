@@ -15,7 +15,14 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
     Page<Book> findPageOfBooksByPubDateBetweenOrderByPubDate(Date dateFrom, Date dateTo, Pageable nextPage);
 
-    @Query(value = "SELECT * FROM book AS b JOIN rating_book AS rb ON rb.book_id = b.id ORDER BY rb.five_star DESC ", nativeQuery = true)
+    @Query(value = "SELECT b.* \n" +
+            "FROM book AS b \n" +
+            "JOIN rating_book AS rb ON rb.book_id = b.id \n" +
+            "LEFT JOIN book2user AS bu ON bu.book_id = b.id\n" +
+            "LEFT JOIN book2user_type AS but ON but.id = bu.book_type_id\n" +
+            "WHERE (type IS NULL OR type = 0)\n" +
+            "GROUP BY b.id, bu.book_id, rb.five_star\n" +
+            "ORDER BY rb.five_star DESC , COUNT(bu.book_id) DESC  ", nativeQuery = true)
     Page<Book> getPageOfPopularBooks(Pageable nextPage);
 
     Page<Book> findAllByGenre(Genre genre, Pageable nextPage);
@@ -54,5 +61,12 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
     Book findBookById(Integer id);
 
+
+    @Query(value = "SELECT *" +
+            " FROM book AS b " +
+            " JOIN book2user AS bu ON bu.book_id = b.id" +
+            " JOIN book2user_type AS but ON but.id = bu.book_type_id" +
+            " WHERE but.type = 0 AND bu.user_id = ?1" , nativeQuery = true)
+    List<Book> getPostponedBooks(Integer idUser);
 }
 
