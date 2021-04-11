@@ -8,7 +8,7 @@ import com.example.MyBookShopApp.errors.BookstoreApiWrongParameterException;
 import com.example.MyBookShopApp.repo.Book2TypeRepository;
 import com.example.MyBookShopApp.repo.Book2UserRepository;
 import com.example.MyBookShopApp.repo.BookRepository;
-import com.example.MyBookShopApp.repo.UserTempRepository;
+import com.example.MyBookShopApp.repo.BookstoreUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,16 +30,16 @@ import static java.util.Objects.isNull;
 public class BookService {
 
     private final BookRepository bookRepository;
-    private final UserTempRepository userTempRepository;
+    private final BookstoreUserRepository bookstoreUserRepository;
     private final Book2UserRepository book2UserRepository;
     private final Book2TypeRepository book2TypeRepository;
 
 
     @Autowired
-    public BookService(BookRepository bookRepository, UserTempRepository userTempRepository,
+    public BookService(BookRepository bookRepository, BookstoreUserRepository bookstoreUserRepository,
                        Book2UserRepository book2UserRepository, Book2TypeRepository book2TypeRepository) {
         this.bookRepository = bookRepository;
-        this.userTempRepository = userTempRepository;
+        this.bookstoreUserRepository = bookstoreUserRepository;
         this.book2UserRepository = book2UserRepository;
         this.book2TypeRepository = book2TypeRepository;
     }
@@ -140,7 +140,7 @@ public class BookService {
         book2TypeRepository.save(book2Type);
         Book2User book2User = new Book2User();
         book2User.setBook(book);
-        book2User.setUser(userTempRepository.findById(1).get());
+        book2User.setUser(bookstoreUserRepository.findById(1).get());
         book2User.setBook2Type(book2Type);
         book2UserRepository.save(book2User);
     }

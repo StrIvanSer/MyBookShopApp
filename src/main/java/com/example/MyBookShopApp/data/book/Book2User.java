@@ -22,7 +22,7 @@ public class Book2User {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private UserTemp user;
+    private BookstoreUser user;
 
     @OneToOne
     @JoinColumn(name = "book_type_id", referencedColumnName = "id")

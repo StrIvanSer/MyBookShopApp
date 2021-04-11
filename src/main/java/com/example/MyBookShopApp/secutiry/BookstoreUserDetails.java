@@ -1,16 +1,16 @@
 package com.example.MyBookShopApp.secutiry;
 
+import com.example.MyBookShopApp.data.book.BookstoreUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
-public class BookstoreUserDetails implements UserDetails {
+public class BookstoreUserDetails implements UserDetailsI {
 
     private final BookstoreUser bookstoreUser;
+    private String name;
 
     public BookstoreUserDetails(BookstoreUser bookstoreUser) {
         this.bookstoreUser = bookstoreUser;
@@ -32,7 +32,7 @@ public class BookstoreUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return bookstoreUser.getEmail();
+        return bookstoreUser.getName();
     }
 
     @Override
@@ -53,5 +53,14 @@ public class BookstoreUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String getEmail() {
+        return bookstoreUser.getEmail();
+    }
+
+    public String getName() {
+        return bookstoreUser.getName();
     }
 }

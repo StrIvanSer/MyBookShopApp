@@ -3126,10 +3126,13 @@ insert into rating_book (book_id, one_star, two_star, three_star, four_star, fiv
 insert into rating_book (book_id, one_star, two_star, three_star, four_star, five_star) values (999, 46, 20, 21, 121, 219);
 insert into rating_book (book_id, one_star, two_star, three_star, four_star, five_star) values (1000, 28, 23, 22, 172, 239);
 
-INSERT INTO user_temp(name)
-    VALUES ('Стас'),
-    ('Игорь'),
-    ('Женя');
+-- INSERT INTO user_temp(name)
+--     VALUES ('Стас'),
+--     ('Игорь'),
+--     ('Женя');
+
+INSERT INTO public.users(email, name, password, phone)
+	VALUES ('svet42@inbox.ru', 'Иван', '$2a$10$oLkwvcXuaEk9r/XtuTQdjuyqaWuYhHgK1ioZyOhhaDJalwu/toW/S', '+7 (999) 999-99-99');
 
 INSERT INTO book2user_type(type)
     VALUES (0),
@@ -3144,7 +3147,7 @@ INSERT INTO book2user(user_id,  book_id, book_type_id)
 	(1, 273, 2),
 	(1, 54, 3),
 	(1, 1, 4),
-	(2, 2, 5),
+-- 	(2, 2, 5),
 	(1, 273, 6);
 
 

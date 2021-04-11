@@ -1,5 +1,7 @@
 package com.example.MyBookShopApp.secutiry;
 
+import com.example.MyBookShopApp.data.book.BookstoreUser;
+import com.example.MyBookShopApp.repo.BookstoreUserRepository;
 import com.example.MyBookShopApp.secutiry.jwt.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -67,6 +69,10 @@ public class BookstoreUserRegister {
     }
 
     public BookstoreUser getCurrentUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal == null) {
+            return null;
+        }
         BookstoreUserDetails userDetails =
                 (BookstoreUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return userDetails.getBookstoreUser();

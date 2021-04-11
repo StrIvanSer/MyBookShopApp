@@ -108,4 +108,9 @@ public class BooksController {
         ratingService.saveRating(ratingService.findBookById(bookService.findBookBySlug(slug).getId()), value);
         return "redirect:/books/" + slug;
     }
+
+    @GetMapping("/myarchive")
+    public String myarchivePage(){
+        return "myarchive";
+    }
 }

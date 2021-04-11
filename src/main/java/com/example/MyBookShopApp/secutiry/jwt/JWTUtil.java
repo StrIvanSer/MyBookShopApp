@@ -1,5 +1,6 @@
 package com.example.MyBookShopApp.secutiry.jwt;
 
+import com.example.MyBookShopApp.secutiry.UserDetailsI;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -29,9 +30,9 @@ public class JWTUtil {
                 .compact();
     }
 
-    public String generateToken(UserDetails userDetails){
+    public String generateToken(UserDetailsI userDetails){
         Map<String,Object> claims = new HashMap<>();
-        return  createToken(claims,userDetails.getUsername());
+        return  createToken(claims,userDetails.getEmail());
     }
 
     public <T> T extractClaim(String token, Function<Claims,T> claimsResolver){
@@ -59,8 +60,8 @@ public class JWTUtil {
     }
 
     //проверка равен ли username из userDetails  name из токена
-    public Boolean validateToken(String token, UserDetails userDetails){
+    public Boolean validateToken(String token, UserDetailsI userDetails){
         String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        return (username.equals(userDetails.getEmail()) && !isTokenExpired(token));
     }
 }

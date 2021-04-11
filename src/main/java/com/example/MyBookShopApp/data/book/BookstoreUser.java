@@ -1,28 +1,26 @@
 package com.example.MyBookShopApp.data.book;
 
-
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Set;
 
-//Временная заглушка с пользователями
 @Entity
-@Getter
+@Table(name = "users")
 @Setter
-@EqualsAndHashCode
-@NoArgsConstructor
-@Table(name = "user_temp")
-public class UserTemp {
+@Getter
+public class BookstoreUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
+    private String email;
+    private String phone;
+    private String password;
 
     @OneToMany(mappedBy = "user")
     private Set<Book2User> book2Users;
+
 }

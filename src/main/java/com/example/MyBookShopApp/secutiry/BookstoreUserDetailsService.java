@@ -1,5 +1,7 @@
 package com.example.MyBookShopApp.secutiry;
 
+import com.example.MyBookShopApp.data.book.BookstoreUser;
+import com.example.MyBookShopApp.repo.BookstoreUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

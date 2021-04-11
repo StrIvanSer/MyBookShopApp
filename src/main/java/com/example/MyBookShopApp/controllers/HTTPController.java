@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HTTPController {
 
-    @GetMapping("documents/index.html")
+    @GetMapping("my.html")
     public String getDocumentsPage() {
-        return "redirect:/documents";
+        return "redirect:/my";
     }
 
     @GetMapping("documents/slug.html")
