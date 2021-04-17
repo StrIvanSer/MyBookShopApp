@@ -2,6 +2,7 @@ package com.example.MyBookShopApp.secutiry.jwt;
 
 import com.example.MyBookShopApp.secutiry.UserDetailsI;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;

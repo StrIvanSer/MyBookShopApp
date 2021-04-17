@@ -34,7 +34,7 @@ public class BookstoreUserRegister {
     }
 
     //
-    public void registerNewUser(RegistrationForm registrationForm) {
+    public boolean registerNewUser(RegistrationForm registrationForm) {
 
         if (bookstoreUserRepository.findBookstoreUserByEmail(registrationForm.getEmail()) == null) {
             BookstoreUser user = new BookstoreUser();
@@ -43,7 +43,8 @@ public class BookstoreUserRegister {
             user.setPhone(registrationForm.getPhone());
             user.setPassword(passwordEncoder.encode(registrationForm.getPass()));
             bookstoreUserRepository.save(user);
-        }
+            return true;
+        } else return false;
     }
 
     //
@@ -58,10 +59,8 @@ public class BookstoreUserRegister {
     }
 
     public ContactConfirmationResponse jwtLogin(ContactConfirmationPayload payload) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(payload.getContact(),
-                payload.getCode()));
-        BookstoreUserDetails userDetails =
-                (BookstoreUserDetails) bookstoreUserDetailsService.loadUserByUsername(payload.getContact());
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(payload.getContact(), payload.getCode()));
+        BookstoreUserDetails userDetails = (BookstoreUserDetails) bookstoreUserDetailsService.loadUserByUsername(payload.getContact());
         String jwtToken = jwtUtil.generateToken(userDetails);
         ContactConfirmationResponse response = new ContactConfirmationResponse();
         response.setResult(jwtToken);
@@ -69,10 +68,6 @@ public class BookstoreUserRegister {
     }
 
     public BookstoreUser getCurrentUser() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal == null) {
-            return null;
-        }
         BookstoreUserDetails userDetails =
                 (BookstoreUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return userDetails.getBookstoreUser();

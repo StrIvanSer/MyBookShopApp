@@ -54,8 +54,13 @@ public class AuthUserController {
     //
     @PostMapping("/reg")
     public String handleUserRegistration(RegistrationForm registrationForm, Model model) {
-        userRegister.registerNewUser(registrationForm);
-        model.addAttribute("regOk", true);
+        if (userRegister.registerNewUser(registrationForm)) {
+            model.addAttribute("regOk", true);
+        }
+        else {
+            model.addAttribute("regError", true);
+
+        }
         return "signin";
     }
 
@@ -67,7 +72,7 @@ public class AuthUserController {
     ) {
 //        return userRegister.login(payload);
         ContactConfirmationResponse loginResponse = userRegister.jwtLogin(payload);
-        Cookie cookie = new Cookie("token",loginResponse.getResult());
+        Cookie cookie = new Cookie("token", loginResponse.getResult());
         httpServletResponse.addCookie(cookie);
         return loginResponse;
     }
@@ -84,20 +89,5 @@ public class AuthUserController {
         model.addAttribute("curUsr", userRegister.getCurrentUser());
         return "profile";
     }
-
-//    @GetMapping("/logout")
-//    public String handleLogout(HttpServletRequest request) {
-//        HttpSession session = request.getSession();
-//        SecurityContextHolder.clearContext();
-//        if (session != null) {
-//            session.invalidate();
-//        }
-//
-//        for (Cookie cookie : request.getCookies()) {
-//            cookie.setMaxAge(0);
-//        }
-//
-//        return "redirect:/";
-//    }
 
 }

@@ -90,8 +90,10 @@ public class Book extends RepresentationModel<Book> {
     @JsonIgnore
     private List<BookReview> bookReviewList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "book")
-    private Set<Book2User> book2Users;
+//    @OneToMany(mappedBy = "book")
+//    @JsonIgnore
+//    @Transient
+//    private Set<Book2User> book2Users;
 
     @JsonProperty
     public Integer discountPrice(){

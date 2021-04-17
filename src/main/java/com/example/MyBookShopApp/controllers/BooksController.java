@@ -5,6 +5,7 @@ import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.data.book.BookReview;
 import com.example.MyBookShopApp.data.book.RatingBook;
 import com.example.MyBookShopApp.repo.BookRepository;
+import com.example.MyBookShopApp.secutiry.BookstoreUserDetails;
 import com.example.MyBookShopApp.services.BookReviewService;
 import com.example.MyBookShopApp.services.BookService;
 import com.example.MyBookShopApp.services.RatingService;
@@ -13,6 +14,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -82,20 +84,19 @@ public class BooksController {
 
     @PostMapping("/addReview/{slug}")
     public String addReview(
-            @RequestParam("reviewAuthor") String reviewAuthor,
             @RequestParam("reviewText") String reviewText,
-            @RequestParam("ratingReview") Integer ratingReview,
-            @PathVariable("slug") String slug
+            @RequestParam(value = "ratingReview", required = false) Integer ratingReview,
+            @PathVariable("slug") String slug,
+            @AuthenticationPrincipal BookstoreUserDetails user
     ) {
         Book book = bookService.findBookBySlug(slug);
-        ;
         BookReview review = new BookReview();
-        review.setUserName(reviewAuthor);
+        review.setUserName(user.getBookstoreUser().getName());
         review.setTime(new Date());
         review.setBook(book);
         review.setText(reviewText);
-        review.setUserId(0);
-        review.setRating(ratingReview);
+        review.setUserId(user.getBookstoreUser().getId());
+        review.setRating(ratingReview == null ? 0 : ratingReview);
         bookReviewService.saveReview(review);
 
         return "redirect:/books/" + slug;
@@ -110,7 +111,7 @@ public class BooksController {
     }
 
     @GetMapping("/myarchive")
-    public String myarchivePage(){
+    public String myarchivePage() {
         return "myarchive";
     }
 }

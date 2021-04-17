@@ -10,7 +10,7 @@
 <![endif]-->
 <!--[if gt IE 9]><!-->
 <html lang="ru"> <!--<![endif]-->
-<html lang="ru" xmlns:th="http://www.thymeleaf.org"> <!--<![endif]-->
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> <!--<![endif]-->
 <head th:replace="~{fragments/head_fragment :: headFragment (pageName=#{topbar.news})}"></head>
 <body class="Site">
 <!--if lt IE 8
@@ -164,26 +164,13 @@ p.error-browser
                         <!--        +btn('button')(data-sendstatus='UNLINK' data-bookid="[1111]")._muted Вернуть из архива-->
                     </div>
                 </div>
-                <form th:action="${'/books/addReview/' + slugBook.slug }" method="post"
+                <form sec:authorize="isAuthenticated()" th:action="${'/books/addReview/' + slugBook.slug }" method="post"
                       oninput="daysoutput.value=dayscount.value">
-                    <fieldset>
-                        <legend>Личные данные</legend>
-                        <div class="half-width">
-                            <label for="reviewAuthor">Ваше имя</label>
-                            <input id="reviewAuthor" name="reviewAuthor" type="text" required><br><br>
-                            <!-- поле обязательно для заполнения -->
-                        </div>
-                    </fieldset>
                     <fieldset>
                         <label for="reviewText">Текст отзыва</label>
                         <textarea id="reviewText" rows="5" name="reviewText" required></textarea><br><br>
                         <!-- поле обязательно для заполнения -->
                     </fieldset>
-<!--                         <div class="half-width">-->
-<!--                         <label>Оценка книги</label>-->
-<!--                         0 <input id="rating_review" name="ratingReview" type="radio" min="0" max="5" step="1"-->
-<!--                          value="5"> 5-->
-<!--                          </div>-->
                     <span class="Rating Rating_input" >
                     <span class="Rating-stars">
                       <span th:replace="~{fragments/rating_fragment :: star (false)}"></span>
@@ -197,11 +184,12 @@ p.error-browser
                       <span th:replace="~{fragments/rating_fragment :: star (false)}"></span>
                       <input name="ratingReview" type="radio" value="5" >
                     </span></span></span>
-                    <div class="buttons">
+                    <div class="buttons" >
                         <input type="submit" value="Добавить отзыв">
                         <input type="reset" value="Сбросить">
                     </div>
                 </form>
+                <H2 sec:authorize="!isAuthenticated()"> Чтобы оставить отзыв авторизуйтесь</H2>
                 <span></span>
                 <div class="Product-comments">
                     <div class="Product-comments-header">

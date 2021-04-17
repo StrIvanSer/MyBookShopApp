@@ -37,4 +37,9 @@ public class HTTPController {
         return "redirect:/recent";
     }
 
+    @GetMapping("/500")
+    public String get500() {
+        return "redirect:/recent";
+    }
+
 }

@@ -1,16 +1,18 @@
 package com.example.MyBookShopApp.secutiry;
 
 import com.example.MyBookShopApp.data.book.BookstoreUser;
+import com.example.MyBookShopApp.services.BookService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
 
-public class BookstoreUserDetails implements UserDetailsI {
+public class BookstoreUserDetails implements UserDetailsI, OAuth2User {
 
     private final BookstoreUser bookstoreUser;
-    private String name;
 
     public BookstoreUserDetails(BookstoreUser bookstoreUser) {
         this.bookstoreUser = bookstoreUser;
@@ -18,6 +20,16 @@ public class BookstoreUserDetails implements UserDetailsI {
 
     public BookstoreUser getBookstoreUser() {
         return bookstoreUser;
+    }
+
+    @Override
+    public <A> A getAttribute(String name) {
+        return null;
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return null;
     }
 
     @Override
@@ -60,7 +72,8 @@ public class BookstoreUserDetails implements UserDetailsI {
         return bookstoreUser.getEmail();
     }
 
+    @Override
     public String getName() {
-        return bookstoreUser.getName();
+        return null;
     }
 }

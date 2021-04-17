@@ -1,25 +1,27 @@
 package com.example.MyBookShopApp.services;
 
-import com.example.MyBookShopApp.data.book.Book;
-import com.example.MyBookShopApp.data.book.Book2Type;
-import com.example.MyBookShopApp.data.book.Book2User;
-import com.example.MyBookShopApp.data.book.Genre;
+import com.example.MyBookShopApp.data.book.*;
+import com.example.MyBookShopApp.data.book.Book2Type.TypeStatus;
 import com.example.MyBookShopApp.errors.BookstoreApiWrongParameterException;
 import com.example.MyBookShopApp.repo.Book2TypeRepository;
 import com.example.MyBookShopApp.repo.Book2UserRepository;
 import com.example.MyBookShopApp.repo.BookRepository;
 import com.example.MyBookShopApp.repo.BookstoreUserRepository;
+import com.example.MyBookShopApp.secutiry.BookstoreUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 import static com.example.MyBookShopApp.data.book.Book2Type.TypeStatus.KEPT;
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 /**
  * Сервис для работы с данными класса book
@@ -55,10 +57,6 @@ public class BookService {
 
     public List<Book> getBooksWithPriceBetween(Integer min, Integer max) {
         return bookRepository.findBooksByPriceOldBetween(min, max);
-    }
-
-    public List<Book> getBooksWithPrice(Integer price) {
-        return bookRepository.findBooksByPriceOldIs(price);
     }
 
     public List<Book> getBooksWithMaxPriceDiscount() {
@@ -134,20 +132,39 @@ public class BookService {
         bookRepository.save(bookToUpdate);
     }
 
-    public void appendToPostpone(Book book) {
-        Book2Type book2Type = new Book2Type();
-        book2Type.setType(KEPT);
-        book2TypeRepository.save(book2Type);
-        Book2User book2User = new Book2User();
-        book2User.setBook(book);
-        book2User.setUser(bookstoreUserRepository.findById(1).get());
-        book2User.setBook2Type(book2Type);
-        book2UserRepository.save(book2User);
+    public void removeFromBook2User(Book book, BookstoreUser user) {
+        Book2User book2User = book2UserRepository.findByUserIdAndBookId(user.getId(), book.getId());
+        if (nonNull(book2User)) {
+            book2UserRepository.delete(book2User);
+        }
     }
 
-    public void removeFromPostpone(Book book) {
-        Book2User book2User = book.getBook2Users().stream().filter(user -> user.getUser().getId().equals(1)).findFirst().get();
-        book2UserRepository.delete(book2User);
-        book2TypeRepository.delete(book2User.getBook2Type());
+    public List<Book> getCartBooks(Integer id) {
+        return bookRepository.getCartBooks(id);
     }
+
+    public void saveBook2User(Book book, BookstoreUser user, TypeStatus typeStatus) {
+        Book2User book2User = book2UserRepository.findByUserIdAndBookId(user.getId(), book.getId());
+        if (nonNull(book2User) && !book2User.getBook2Type().getTypeStatus().equals(typeStatus)) {
+            book2User.getBook2Type().setTypeStatus(typeStatus);
+            book2UserRepository.save(book2User);
+        } else {
+            Book2Type book2Type = new Book2Type();
+            Book2User newBook2User = new Book2User();
+            book2Type.setTypeStatus(typeStatus);
+            newBook2User.setBook(book);
+            newBook2User.setUser(user);
+            newBook2User.setBook2Type(book2Type);
+            book2UserRepository.save(newBook2User);
+        }
+    }
+
+    public List<Book> getPostponedBooks(Integer id) {
+        return bookRepository.getPostponedBooks(id);
+    }
+
+    public List<Book> findBooksBySlugIn(String[] cookieSlugs) {
+        return bookRepository.findBooksBySlugIn(cookieSlugs);
+    }
+
 }

@@ -1,10 +1,9 @@
-package com.example.MyBookShopApp.controllers.Rest;
+package com.example.MyBookShopApp.controllers.rest;
 
 import com.example.MyBookShopApp.data.book.Author;
 import com.example.MyBookShopApp.services.AuthorService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

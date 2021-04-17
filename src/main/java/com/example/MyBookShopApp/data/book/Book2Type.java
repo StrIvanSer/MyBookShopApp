@@ -12,6 +12,7 @@ import java.util.List;
 @Setter
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "book2user_type")
 public class Book2Type {
 
@@ -25,10 +26,10 @@ public class Book2Type {
     @NotNull
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "type")
-    private TypeStatus type;
+    private TypeStatus typeStatus;
 
-//    @OneToOne(mappedBy = "book2Type")
-//    private Book2User book2User;
+    @OneToOne(mappedBy = "book2Type")
+    private Book2User book2User;
 
     @AllArgsConstructor
     @Getter

@@ -29,4 +29,5 @@ public interface UserDetailsI extends UserDetails {
     boolean isEnabled();
 
     String getEmail();
+
 }
