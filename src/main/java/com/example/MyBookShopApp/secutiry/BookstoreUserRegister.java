@@ -34,8 +34,7 @@ public class BookstoreUserRegister {
     }
 
     //
-    public boolean registerNewUser(RegistrationForm registrationForm) {
-
+    public BookstoreUser registerNewUser(RegistrationForm registrationForm) {
         if (bookstoreUserRepository.findBookstoreUserByEmail(registrationForm.getEmail()) == null) {
             BookstoreUser user = new BookstoreUser();
             user.setName(registrationForm.getName());
@@ -43,8 +42,8 @@ public class BookstoreUserRegister {
             user.setPhone(registrationForm.getPhone());
             user.setPassword(passwordEncoder.encode(registrationForm.getPass()));
             bookstoreUserRepository.save(user);
-            return true;
-        } else return false;
+            return user;
+        } else return null;
     }
 
     //

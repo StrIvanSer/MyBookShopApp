@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import static java.util.Objects.nonNull;
+
 @Controller
 public class AuthUserController {
 
@@ -54,7 +56,7 @@ public class AuthUserController {
     //
     @PostMapping("/reg")
     public String handleUserRegistration(RegistrationForm registrationForm, Model model) {
-        if (userRegister.registerNewUser(registrationForm)) {
+        if (nonNull(userRegister.registerNewUser(registrationForm))) {
             model.addAttribute("regOk", true);
         }
         else {
