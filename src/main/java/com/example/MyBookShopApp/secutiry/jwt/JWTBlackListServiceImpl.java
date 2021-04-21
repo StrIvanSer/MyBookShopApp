@@ -2,6 +2,8 @@ package com.example.MyBookShopApp.secutiry.jwt;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class JWTBlackListServiceImpl implements JWTBlackListService {
 
@@ -19,5 +21,15 @@ public class JWTBlackListServiceImpl implements JWTBlackListService {
     @Override
     public JWTBlackList saveToken(JWTBlackList jwtBlacklist) {
         return this.jwtBlackListRepository.save(jwtBlacklist);
+    }
+
+    @Override
+    public void deleteOldToken() {
+        this.jwtBlackListRepository.deleteOldTokens();
+    }
+
+    @Override
+    public List<JWTBlackList> getOldTokens() {
+        return this.jwtBlackListRepository.getOldTokens();
     }
 }
