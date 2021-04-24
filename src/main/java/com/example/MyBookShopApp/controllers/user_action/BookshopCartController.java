@@ -27,8 +27,7 @@ import static java.util.Objects.isNull;
 public class BookshopCartController {
 
     @ModelAttribute(name = "bookCart")
-    public List<Book> bookCart() {
-        return new ArrayList<>();
+    public List<Book> bookCart() {         return new ArrayList<>();
     }
 
     private final BookService bookService;
@@ -40,44 +39,23 @@ public class BookshopCartController {
 
     @GetMapping("/cart")
     public String handleCartRequest(
-//            @CookieValue(value = "cartContents", required = false) String cartContents,
-                                    Model model,
+            Model model,
             @AuthenticationPrincipal BookstoreUserDetails user) {
         int cost = 0;
         int oldCost = 0;
-
-//        if (isNull(user)) {
-//            if (cartContents == null || cartContents.equals("")) {
-//                model.addAttribute("isCartEmpty", true);
-//                model.addAttribute("cost", cost);
-//            } else {
-//                model.addAttribute("isCartEmpty", false);
-//                cartContents = cartContents.startsWith("/") ? cartContents.substring(1) : cartContents;
-//                cartContents = cartContents.endsWith("/") ? cartContents.substring(0, cartContents.length() - 1) : cartContents;
-//                String[] cookieSlugs = cartContents.split("/");
-//                List<Book> booksFromCookieSlugs = bookService.findBooksBySlugIn(cookieSlugs);
-//                for (Book booksFromCookieSlug : booksFromCookieSlugs) {
-//                    cost = cost + booksFromCookieSlug.discountPrice();
-//                    oldCost = oldCost + booksFromCookieSlug.getPriceOld();
-//                }
-//                model.addAttribute("cost", cost);
-//                model.addAttribute("oldCost", oldCost);
-//                model.addAttribute("bookCart", booksFromCookieSlugs);
-//            }
-//        } else {
-            List<Book> books = bookService.getCartBooks(user.getBookstoreUser().getId());
-            if (books.isEmpty()) {
-                model.addAttribute("isCartEmpty", true);
-                model.addAttribute("cost", cost);
-            } else {
-                for (Book booksFromCookieSlug : books) {
-                    cost = cost + booksFromCookieSlug.discountPrice();
-                    oldCost = oldCost + booksFromCookieSlug.getPriceOld();
-                }
-                model.addAttribute("cost", cost);
-                model.addAttribute("oldCost", oldCost);
-                model.addAttribute("bookCart", books);
+        List<Book> books = bookService.getCartBooks(user.getBookstoreUser().getId());
+        if (books.isEmpty()) {
+            model.addAttribute("isCartEmpty", true);
+            model.addAttribute("cost", cost);
+        } else {
+            for (Book booksFromCookieSlug : books) {
+                cost = cost + booksFromCookieSlug.discountPrice();
+                oldCost = oldCost + booksFromCookieSlug.getPriceOld();
             }
+            model.addAttribute("cost", cost);
+            model.addAttribute("oldCost", oldCost);
+            model.addAttribute("bookCart", books);
+        }
 //        }
 
         return "cart";
@@ -89,19 +67,8 @@ public class BookshopCartController {
             @CookieValue(name = "cartContents", required = false) String cartContents,
             HttpServletResponse response,
             @AuthenticationPrincipal BookstoreUserDetails user) {
-
-//        if (isNull(user)) {
-//            if (cartContents != null || !cartContents.equals("")) {
-//                ArrayList<String> cookieBooks = new ArrayList<>(Arrays.asList(cartContents.split("/")));
-//                cookieBooks.remove(slug);
-//                Cookie cookie = new Cookie("cartContents", String.join("/", cookieBooks));
-//                cookie.setPath("/");
-//                response.addCookie(cookie);
-//            }
-//        } else {
-            Book book = bookService.findBookBySlug(slug);
-            bookService.removeFromBook2User(book, user.getBookstoreUser());
-//        }
+        Book book = bookService.findBookBySlug(slug);
+        bookService.removeFromBook2User(book, user.getBookstoreUser());
         return "redirect:/books/cart";
     }
 

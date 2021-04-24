@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class MainPage {
-    private final String url = "http://localhost:8085/";
+    public static final String URL_MAIN_PAGE = "http://localhost:8085/";
     private final ChromeDriver driver;
 
     public MainPage(ChromeDriver driver) {
@@ -13,7 +13,7 @@ public class MainPage {
     }
 
     public MainPage callPage() {
-        driver.get(url);
+        driver.get(URL_MAIN_PAGE);
         return this;
     }
 

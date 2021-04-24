@@ -58,4 +58,13 @@ class BookRepositoryTests {
         assertFalse(bestSellersBooks.isEmpty());
         assertThat(bestSellersBooks.size()).isGreaterThan(1);
     }
+
+    @Test
+    void getBooksByTitle(){
+        List<Book> bookByTitle = bookRepository.findBooksByTitleContaining("S");
+        assertNotNull(bookByTitle);
+        assertFalse(bookByTitle.isEmpty());
+        assertThat(bookByTitle.size()).isGreaterThan(1);
+
+    }
 }

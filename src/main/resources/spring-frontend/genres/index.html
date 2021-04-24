@@ -23,7 +23,7 @@
                         <div class="Tags" th:if="${genres.size() > 0}" th:each="type:${genres}">
                             <div class="Tags-title">
                                 <div class="Tag">
-                                    <a th:href="${'/genres/type' + type.key}">
+                                    <a th:href="${'/genres/type' + type.key}" th:id="${type.key.toString()}">
                                         <span th:text="${type.key.toString()}">Фантастика</span>
 
                                     </a>

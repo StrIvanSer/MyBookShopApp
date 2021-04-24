@@ -72,60 +72,20 @@ public class AuthorServiceTest {
         author1.setDescription("The characteristics of someone or something");
         author1.add(Link.of("Href"));
         author1.setFirstName("Jane");
-
-        ArrayList<Author> authorList = new ArrayList<Author>();
-        authorList.add(author1);
-        authorList.add(author);
-        when(this.authorRepository.findAll()).thenReturn(authorList);
-        assertEquals(1, this.authorService.getAuthorsInAlphabetOrder().size());
-        verify(this.authorRepository).findAll();
-    }
-
-    @Test
-    public void testGetAuthorsInAlphabetOrder4() {
-        Author author = new Author();
-        author.setLastName("");
-        author.setBookList(new ArrayList<Book>());
-        author.setId(1);
-        author.setDescription("The characteristics of someone or something");
-        author.add(Link.of("Href"));
-        author.setFirstName("Jane");
-
-        Author author1 = new Author();
-        author1.setLastName("Doe");
-        author1.setBookList(new ArrayList<Book>());
-        author1.setId(1);
-        author1.setDescription("The characteristics of someone or something");
-        author1.add(Link.of("Href"));
-        author1.setFirstName("Jane");
-
-        ArrayList<Author> authorList = new ArrayList<Author>();
-        authorList.add(author1);
-        authorList.add(author);
-        when(this.authorRepository.findAll()).thenReturn(authorList);
-        this.authorService.getAuthorsInAlphabetOrder();
-        verify(this.authorRepository).findAll();
-    }
+  }
 
     @Test
     public void testGetAuthorsById() {
         Author author = new Author();
-        author.setLastName("Doe");
+        author.setLastName("JOe");
         author.setBookList(new ArrayList<Book>());
         author.setId(1);
-        author.setDescription("The characteristics of someone or something");
+        author.setDescription("Самый популярный в мире человек");
         author.add(Link.of("Href"));
-        author.setFirstName("Jane");
+        author.setFirstName("Smak");
         Optional<Author> ofResult = Optional.<Author>of(author);
         when(this.authorRepository.findById((Integer) any())).thenReturn(ofResult);
         assertSame(author, this.authorService.getAuthorsById(1));
-        verify(this.authorRepository).findById((Integer) any());
-    }
-
-    @Test
-    public void testGetAuthorsById2() {
-        when(this.authorRepository.findById((Integer) any())).thenReturn(Optional.<Author>empty());
-        this.authorService.getAuthorsById(1);
         verify(this.authorRepository).findById((Integer) any());
     }
 }
