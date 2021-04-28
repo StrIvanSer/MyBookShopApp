@@ -1,8 +1,8 @@
 package com.example.MyBookShopApp.controllers.user_action;
 
 
+import com.example.MyBookShopApp.annotations.UserActionToPostponedLoggable;
 import com.example.MyBookShopApp.data.book.Book;
-import com.example.MyBookShopApp.data.book.Book2Type;
 import com.example.MyBookShopApp.repo.BookRepository;
 import com.example.MyBookShopApp.secutiry.BookstoreUserDetails;
 import com.example.MyBookShopApp.services.BookService;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,17 +51,16 @@ public class BookshopPostponedController {
     }
 
     @PostMapping("/changeBookStatus/removePostpone/{slug}")
-    public String handleRemoveBookFromCart(@PathVariable("slug") String slug, @AuthenticationPrincipal BookstoreUserDetails user
-//                                           @CookieValue(name = "postponedContents", required = false) String postponedContents,
-//                                           HttpServletResponse response,
-//                                           Model model
-    ) {
+    @UserActionToPostponedLoggable
+    public String handleRemoveBookFromCart(@PathVariable("slug") String slug,
+                                           @AuthenticationPrincipal BookstoreUserDetails user) {
         Book book = bookService.findBookBySlug(slug);
         bookService.removeFromBook2User(book, user.getBookstoreUser());
         return "redirect:/books/postponed";
     }
 
     @PostMapping("/changeBookStatus/postpone/{slug}")
+    @UserActionToPostponedLoggable
     public String handleChangeBookStatus(
             @PathVariable("slug") String slug,
             @AuthenticationPrincipal BookstoreUserDetails user) {

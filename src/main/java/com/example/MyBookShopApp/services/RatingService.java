@@ -1,6 +1,7 @@
 package com.example.MyBookShopApp.services;
 
 
+import com.example.MyBookShopApp.annotations.MethodDurationLoggable;
 import com.example.MyBookShopApp.data.book.RatingBook;
 import com.example.MyBookShopApp.data.book.RatingCount;
 import com.example.MyBookShopApp.data.book.RatingCountI;
@@ -49,6 +50,7 @@ public class RatingService {
         return ratingRepository.findByBookId(bookId);
     }
 
+    @MethodDurationLoggable
     public RatingCount getTotalAndAvgStars(Integer bookId){
         RatingCountI totalAndAvgStars = ratingRepository.getTotalAndAvgStars(bookId);
         return new RatingCount(totalAndAvgStars.getTotal(), totalAndAvgStars.getAverage());

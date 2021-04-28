@@ -1,8 +1,8 @@
 package com.example.MyBookShopApp.controllers.user_action;
 
 
+import com.example.MyBookShopApp.annotations.UserActionToCartLoggable;
 import com.example.MyBookShopApp.data.book.Book;
-import com.example.MyBookShopApp.repo.BookRepository;
 import com.example.MyBookShopApp.secutiry.BookstoreUserDetails;
 import com.example.MyBookShopApp.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,23 +11,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.StringJoiner;
 
 import static com.example.MyBookShopApp.data.book.Book2Type.TypeStatus.CART;
-import static com.example.MyBookShopApp.data.book.Book2Type.TypeStatus.KEPT;
-import static java.util.Objects.isNull;
 
 @Controller
 @RequestMapping("/books")
 public class BookshopCartController {
 
     @ModelAttribute(name = "bookCart")
-    public List<Book> bookCart() {         return new ArrayList<>();
+    public List<Book> bookCart() {
+        return new ArrayList<>();
     }
 
     private final BookService bookService;
@@ -62,10 +57,9 @@ public class BookshopCartController {
     }
 
     @PostMapping("/changeBookStatus/cart/remove/{slug}")
+    @UserActionToCartLoggable
     public String handleRemoveBookFromCartRequest(
             @PathVariable("slug") String slug,
-            @CookieValue(name = "cartContents", required = false) String cartContents,
-            HttpServletResponse response,
             @AuthenticationPrincipal BookstoreUserDetails user) {
         Book book = bookService.findBookBySlug(slug);
         bookService.removeFromBook2User(book, user.getBookstoreUser());
@@ -73,35 +67,17 @@ public class BookshopCartController {
     }
 
     @PostMapping("/changeBookStatus/{slug}")
+    @UserActionToCartLoggable
     public String handleChangeBookStatus(
             @PathVariable("slug") String slug,
-            @CookieValue(name = "cartContents", required = false) String cartContents,
-            HttpServletResponse response,
-            Model model,
             @AuthenticationPrincipal BookstoreUserDetails user) {
-
-        if (isNull(user)) {
-            if (cartContents == null || cartContents.equals("")) {
-                Cookie cookie = new Cookie("cartContents", slug);
-                cookie.setPath("/");
-                response.addCookie(cookie);
-                model.addAttribute("isCartEmpty", false);
-            } else if (!cartContents.contains(slug)) {
-                StringJoiner stringJoiner = new StringJoiner("/");
-                stringJoiner.add(cartContents).add(slug);
-                Cookie cookie = new Cookie("cartContents", stringJoiner.toString());
-                cookie.setPath("/");
-                response.addCookie(cookie);
-                model.addAttribute("isCartEmpty", false);
-            }
+        Book book = bookService.findBookBySlug(slug);
+        if (bookService.getCartBooks(user.getBookstoreUser().getId()).contains(book)) {
+            return "redirect:/books/" + slug;
         } else {
-            Book book = bookService.findBookBySlug(slug);
-            if (bookService.getCartBooks(user.getBookstoreUser().getId()).contains(book)) {
-                return "redirect:/books/" + slug;
-            } else {
-                bookService.saveBook2User(book, user.getBookstoreUser(), CART);
-            }
+            bookService.saveBook2User(book, user.getBookstoreUser(), CART);
         }
+
         return "redirect:/books/" + slug;
     }
 }

@@ -19,7 +19,6 @@ import static java.util.Objects.nonNull;
  *
  * @author Иван Стрельцов
  */
-
 @ControllerAdvice
 public class BaseMainModelAttribute {
     @Autowired
@@ -36,16 +35,16 @@ public class BaseMainModelAttribute {
     }
 
     @ModelAttribute("cartSize")
-    public Integer getCartSize(@AuthenticationPrincipal BookstoreUserDetails user){
-        if(nonNull(user)){
+    public Integer getCartSize(@AuthenticationPrincipal BookstoreUserDetails user) {
+        if (nonNull(user)) {
             return bookService.getCartBooks(user.getBookstoreUser().getId()).size();
         }
         return 0;
     }
 
     @ModelAttribute("postponedSize")
-    public Integer getPostponedSize(@AuthenticationPrincipal BookstoreUserDetails user){
-        if(nonNull(user)){
+    public Integer getPostponedSize(@AuthenticationPrincipal BookstoreUserDetails user) {
+        if (nonNull(user)) {
             return bookService.getPostponedBooks(user.getBookstoreUser().getId()).size();
         }
         return 0;

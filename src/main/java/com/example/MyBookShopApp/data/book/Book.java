@@ -84,25 +84,16 @@ public class Book extends RepresentationModel<Book> {
     private List<Tag> tagList = new ArrayList<>();
 
     @OneToMany(mappedBy = "book")
+    @JsonIgnore
     private List<BookFile> bookFileList = new ArrayList<>();
 
     @OneToMany(mappedBy = "book")
     @JsonIgnore
     private List<BookReview> bookReviewList = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "book")
-//    @JsonIgnore
-//    @Transient
-//    private Set<Book2User> book2Users;
-
     @JsonProperty
     public Integer discountPrice(){
         return priceOld - Math.toIntExact(Math.round(price * priceOld));
     }
-
-//    public Book2User getBook2Users(){
-//       return book2Users.stream().filter(user->user.getUser().getId().equals(1))
-//    }
-
 
 }

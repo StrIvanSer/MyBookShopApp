@@ -15,7 +15,6 @@ import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.logging.Logger;
 
 @Service
 public class ResourceStorage {
@@ -40,14 +39,12 @@ public class ResourceStorage {
         if(!file.isEmpty()){
             if(!new File(uploadPath).exists()){
                 Files.createDirectories(Paths.get(uploadPath));
-                Logger.getLogger(this.getClass().getSimpleName()).info("created image folder in " + uploadPath);
             }
 
             String fileName = slug + "." + FilenameUtils.getExtension(file.getOriginalFilename());
             Path path = Paths.get(uploadPath,fileName);
             resourceURI = "/data/book-image/" + fileName;
             file.transferTo(path); //uploading user file here
-            Logger.getLogger(this.getClass().getSimpleName()).info(fileName + " uploaded OK!");
         }
 
         return resourceURI;

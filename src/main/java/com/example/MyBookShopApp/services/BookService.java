@@ -1,5 +1,6 @@
 package com.example.MyBookShopApp.services;
 
+import com.example.MyBookShopApp.annotations.MethodDurationLoggable;
 import com.example.MyBookShopApp.data.book.*;
 import com.example.MyBookShopApp.data.book.Book2Type.TypeStatus;
 import com.example.MyBookShopApp.errors.BookstoreApiWrongParameterException;
@@ -32,18 +33,13 @@ import static java.util.Objects.nonNull;
 public class BookService {
 
     private final BookRepository bookRepository;
-    private final BookstoreUserRepository bookstoreUserRepository;
     private final Book2UserRepository book2UserRepository;
-    private final Book2TypeRepository book2TypeRepository;
 
 
     @Autowired
-    public BookService(BookRepository bookRepository, BookstoreUserRepository bookstoreUserRepository,
-                       Book2UserRepository book2UserRepository, Book2TypeRepository book2TypeRepository) {
+    public BookService(BookRepository bookRepository, Book2UserRepository book2UserRepository) {
         this.bookRepository = bookRepository;
-        this.bookstoreUserRepository = bookstoreUserRepository;
         this.book2UserRepository = book2UserRepository;
-        this.book2TypeRepository = book2TypeRepository;
     }
 
     public List<Book> getBooksByAuthor(String authorName) {
@@ -82,6 +78,7 @@ public class BookService {
         return bookRepository.findAll(nextPage);
     }
 
+    @MethodDurationLoggable
     public Page<Book> getPageOfPopularBooks(Integer page, Integer limit) {
         Pageable nextPage = PageRequest.of(page, limit);
         return bookRepository.getPageOfPopularBooks(nextPage);
@@ -107,6 +104,7 @@ public class BookService {
         return bookRepository.findBooksByTag(tagId, nextPage);
     }
 
+    @MethodDurationLoggable
     public List<Book> getBooksByTitle(String title) throws BookstoreApiWrongParameterException {
         if (isNull(title) || title.equals("") || title.length() < 1) {
             throw new BookstoreApiWrongParameterException("Wrong values passed to one or more parameters");
@@ -139,10 +137,12 @@ public class BookService {
         }
     }
 
+    @MethodDurationLoggable
     public List<Book> getCartBooks(Integer id) {
         return bookRepository.getCartBooks(id);
     }
 
+    @MethodDurationLoggable
     public void saveBook2User(Book book, BookstoreUser user, TypeStatus typeStatus) {
         Book2User book2User = book2UserRepository.findByUserIdAndBookId(user.getId(), book.getId());
         if (nonNull(book2User) && !book2User.getBook2Type().getTypeStatus().equals(typeStatus)) {
@@ -159,6 +159,7 @@ public class BookService {
         }
     }
 
+    @MethodDurationLoggable
     public List<Book> getPostponedBooks(Integer id) {
         return bookRepository.getPostponedBooks(id);
     }

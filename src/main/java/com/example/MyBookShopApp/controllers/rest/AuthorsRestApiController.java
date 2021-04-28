@@ -1,5 +1,6 @@
 package com.example.MyBookShopApp.controllers.rest;
 
+import com.example.MyBookShopApp.annotations.APIDurationLoggable;
 import com.example.MyBookShopApp.data.book.Author;
 import com.example.MyBookShopApp.services.AuthorService;
 import io.swagger.annotations.Api;
@@ -28,6 +29,7 @@ public class AuthorsRestApiController {
     }
 
     @ApiOperation("get author by id")
+    @APIDurationLoggable
     @GetMapping("/api/author/{authors_id:\\d+}")
     public Author getAuthor(@PathVariable Integer authors_id) {
         return authorService.getAuthorsById(authors_id);
@@ -35,6 +37,7 @@ public class AuthorsRestApiController {
 
 
     @ApiOperation("method to get map of authors")
+    @APIDurationLoggable
     @GetMapping("/api/authors")
     public Map<String, List<Author>> authors() {
         return authorService.getAuthorsInAlphabetOrder();
