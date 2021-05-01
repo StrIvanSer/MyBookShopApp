@@ -29,7 +29,7 @@ public class AuthorsRestApiController {
     }
 
     @ApiOperation("get author by id")
-    @APIDurationLoggable
+    @APIDurationLoggable(className = "AuthorsRestApiController", timeThreshold = 6000)
     @GetMapping("/api/author/{authors_id:\\d+}")
     public Author getAuthor(@PathVariable Integer authors_id) {
         return authorService.getAuthorsById(authors_id);
@@ -37,7 +37,7 @@ public class AuthorsRestApiController {
 
 
     @ApiOperation("method to get map of authors")
-    @APIDurationLoggable
+    @APIDurationLoggable(className = "AuthorsRestApiController", timeThreshold = 4000)
     @GetMapping("/api/authors")
     public Map<String, List<Author>> authors() {
         return authorService.getAuthorsInAlphabetOrder();

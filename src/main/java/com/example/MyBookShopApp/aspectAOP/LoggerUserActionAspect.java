@@ -1,5 +1,6 @@
 package com.example.MyBookShopApp.aspectAOP;
 
+import com.example.MyBookShopApp.annotations.UserActionToCartLoggable;
 import com.example.MyBookShopApp.secutiry.BookstoreUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -16,16 +17,13 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class LoggerUserActionAspect {
 
-    @Pointcut(value = "@annotation(com.example.MyBookShopApp.annotations.UserActionToCartLoggable)")
-    public void loggingUserActionToCartPointcut() {
-    }
-
     @Pointcut(value = "@annotation(com.example.MyBookShopApp.annotations.UserActionToPostponedLoggable)")
     public void loggingUserActionToPostponedPointcut() {
     }
 
-    @AfterReturning(value = " args(slug, user) && loggingUserActionToCartPointcut()", argNames = "joinPoint,slug,user")
-    public void beforeLoggingUserActionToCartAdvice(JoinPoint joinPoint, String slug, BookstoreUserDetails user) {
+    @AfterReturning(value = " args(slug, user) && @annotation(userActionToCartLoggable)")
+    public void beforeLoggingUserActionToCartAdvice(JoinPoint joinPoint, String slug, BookstoreUserDetails user,
+                                                    UserActionToCartLoggable userActionToCartLoggable) {
         if (joinPoint.getSignature().getName().equals("handleChangeBookStatus")) {
             log.info("Пользователь: " + user.getBookstoreUser().getEmail() + " положил в корзину книгу с идентификатором " + slug);
         } else {

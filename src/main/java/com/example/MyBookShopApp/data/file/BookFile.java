@@ -26,7 +26,7 @@ public class BookFile {
 
     @ManyToOne
     @JoinColumn(name = "book_id", referencedColumnName = "id", foreignKey =
-    @ForeignKey(name = "fk_book_file__book"))
+    @ForeignKey(name = "fk_book_file_book"))
     private Book book;
 
     public String getBookFileExtensionString() {

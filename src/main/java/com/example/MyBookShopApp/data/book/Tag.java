@@ -26,8 +26,8 @@ public class Tag {
     @JsonIgnore
     @JoinTable(
             name = "book2tag",
-            joinColumns = @JoinColumn(name = "tag_id"),
-            inverseJoinColumns = @JoinColumn(name = "book_id")
+            joinColumns = @JoinColumn(name = "tag_id"), foreignKey = @ForeignKey(name = "fk_tag_book"),
+            inverseJoinColumns = @JoinColumn(name = "book_id", foreignKey = @ForeignKey(name = "fk_book_tag"))
     )
     private List<Book> bookList;
 

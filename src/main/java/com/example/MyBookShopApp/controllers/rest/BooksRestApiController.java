@@ -31,7 +31,6 @@ public class BooksRestApiController {
     private final BookService bookService;
 
     @Autowired
-    @APIDurationLoggable
     public BooksRestApiController(BookService bookService) {
         this.bookService = bookService;
     }
@@ -50,7 +49,7 @@ public class BooksRestApiController {
     }
 
     @GetMapping("/books/by-title")
-    @APIDurationLoggable
+    @APIDurationLoggable(className = "BooksRestApiController", timeThreshold = 6000)
     @ApiOperation("get books by book title")
     public ResponseEntity<ApiResponse<Book>> booksByTitle(@ApiParam(value = "title", required = true) String title)
             throws BookstoreApiWrongParameterException {
@@ -61,7 +60,7 @@ public class BooksRestApiController {
     }
 
     @GetMapping("/books/by-author")
-    @APIDurationLoggable
+    @APIDurationLoggable(className = "BooksRestApiController", timeThreshold = 5500)
     @ApiOperation("operation to get book list of bookshop by passed author first name")
     public ResponseEntity<ApiResponse<Book>> booksByAuthor(@ApiParam(value = "Имя автора", required = true) String authorName) {
         ApiResponse<Book> response = new ApiResponse<>();
@@ -80,7 +79,7 @@ public class BooksRestApiController {
     }
 
     @GetMapping("/books/by-price-range")
-    @APIDurationLoggable
+    @APIDurationLoggable(className = "BooksRestApiController", timeThreshold = 5500)
     @ApiOperation("get book by price range from min price to max price")
     public ResponseEntity<List<Book>> priceRangeBooks(@ApiParam(value = "Минимальное значение", required = true) Integer min,
                                                       @ApiParam(value = "Максимальное значение", required = true) Integer max) {
@@ -88,7 +87,7 @@ public class BooksRestApiController {
     }
 
     @GetMapping("/books/with-max-discount")
-    @APIDurationLoggable
+    @APIDurationLoggable(className = "BooksRestApiController", timeThreshold = 5500)
     @ApiOperation("get list of book with max price")
     public ResponseEntity<ApiResponse<Book>> maxPriceBooks() {
         ApiResponse<Book> response = new ApiResponse<>();
@@ -98,7 +97,7 @@ public class BooksRestApiController {
     }
 
     @GetMapping("/books/bestsellers")
-    @APIDurationLoggable
+    @APIDurationLoggable(className = "BooksRestApiController", timeThreshold = 5500)
     @ApiOperation("get bestseller books (which is_bestseller = 1)")
     public ResponseEntity<ApiResponse<Book>> bestSellerBooks() {
         ApiResponse<Book> response = new ApiResponse<>();
@@ -121,7 +120,7 @@ public class BooksRestApiController {
     }
 
     @GetMapping("book/{id:\\d+}")
-    @APIDurationLoggable
+    @APIDurationLoggable(className = "BooksRestApiController", timeThreshold = 5500)
     @ApiOperation("get book by title")
     public Book getBookById(@PathVariable final Integer id) {
         return bookService.getBookById(id);

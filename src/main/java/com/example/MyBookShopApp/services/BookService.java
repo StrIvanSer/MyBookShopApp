@@ -35,7 +35,6 @@ public class BookService {
     private final BookRepository bookRepository;
     private final Book2UserRepository book2UserRepository;
 
-
     @Autowired
     public BookService(BookRepository bookRepository, Book2UserRepository book2UserRepository) {
         this.bookRepository = bookRepository;
@@ -78,7 +77,7 @@ public class BookService {
         return bookRepository.findAll(nextPage);
     }
 
-    @MethodDurationLoggable
+    @MethodDurationLoggable(className = "BookService" , timeThreshold = 2000)
     public Page<Book> getPageOfPopularBooks(Integer page, Integer limit) {
         Pageable nextPage = PageRequest.of(page, limit);
         return bookRepository.getPageOfPopularBooks(nextPage);
@@ -104,7 +103,7 @@ public class BookService {
         return bookRepository.findBooksByTag(tagId, nextPage);
     }
 
-    @MethodDurationLoggable
+    @MethodDurationLoggable(className = "BookService")
     public List<Book> getBooksByTitle(String title) throws BookstoreApiWrongParameterException {
         if (isNull(title) || title.equals("") || title.length() < 1) {
             throw new BookstoreApiWrongParameterException("Wrong values passed to one or more parameters");
@@ -137,12 +136,12 @@ public class BookService {
         }
     }
 
-    @MethodDurationLoggable
+    @MethodDurationLoggable(className = "BookService" , timeThreshold = 1500)
     public List<Book> getCartBooks(Integer id) {
         return bookRepository.getCartBooks(id);
     }
 
-    @MethodDurationLoggable
+    @MethodDurationLoggable(className = "BookService" , timeThreshold = 1200)
     public void saveBook2User(Book book, BookstoreUser user, TypeStatus typeStatus) {
         Book2User book2User = book2UserRepository.findByUserIdAndBookId(user.getId(), book.getId());
         if (nonNull(book2User) && !book2User.getBook2Type().getTypeStatus().equals(typeStatus)) {
@@ -159,7 +158,7 @@ public class BookService {
         }
     }
 
-    @MethodDurationLoggable
+    @MethodDurationLoggable(className = "BookService" , timeThreshold = 500)
     public List<Book> getPostponedBooks(Integer id) {
         return bookRepository.getPostponedBooks(id);
     }

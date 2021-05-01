@@ -1,5 +1,7 @@
 package com.example.MyBookShopApp.aspectAOP;
 
+import com.example.MyBookShopApp.annotations.APIDurationLoggable;
+import com.example.MyBookShopApp.annotations.MethodDurationLoggable;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -30,45 +32,49 @@ public class LoggerAspect {
     /**
      * Логирование API методов, для обнаружения проблемных запросов
      */
-    @Around(value = "loggingAPIPointcut()")
-    public Object aroundDurationAPITrackingAdvice(ProceedingJoinPoint proceedingJoinPoint) {
+    @Around(value = "@annotation(durationLoggable)")
+    public Object aroundDurationAPITrackingAdvice(ProceedingJoinPoint proceedingJoinPoint, APIDurationLoggable durationLoggable) {
         Object returnValue = null;
         long durationMils = new Date().getTime();
+        String nameClass = !durationLoggable.className().equals("") ? " в классе " + durationLoggable.className() : "";
         try {
             returnValue = proceedingJoinPoint.proceed();
         } catch (Throwable throwable) {
-            log.error("При вызове API метода: " + proceedingJoinPoint.getSignature().getName() + " произошла ошибка" + throwable.getMessage());
+            log.error(String.format("При вызове %s метода: %s %s произошла ошибка %s", durationLoggable.nameDescription(),
+                    proceedingJoinPoint.getSignature().getName(), nameClass, throwable.getMessage()));
         }
-
         durationMils = new Date().getTime() - durationMils;
-        if (durationMils > 5000L) {
-            log.warn("Вызов API метода: " + proceedingJoinPoint.getSignature().getName() + " превысил 5000 mills !");
+        if (durationMils >= durationLoggable.timeThreshold()) {
+            log.warn(String.format("Вызов %s метода: %s%s превысил %d mills !", durationLoggable.nameDescription(),
+                    proceedingJoinPoint.getSignature().getName(), nameClass, durationLoggable.timeThreshold()));
         }
-
         return returnValue;
     }
 
     /**
      * Логирование специфичных и "больших" методов, для обнаружения проблемных запросов в БД
      */
-    @Around(value = "loggingMethodPointcut()")
-    public Object aroundDurationTrackingAdvice(ProceedingJoinPoint proceedingJoinPoint) {
+    @Around(value = "@annotation(methodDurationLoggable)")
+    public Object aroundDurationTrackingAdvice(ProceedingJoinPoint proceedingJoinPoint, MethodDurationLoggable methodDurationLoggable) {
         long durationMils = new Date().getTime();
         Object returnValue = null;
+        String nameClass = !methodDurationLoggable.className().equals("") ? " в классе " + methodDurationLoggable.className() : "";
         try {
             returnValue = proceedingJoinPoint.proceed();
         } catch (Throwable throwable) {
-            log.error("При вызове метода: " + proceedingJoinPoint.getSignature().getName() + " произошла ошибка" + throwable.getMessage());
+            log.error(String.format("При вызове %s метода: %s%s произошла ошибка%s", methodDurationLoggable.nameDescription(),
+                    proceedingJoinPoint.getSignature().getName(), nameClass, throwable.getMessage()));
         }
 
         durationMils = new Date().getTime() - durationMils;
-        if (durationMils > 1000L) {
-            log.warn("При вызове метода: " + proceedingJoinPoint.getSignature().getName() + " запрос в БД превысил 1000 mills !");
+        if (durationMils >= methodDurationLoggable.timeThreshold()) {
+            log.warn(String.format("При вызове %s метода: %s%s запрос в БД превысил %d mills !",
+                    methodDurationLoggable.nameDescription(), proceedingJoinPoint.getSignature().getName(),
+                    nameClass, methodDurationLoggable.timeThreshold()));
         }
 
         return returnValue;
     }
-
 
     @Before(value = "execution(* com.example.MyBookShopApp.data.ResourceStorage.saveNewBookImage(..))")
     public void beforeResourceStorageSaveNewBookImage() {

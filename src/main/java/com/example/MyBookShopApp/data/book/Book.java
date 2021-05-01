@@ -37,7 +37,8 @@ public class Book extends RepresentationModel<Book> {
     private Date pubDate;
 
     @ManyToOne
-    @JoinColumn(name = "author_id", referencedColumnName = "id")
+    @JoinColumn(name = "author_id", referencedColumnName = "id", foreignKey =
+    @ForeignKey(name = "fk_book_author"))
     @JsonIgnore
     private Author author;
 
@@ -50,7 +51,7 @@ public class Book extends RepresentationModel<Book> {
     @ApiModelProperty("if 1 then Bestseller")
     private Integer isBestseller;
 
-    @ApiModelProperty("mnemonical identity sequence of charecters")
+    @ApiModelProperty("mnemonical identity sequence of characters")
     private String slug;
 
     @ApiModelProperty("book title")

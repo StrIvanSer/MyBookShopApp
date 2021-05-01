@@ -20,7 +20,8 @@ public class RatingBook implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id", referencedColumnName = "id")
+    @JoinColumn(name = "book_id", referencedColumnName = "id", foreignKey =
+    @ForeignKey(name = "fk_rating_book_book"))
     private Book book;
     @Column(name = "one_star")
     private Integer oneStar;
