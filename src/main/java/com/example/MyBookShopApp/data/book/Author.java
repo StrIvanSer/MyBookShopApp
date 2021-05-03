@@ -18,7 +18,6 @@ import java.util.List;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = false)
-@NoArgsConstructor
 @ApiModel(description = "data model of author entity")
 @Table(name = "author")
 public class Author extends RepresentationModel<Author> {
@@ -37,6 +36,14 @@ public class Author extends RepresentationModel<Author> {
     @OneToMany
     @JsonIgnore
     private List<Book> bookList = new ArrayList<>();
+
+    public Author(List<String> authors) {
+        if(authors!=null){
+            this.firstName=authors.toString();
+        }
+    }
+
+    public Author(){};
 
     @Override
     public String toString() {

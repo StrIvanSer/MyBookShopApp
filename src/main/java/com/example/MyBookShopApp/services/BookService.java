@@ -3,24 +3,24 @@ package com.example.MyBookShopApp.services;
 import com.example.MyBookShopApp.annotations.MethodDurationLoggable;
 import com.example.MyBookShopApp.data.book.*;
 import com.example.MyBookShopApp.data.book.Book2Type.TypeStatus;
+import com.example.MyBookShopApp.data.google.api.books.Item;
+import com.example.MyBookShopApp.data.google.api.books.Root;
 import com.example.MyBookShopApp.errors.BookstoreApiWrongParameterException;
-import com.example.MyBookShopApp.repo.Book2TypeRepository;
 import com.example.MyBookShopApp.repo.Book2UserRepository;
 import com.example.MyBookShopApp.repo.BookRepository;
-import com.example.MyBookShopApp.repo.BookstoreUserRepository;
-import com.example.MyBookShopApp.secutiry.BookstoreUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import static com.example.MyBookShopApp.data.book.Book2Type.TypeStatus.KEPT;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
@@ -34,12 +34,15 @@ public class BookService {
 
     private final BookRepository bookRepository;
     private final Book2UserRepository book2UserRepository;
+    private final RestTemplate restTemplate;
 
     @Autowired
-    public BookService(BookRepository bookRepository, Book2UserRepository book2UserRepository) {
+    public BookService(BookRepository bookRepository, Book2UserRepository book2UserRepository, RestTemplate restTemplate) {
         this.bookRepository = bookRepository;
         this.book2UserRepository = book2UserRepository;
+        this.restTemplate = restTemplate;
     }
+
 
     public List<Book> getBooksByAuthor(String authorName) {
         return bookRepository.findBooksByAuthorFirstNameContaining(authorName);
@@ -165,6 +168,39 @@ public class BookService {
 
     public List<Book> findBooksBySlugIn(String[] cookieSlugs) {
         return bookRepository.findBooksBySlugIn(cookieSlugs);
+    }
+
+    @Value("${google.books.api.key}")
+    private String apiKey;
+
+
+    public List<Book> getPageOfGoogleBooksSearchResult(String searchWord, Integer offset, Integer limit){
+        String REQUEST_URL = "https://www.googleapis.com/books/v1/volumes" +
+                "?q=" + searchWord +
+                "&key=" + apiKey +
+                "&filter=paid-ebooks" +
+                "&startIndex=" + offset +
+                "&maxResults=" + limit;
+
+        Root root = restTemplate.getForEntity(REQUEST_URL, Root.class).getBody();
+        ArrayList<Book> list = new ArrayList<>();
+        if(root != null){
+            for (Item item : root.getItems()){
+                Book book = new Book();
+                if(item.getVolumeInfo() != null){
+                    book.setAuthor(new Author(item.getVolumeInfo().getAuthors()));
+                    book.setTitle(item.getVolumeInfo().getTitle());
+                    book.setImage(item.getVolumeInfo().getImageLinks().getThumbnail());
+                }
+                if (item.getSaleInfo()!=null){
+                    book.setPrice(item.getSaleInfo().getRetailPrice().getAmount());
+                    Double oldPrice = item.getSaleInfo().getListPrice().getAmount();
+                    book.setPriceOld(oldPrice.intValue());
+                }
+                list.add(book);
+            }
+        }
+        return list;
     }
 
 }

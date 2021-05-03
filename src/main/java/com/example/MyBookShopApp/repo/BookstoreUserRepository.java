@@ -8,5 +8,6 @@ import java.util.Optional;
 public interface BookstoreUserRepository extends JpaRepository<BookstoreUser, Integer> {
 
     BookstoreUser findBookstoreUserByEmail(String email);
+    BookstoreUser findBookstoreUserByPhone(String phone);
 
 }

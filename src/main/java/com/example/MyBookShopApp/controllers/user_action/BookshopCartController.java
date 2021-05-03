@@ -5,12 +5,15 @@ import com.example.MyBookShopApp.annotations.UserActionToCartLoggable;
 import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.secutiry.BookstoreUserDetails;
 import com.example.MyBookShopApp.services.BookService;
+import com.example.MyBookShopApp.services.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,11 +29,14 @@ public class BookshopCartController {
     }
 
     private final BookService bookService;
+    private final PaymentService paymentService;
 
     @Autowired
-    public BookshopCartController(BookService bookService) {
+    public BookshopCartController(BookService bookService, PaymentService paymentService) {
         this.bookService = bookService;
+        this.paymentService = paymentService;
     }
+
 
     @GetMapping("/cart")
     public String handleCartRequest(
@@ -79,5 +85,12 @@ public class BookshopCartController {
         }
 
         return "redirect:/books/" + slug;
+    }
+
+    @GetMapping("/pay")
+    public RedirectView handlePay(@AuthenticationPrincipal BookstoreUserDetails user) throws NoSuchAlgorithmException {
+        List<Book> list = bookService.getCartBooks(user.getBookstoreUser().getId());
+        String paymentUrl = paymentService.getPaymentUrl(list);
+        return new RedirectView(paymentUrl);
     }
 }

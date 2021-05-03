@@ -41,7 +41,7 @@ public class AuthorsController {
         Page<Book> bookPage = bookService.getBooksByAuthorId(id, 0, 6);
         model.addAttribute("author", authorService.getAuthorsById(id));
         model.addAttribute("authorBooks", bookPage.getContent());
-        model.addAttribute("size", bookPage.getTotalElements());
+//        model.addAttribute("size", bookPage.getTotalElements());
         return "/authors/slug";
     }
 

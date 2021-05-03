@@ -119,4 +119,26 @@ public class MainPageController {
         return new BooksPageDto(bookService.getPageOfSearchResultBooks(searchWordDto.getExample(), offset, limit).getContent());
     }
 
+    //GOOGLE API
+//    @GetMapping(value = {"/search/", "/search/{searchWord}"})
+//    public String getSearchResults(@PathVariable(value = "searchWord", required = false) SearchWordDto searchWordDto,
+//                                   Model model) throws EmptySearchException {
+//        if (searchWordDto != null) {
+//            model.addAttribute("searchWordDto", searchWordDto);
+//            model.addAttribute("searchResults",
+//                    bookService.getPageOfGoogleBooksSearchResult(searchWordDto.getExample(), 0, 5));
+//            return "/search/index";
+//        } else {
+//            throw new EmptySearchException("Поиск по null невозможен");
+//        }
+//    }
+//
+//    @GetMapping("/search/page/{searchWord}")
+//    @ResponseBody
+//    public BooksPageDto getNextSearchPage(@RequestParam("offset") Integer offset,
+//                                          @RequestParam("limit") Integer limit,
+//                                          @PathVariable(value = "searchWord", required = false) SearchWordDto searchWordDto) {
+//        return new BooksPageDto(bookService.getPageOfGoogleBooksSearchResult(searchWordDto.getExample(), offset, limit));
+//    }
+
 }

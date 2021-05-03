@@ -2,10 +2,12 @@ package com.example.MyBookShopApp.secutiry.jwt;
 
 import com.example.MyBookShopApp.secutiry.BookstoreUserDetails;
 import com.example.MyBookShopApp.secutiry.BookstoreUserDetailsService;
+import com.example.MyBookShopApp.secutiry.UserDetailsI;
 import com.example.MyBookShopApp.secutiry.exception.JwtAuthenticationException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -61,7 +63,7 @@ public class JWTRequestFilter extends OncePerRequestFilter {
                     throw new JwtAuthenticationException("JWT token is expired or invalid");
                 } else if (nonNull(username) && isNull(SecurityContextHolder.getContext().getAuthentication())) {
                     try {
-                        BookstoreUserDetails userDetails = (BookstoreUserDetails) bookstoreUserDetailsService.loadUserByUsername(username);
+                        UserDetailsI userDetails = (UserDetailsI) bookstoreUserDetailsService.loadUserByUsername(username);
                         if (jwtUtil.validateToken(token, userDetails)) {
                             UsernamePasswordAuthenticationToken authenticationToken =
                                     new UsernamePasswordAuthenticationToken(
