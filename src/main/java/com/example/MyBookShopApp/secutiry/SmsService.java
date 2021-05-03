@@ -37,7 +37,7 @@ public class SmsService {
         Message.creator(
                 new PhoneNumber(formattedContact),
                 new PhoneNumber(TWILIO_NUMBER),
-                "Ярослав воняет очень сильно((( ваш код: " + generatedCode
+                "Ваш код подтверждения: " + generatedCode
         ).create();
         return generatedCode;
     }
