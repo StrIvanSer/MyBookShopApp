@@ -2,7 +2,6 @@ package com.example.MyBookShopApp.repo;
 
 import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.data.book.Genre;
-import io.swagger.models.auth.In;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -75,5 +74,12 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
             " JOIN book2user_type AS but ON but.id = bu.book_type_id" +
             " WHERE but.type = 1 AND bu.user_id = ?1" , nativeQuery = true)
     List<Book> getCartBooks(Integer idUser);
+
+    @Query(value = "SELECT *" +
+            " FROM book AS b " +
+            " JOIN book2user AS bu ON bu.book_id = b.id" +
+            " JOIN book2user_type AS but ON but.id = bu.book_type_id" +
+            " WHERE but.type = 2 AND bu.user_id = ?1" , nativeQuery = true)
+    List<Book> getPaidBooks(Integer idUser);
 }
 

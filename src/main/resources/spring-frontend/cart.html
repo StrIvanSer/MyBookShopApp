@@ -113,13 +113,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="Cart-total">
+                <div th:if="${!isCartEmpty}" class="Cart-total">
                     <div class="Cart-block Cart-block_total">
                         <strong class="Cart-title">Итого:
                         </strong><span class="Cart-price" th:text="${cost}">534 р.</span><span class="Cart-price_old"
                                                                                                th:text="${oldCost}">658 р.</span>
                     </div>
                     <div class="Cart-block"><a class="btn btn_success btn_md" th:href="@{/books/pay}" th:text="#{cart.buy}">Купить</a>
+                        <errors style="color:#eeb41d" th:utext="${errorMoney}"></errors>
                     </div>
                 </div>
             </form>

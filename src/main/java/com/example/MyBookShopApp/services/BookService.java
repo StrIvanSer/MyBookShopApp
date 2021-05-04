@@ -1,11 +1,13 @@
 package com.example.MyBookShopApp.services;
 
 import com.example.MyBookShopApp.annotations.MethodDurationLoggable;
+import com.example.MyBookShopApp.data.BalanceTransaction;
 import com.example.MyBookShopApp.data.book.*;
 import com.example.MyBookShopApp.data.book.Book2Type.TypeStatus;
 import com.example.MyBookShopApp.data.google.api.books.Item;
 import com.example.MyBookShopApp.data.google.api.books.Root;
 import com.example.MyBookShopApp.errors.BookstoreApiWrongParameterException;
+import com.example.MyBookShopApp.repo.BalanceTransactionRepository;
 import com.example.MyBookShopApp.repo.Book2UserRepository;
 import com.example.MyBookShopApp.repo.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,14 +37,16 @@ public class BookService {
     private final BookRepository bookRepository;
     private final Book2UserRepository book2UserRepository;
     private final RestTemplate restTemplate;
+    private final BalanceTransactionRepository balanceTransactionRepository;
 
     @Autowired
-    public BookService(BookRepository bookRepository, Book2UserRepository book2UserRepository, RestTemplate restTemplate) {
+    public BookService(BookRepository bookRepository, Book2UserRepository book2UserRepository, RestTemplate restTemplate,
+                       BalanceTransactionRepository balanceTransactionRepository) {
         this.bookRepository = bookRepository;
         this.book2UserRepository = book2UserRepository;
         this.restTemplate = restTemplate;
+        this.balanceTransactionRepository = balanceTransactionRepository;
     }
-
 
     public List<Book> getBooksByAuthor(String authorName) {
         return bookRepository.findBooksByAuthorFirstNameContaining(authorName);
@@ -80,7 +84,7 @@ public class BookService {
         return bookRepository.findAll(nextPage);
     }
 
-    @MethodDurationLoggable(className = "BookService" , timeThreshold = 2000)
+    @MethodDurationLoggable(className = "BookService", timeThreshold = 2000)
     public Page<Book> getPageOfPopularBooks(Integer page, Integer limit) {
         Pageable nextPage = PageRequest.of(page, limit);
         return bookRepository.getPageOfPopularBooks(nextPage);
@@ -139,18 +143,24 @@ public class BookService {
         }
     }
 
-    @MethodDurationLoggable(className = "BookService" , timeThreshold = 1500)
+    @MethodDurationLoggable(className = "BookService", timeThreshold = 1500)
     public List<Book> getCartBooks(Integer id) {
         return bookRepository.getCartBooks(id);
     }
 
-    @MethodDurationLoggable(className = "BookService" , timeThreshold = 1200)
+    public List<Book> getPaidBooks(Integer id) {
+        return bookRepository.getPaidBooks(id);
+    }
+
+    @MethodDurationLoggable(className = "BookService", timeThreshold = 1200)
     public void saveBook2User(Book book, BookstoreUser user, TypeStatus typeStatus) {
         Book2User book2User = book2UserRepository.findByUserIdAndBookId(user.getId(), book.getId());
-        if (nonNull(book2User) && !book2User.getBook2Type().getTypeStatus().equals(typeStatus)) {
+
+        if (nonNull(book2User) && !book2User.getBook2Type().getTypeStatus().equals(typeStatus) &&
+                !book2User.getBook2Type().getTypeStatus().equals(TypeStatus.PAID)) {
             book2User.getBook2Type().setTypeStatus(typeStatus);
             book2UserRepository.save(book2User);
-        } else {
+        } else  {
             Book2Type book2Type = new Book2Type();
             Book2User newBook2User = new Book2User();
             book2Type.setTypeStatus(typeStatus);
@@ -161,7 +171,7 @@ public class BookService {
         }
     }
 
-    @MethodDurationLoggable(className = "BookService" , timeThreshold = 500)
+    @MethodDurationLoggable(className = "BookService", timeThreshold = 500)
     public List<Book> getPostponedBooks(Integer id) {
         return bookRepository.getPostponedBooks(id);
     }
@@ -174,7 +184,7 @@ public class BookService {
     private String apiKey;
 
 
-    public List<Book> getPageOfGoogleBooksSearchResult(String searchWord, Integer offset, Integer limit){
+    public List<Book> getPageOfGoogleBooksSearchResult(String searchWord, Integer offset, Integer limit) {
         String REQUEST_URL = "https://www.googleapis.com/books/v1/volumes" +
                 "?q=" + searchWord +
                 "&key=" + apiKey +
@@ -184,15 +194,15 @@ public class BookService {
 
         Root root = restTemplate.getForEntity(REQUEST_URL, Root.class).getBody();
         ArrayList<Book> list = new ArrayList<>();
-        if(root != null){
-            for (Item item : root.getItems()){
+        if (root != null) {
+            for (Item item : root.getItems()) {
                 Book book = new Book();
-                if(item.getVolumeInfo() != null){
+                if (item.getVolumeInfo() != null) {
                     book.setAuthor(new Author(item.getVolumeInfo().getAuthors()));
                     book.setTitle(item.getVolumeInfo().getTitle());
                     book.setImage(item.getVolumeInfo().getImageLinks().getThumbnail());
                 }
-                if (item.getSaleInfo()!=null){
+                if (item.getSaleInfo() != null) {
                     book.setPrice(item.getSaleInfo().getRetailPrice().getAmount());
                     Double oldPrice = item.getSaleInfo().getListPrice().getAmount();
                     book.setPriceOld(oldPrice.intValue());
@@ -203,4 +213,8 @@ public class BookService {
         return list;
     }
 
+    public boolean isPaid(Book book, Integer id) {
+        Book2User book2User = book2UserRepository.findByUserIdAndBookIdAndBook2Type_TypeStatus(id, book.getId(), TypeStatus.PAID);
+        return !isNull(book2User);
+    }
 }

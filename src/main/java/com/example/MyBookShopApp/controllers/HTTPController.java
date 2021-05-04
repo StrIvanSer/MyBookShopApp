@@ -42,4 +42,9 @@ public class HTTPController {
         return "redirect:/recent";
     }
 
+    @GetMapping("http://127.0.0.1:8085/accept/payment/")
+    public String getAcceptPayment() {
+        return "redirect:/accept/payment/";
+    }
+
 }

@@ -2,6 +2,7 @@ package com.example.MyBookShopApp.controllers;
 
 import com.example.MyBookShopApp.data.SearchWordDto;
 import com.example.MyBookShopApp.data.book.Book;
+import com.example.MyBookShopApp.repo.BalanceTransactionRepository;
 import com.example.MyBookShopApp.secutiry.BookstoreUserDetails;
 import com.example.MyBookShopApp.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,11 @@ import static java.util.Objects.nonNull;
  */
 @ControllerAdvice
 public class BaseMainModelAttribute {
+
     @Autowired
     BookService bookService;
+    @Autowired
+    BalanceTransactionRepository balanceTransactionRepository;
 
     @ModelAttribute("searchWordDto")
     public SearchWordDto searchWordDto() {
@@ -46,6 +50,15 @@ public class BaseMainModelAttribute {
     public Integer getPostponedSize(@AuthenticationPrincipal BookstoreUserDetails user) {
         if (nonNull(user)) {
             return bookService.getPostponedBooks(user.getBookstoreUser().getId()).size();
+        }
+        return 0;
+    }
+
+    @ModelAttribute("accountMoney")
+    public Integer getAccountMoney(@AuthenticationPrincipal BookstoreUserDetails user) {
+        if (nonNull(user)) {
+            Integer money = balanceTransactionRepository.getAccountMoney(user.getBookstoreUser().getId());
+            return money == null ? 0: money;
         }
         return 0;
     }
