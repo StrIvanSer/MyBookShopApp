@@ -30,17 +30,6 @@ public class SmsService {
         this.smsCodeRepository = smsCodeRepository;
     }
 
-    public String sendSecretCodeSms(String contact){
-        Twilio.init(ACCOUNT_SID,AUTH_TOKEN);
-        String formattedContact = contact.replaceAll("[()-]", "");
-        String generatedCode = generateCode();
-        Message.creator(
-                new PhoneNumber(formattedContact),
-                new PhoneNumber(TWILIO_NUMBER),
-                "Ваш код подтверждения: " + generatedCode
-        ).create();
-        return generatedCode;
-    }
 
     public String generateCode() {
         //nnn nnn
@@ -62,5 +51,17 @@ public class SmsService {
     public Boolean verifyCode(String code){
         SmsCode smsCode = smsCodeRepository.findByCode(code);
         return smsCode !=null && !smsCode.isExpired();
+    }
+
+    public String sendSecretCodeSms(String contact){
+        Twilio.init(ACCOUNT_SID,AUTH_TOKEN);
+        String formattedContact = contact.replaceAll("[()-]", "");
+        String generatedCode = generateCode();
+        Message.creator(
+                new PhoneNumber(formattedContact),
+                new PhoneNumber(TWILIO_NUMBER),
+                "Ваш код подтверждения: " + generatedCode
+        ).create();
+        return generatedCode;
     }
 }
