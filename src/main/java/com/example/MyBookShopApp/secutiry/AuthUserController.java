@@ -2,7 +2,6 @@ package com.example.MyBookShopApp.secutiry;
 
 import com.example.MyBookShopApp.data.SmsCode;
 import com.example.MyBookShopApp.data.UserUpdateData;
-import com.example.MyBookShopApp.data.book.BookstoreUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -23,15 +22,11 @@ public class AuthUserController {
 
     private final BookstoreUserRegister userRegister;
     private final SmsService smsService;
-    private final JavaMailSender javaMailSender;
-    private final UpdateUserService updateUserService;
 
     @Autowired
-    public AuthUserController(BookstoreUserRegister userRegister, SmsService smsService, JavaMailSender javaMailSender, UpdateUserService updateUserService) {
+    public AuthUserController(BookstoreUserRegister userRegister, SmsService smsService) {
         this.userRegister = userRegister;
         this.smsService = smsService;
-        this.javaMailSender = javaMailSender;
-        this.updateUserService = updateUserService;
     }
 
     @GetMapping("/signin")
@@ -54,8 +49,7 @@ public class AuthUserController {
         if (payload.getContact().contains("@")) {
             return response;
         } else {
-            String smsCodeString = smsService.sendSecretCodeSms(payload.getContact());
-            smsService.saveNewCode(new SmsCode(smsCodeString, 60));
+            smsService.editContactConfirmation(payload);
             return response;
         }
 
@@ -66,14 +60,7 @@ public class AuthUserController {
     public ContactConfirmationResponse handleRequestEmailConfirmation(
             @RequestBody ContactConfirmationPayload payload) {
         ContactConfirmationResponse response = new ContactConfirmationResponse();
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("tspring@internet.ru");
-        message.setTo(payload.getContact());
-        SmsCode smsCode = new SmsCode(smsService.generateCode(), 300);//5 min
-        smsService.saveNewCode(smsCode);
-        message.setSubject("Bookstore email ver");
-        message.setText("Ver cod is : " + smsCode.getCode());
-        javaMailSender.send(message);
+        smsService.editEmailConfirmation(payload);
         response.setResult("true");
         return response;
 
@@ -88,7 +75,6 @@ public class AuthUserController {
         if (smsService.verifyCode(payload.getCode())) {
             response.setResult("true");
         }
-
         return response;
 
     }
@@ -111,7 +97,6 @@ public class AuthUserController {
     public ContactConfirmationResponse handleLogin(@RequestBody ContactConfirmationPayload payload
             , HttpServletResponse httpServletResponse
     ) {
-//        return userRegister.login(payload);
         ContactConfirmationResponse loginResponse = userRegister.jwtLogin(payload);
         Cookie cookie = new Cookie("token", loginResponse.getResult());
         httpServletResponse.addCookie(cookie);
@@ -123,7 +108,6 @@ public class AuthUserController {
     public ContactConfirmationResponse handleLoginByPhoneNumber(@RequestBody ContactConfirmationPayload payload
             , HttpServletResponse httpServletResponse
     ) {
-//        return userRegister.login(payload);
         if (smsService.verifyCode(payload.getCode())) {
             ContactConfirmationResponse loginResponse = userRegister.jwtLoginByPhoneNumber(payload);
             Cookie cookie = new Cookie("token", loginResponse.getResult());
@@ -145,47 +129,18 @@ public class AuthUserController {
             @RequestParam("passwordReply") String passwordReply,
             Model model,
             @AuthenticationPrincipal BookstoreUserDetails user) throws MessagingException {
-
         model.addAttribute("curUsr", userRegister.getCurrentUser());
-
-        if (!userRegister.isChange(user.getBookstoreUser(), phone, mail, name) && password.equals("")) {
-            model.addAttribute("noChange", true);
-            return "profile";
-        }
-
-        if (!password.equals("") && !userRegister.isChange(user.getBookstoreUser(), phone, mail, name)) {
-            model = userRegister.checkPassword(model, password, passwordReply);
-            if (!model.containsAttribute("passErrorSize") && !model.containsAttribute("passError")) {
-                BookstoreUser bookstoreUser = user.getBookstoreUser();
-                bookstoreUser.setPassword(userRegister.encodePass(password));
-                userRegister.saveUser(bookstoreUser);
-                model.addAttribute("change", true);
-            }
-            return "profile";
-        }
-
-        if (!password.equals("")) {
-            model = userRegister.checkPassword(model, password, passwordReply);
-            if (model.containsAttribute("passErrorSize") || model.containsAttribute("passError")) {
-                return "profile";
-            }
-        }
-        updateUserService.sendEmailConfirm(phone, mail, name, password, user.getBookstoreUser().getId());
-        model.addAttribute("changeAccept", true);
-        model.addAttribute("acceptMessage",
-                "Для подтверждения изменений необходимо перейти по ссылку, которая отправлена вам на email: " + mail);
-
+        model = userRegister.editProfile(user.getBookstoreUser(), phone, mail, name, password, passwordReply, model);
         return "profile";
     }
 
     @RequestMapping(value="/verification_token/{token}", method=RequestMethod.GET)
     public String verificationToken(@PathVariable("token") String token){
-        UserUpdateData updateData = updateUserService.getUpdateUser(token);
+        UserUpdateData updateData = userRegister.getUpdateUser(token);
         if(isNull(updateData)){
             return "redirect:/profile";
         }
         userRegister.updateUser(updateData);
-        updateUserService.deleteUpdateData(updateData);
         return "redirect:/logout";
     }
 

@@ -21,7 +21,7 @@ public class SmsCode {
     private LocalDateTime expireTime;
 
     public SmsCode(String code, Integer expireIn) {
-        this.code = code;
+        this.code = code.replace(" ", "");
         this.expireTime = LocalDateTime.now().plusSeconds(expireIn);
     }
 

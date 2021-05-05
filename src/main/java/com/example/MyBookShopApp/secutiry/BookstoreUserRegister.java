@@ -14,6 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import javax.mail.MessagingException;
+
 @Service
 public class BookstoreUserRegister {
 
@@ -22,17 +24,18 @@ public class BookstoreUserRegister {
     private final AuthenticationManager authenticationManager;
     private final BookstoreUserDetailsService bookstoreUserDetailsService;
     private final JWTUtil jwtUtil;
+    private final UpdateUserService updateUserService;
 
     //
 
-    @Autowired
     public BookstoreUserRegister(BookstoreUserRepository bookstoreUserRepository, PasswordEncoder passwordEncoder,
-                                 AuthenticationManager authenticationManager, BookstoreUserDetailsService bookstoreUserDetailsService, JWTUtil jwtUtil) {
+                                 AuthenticationManager authenticationManager, BookstoreUserDetailsService bookstoreUserDetailsService, JWTUtil jwtUtil, UpdateUserService updateUserService) {
         this.bookstoreUserRepository = bookstoreUserRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.bookstoreUserDetailsService = bookstoreUserDetailsService;
         this.jwtUtil = jwtUtil;
+        this.updateUserService = updateUserService;
     }
 
     //
@@ -121,6 +124,42 @@ public class BookstoreUserRegister {
             user.setPassword(passwordEncoder.encode(updateData.getPassword()));
         }
         bookstoreUserRepository.save(user);
+        updateUserService.deleteUpdateData(updateData);
     }
 
+
+    public Model editProfile(BookstoreUser user, String phone, String mail, String name, String password,
+                             String passwordReply, Model model) throws MessagingException {
+
+        if (!isChange(user, phone, mail, name) && password.equals("")) {
+            model.addAttribute("noChange", true);
+            return model;
+        }
+
+        if (!password.equals("") && !isChange(user, phone, mail, name)) {
+            model = checkPassword(model, password, passwordReply);
+            if (!model.containsAttribute("passErrorSize") && !model.containsAttribute("passError")) {
+                user.setPassword(encodePass(password));
+                saveUser(user);
+                model.addAttribute("change", true);
+            }
+            return model;
+        }
+
+        if (!password.equals("")) {
+            model = checkPassword(model, password, passwordReply);
+            if (model.containsAttribute("passErrorSize") || model.containsAttribute("passError")) {
+                return model;
+            }
+        }
+        updateUserService.sendEmailConfirm(phone, mail, name, password, user.getId());
+        model.addAttribute("changeAccept", true);
+        model.addAttribute("acceptMessage",
+                "Для подтверждения изменений необходимо перейти по ссылку, которая отправлена вам на email: " + mail);
+        return model;
+    }
+
+    public UserUpdateData getUpdateUser(String token) {
+        return updateUserService.getUpdateUser(token);
+    }
 }
