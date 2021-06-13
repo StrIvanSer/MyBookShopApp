@@ -1,13 +1,10 @@
 package com.example.MyBookShopApp.secutiry.jwt;
 
-import com.example.MyBookShopApp.secutiry.BookstoreUserDetails;
 import com.example.MyBookShopApp.secutiry.BookstoreUserDetailsService;
 import com.example.MyBookShopApp.secutiry.UserDetailsI;
 import com.example.MyBookShopApp.secutiry.exception.JwtAuthenticationException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -20,7 +17,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -40,14 +36,14 @@ public class JWTRequestFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest httpServletRequest,
-                                    HttpServletResponse httpServletResponse,
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
                                     FilterChain filterChain
     ) throws ServletException, IOException {
         String token = null;
         String username = null;
         Cookie tokenCookie = null;
-        Cookie[] cookies = httpServletRequest.getCookies();
+        Cookie[] cookies = request.getCookies();
 
         try {
             if (cookies != null) {
@@ -55,7 +51,14 @@ public class JWTRequestFilter extends OncePerRequestFilter {
                     if (cookie.getName().equals("token")) {
                         tokenCookie = cookie;
                         token = cookie.getValue();
-                        username = jwtUtil.extractUsername(token);
+                        try {
+                            username = jwtUtil.extractUsername(token);
+                        } catch (Exception e) {
+                            tokenCookie.setMaxAge(0);
+                            tokenCookie.setValue(null);
+                            response.addCookie(tokenCookie);
+                            throw new JwtAuthenticationException("JWT token is expired or invalid");
+                        }
                         break;
                     }
                 }
@@ -69,7 +72,7 @@ public class JWTRequestFilter extends OncePerRequestFilter {
                                     new UsernamePasswordAuthenticationToken(
                                             userDetails, null, userDetails.getAuthorities());
 
-                            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+                            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                         } else {
                             throw new JwtAuthenticationException("JWT token is expired or invalid");
@@ -77,19 +80,19 @@ public class JWTRequestFilter extends OncePerRequestFilter {
                     } catch (UsernameNotFoundException e) {
                         tokenCookie.setMaxAge(0);
                         tokenCookie.setValue(null);
-                        httpServletResponse.addCookie(tokenCookie);
+                        response.addCookie(tokenCookie);
                         SecurityContextHolder.clearContext();
                         SecurityContextLogoutHandler securityContextLogoutHandler = new SecurityContextLogoutHandler();
-                        securityContextLogoutHandler.logout(httpServletRequest, httpServletResponse, SecurityContextHolder.getContext().getAuthentication());
+                        securityContextLogoutHandler.logout(request, response, SecurityContextHolder.getContext().getAuthentication());
                     }
                 }
 
             }
         } catch (JwtAuthenticationException e) {
             SecurityContextHolder.clearContext();
-            filterChain.doFilter(httpServletRequest, httpServletResponse);
+            filterChain.doFilter(request, response);
             throw new JwtAuthenticationException("JWT token is expired or invalid");
         }
-        filterChain.doFilter(httpServletRequest, httpServletResponse);
+        filterChain.doFilter(request, response);
     }
 }
