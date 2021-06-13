@@ -1,6 +1,5 @@
 package com.example.MyBookShopApp.repo;
 
-
 import com.example.MyBookShopApp.data.SmsCode;
 import org.springframework.data.jpa.repository.JpaRepository;
 

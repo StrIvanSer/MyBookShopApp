@@ -90,6 +90,11 @@ public class BookService {
         return bookRepository.getPageOfPopularBooks(nextPage);
     }
 
+    public Page<Book> getPageOfRecentlyViewedBooks(Integer offset, Integer limit) {
+        Pageable nextPage = PageRequest.of(offset, limit);
+        return bookRepository.getPageOfRecentlyViewed(nextPage);
+    }
+
     public Page<Book> getPageBookByGenreType(Genre.GenreType genreType, Integer offset, Integer limit) {
         Pageable nextPage = PageRequest.of(offset, limit);
         return bookRepository.findAllByGenre_GenreType(genreType, nextPage);
@@ -204,8 +209,8 @@ public class BookService {
                 }
                 if (item.getSaleInfo() != null) {
                     book.setPrice(item.getSaleInfo().getRetailPrice().getAmount());
-                    Double oldPrice = item.getSaleInfo().getListPrice().getAmount();
-                    book.setPriceOld(oldPrice.intValue());
+                    double oldPrice = item.getSaleInfo().getListPrice().getAmount();
+                    book.setPriceOld((int) oldPrice);
                 }
                 list.add(book);
             }

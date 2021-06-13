@@ -126,6 +126,9 @@
                     <li class="menu-item"><a class="menu-link" href="/books/popular.html" th:href="@{/popular}"
                                              th:text="#{topbar.popular}">Популярное</a>
                     </li>
+                    <li sec:authorize="isAuthenticated()" class="menu-item"><a class="menu-link" href="/books/recently_views.html" th:href="@{/recently_views}"
+                                             th:text="#{topbar.recently_views}">Популярное</a>
+                    </li>
                     <li class="menu-item"><a class="menu-link" href="/authors/index.html" th:text="#{topbar.authors}"
                                              th:href="@{/authors}">Авторы</a>
                     </li>

@@ -14,22 +14,25 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
     Page<Book> findPageOfBooksByPubDateBetweenOrderByPubDate(Date dateFrom, Date dateTo, Pageable nextPage);
 
-    @Query(value = "SELECT b.* \n" +
-            "FROM book AS b \n" +
-            "JOIN rating_book AS rb ON rb.book_id = b.id \n" +
-            "LEFT JOIN book2user AS bu ON bu.book_id = b.id\n" +
-            "LEFT JOIN book2user_type AS but ON but.id = bu.book_type_id\n" +
-            "WHERE (type IS NULL OR type = 0)\n" +
-            "GROUP BY b.id, bu.book_id, rb.five_star\n" +
+    @Query(value = "SELECT b.* " +
+            "FROM book AS b " +
+            "JOIN rating_book AS rb ON rb.book_id = b.id " +
+            "LEFT JOIN book2user AS bu ON bu.book_id = b.id " +
+            "LEFT JOIN book2user_type AS but ON but.id = bu.book_type_id " +
+            "WHERE (type IS NULL OR type = 0) " +
+            "GROUP BY b.id, bu.book_id, rb.five_star " +
             "ORDER BY rb.five_star DESC , COUNT(bu.book_id) DESC  ", nativeQuery = true)
     Page<Book> getPageOfPopularBooks(Pageable nextPage);
+
+    @Query(value = "SELECT b.* " +
+            "FROM book AS b " +
+            "JOIN recently_viewed AS rv ON rv.book_id = b.id " +
+            "ORDER BY rv.last_veiw_date_time DESC ", nativeQuery = true)
+    Page<Book> getPageOfRecentlyViewed(Pageable nextPage);
 
     Page<Book> findAllByGenre(Genre genre, Pageable nextPage);
 
     Page<Book> findAllByGenre_GenreType(Genre.GenreType genreType, Pageable nextPage);
-
-//    @Query("SELECT b FROM Book AS b JOIN b.ratingBooks AS r WHERE r.rating > 7 ORDER BY r.rating DESC")
-//    Page<Book> findAllByOrderByRatingDesc(Pageable nextPage);
 
     List<Book> findBooksByAuthorFirstNameContaining(String authorName);
 
@@ -65,21 +68,21 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
             " FROM book AS b " +
             " JOIN book2user AS bu ON bu.book_id = b.id" +
             " JOIN book2user_type AS but ON but.id = bu.book_type_id" +
-            " WHERE but.type = 0 AND bu.user_id = ?1" , nativeQuery = true)
+            " WHERE but.type = 0 AND bu.user_id = ?1", nativeQuery = true)
     List<Book> getPostponedBooks(Integer idUser);
 
     @Query(value = "SELECT *" +
             " FROM book AS b " +
             " JOIN book2user AS bu ON bu.book_id = b.id" +
             " JOIN book2user_type AS but ON but.id = bu.book_type_id" +
-            " WHERE but.type = 1 AND bu.user_id = ?1" , nativeQuery = true)
+            " WHERE but.type = 1 AND bu.user_id = ?1", nativeQuery = true)
     List<Book> getCartBooks(Integer idUser);
 
     @Query(value = "SELECT *" +
             " FROM book AS b " +
             " JOIN book2user AS bu ON bu.book_id = b.id" +
             " JOIN book2user_type AS but ON but.id = bu.book_type_id" +
-            " WHERE but.type = 2 AND bu.user_id = ?1" , nativeQuery = true)
+            " WHERE but.type = 2 AND bu.user_id = ?1", nativeQuery = true)
     List<Book> getPaidBooks(Integer idUser);
 }
 
