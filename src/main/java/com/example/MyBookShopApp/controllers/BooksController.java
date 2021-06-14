@@ -1,5 +1,6 @@
 package com.example.MyBookShopApp.controllers;
 
+import com.example.MyBookShopApp.data.BookRatingRequestData;
 import com.example.MyBookShopApp.data.ResourceStorage;
 import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.data.book.BookReview;
@@ -94,13 +95,8 @@ public class BooksController {
             @AuthenticationPrincipal BookstoreUserDetails user
     ) {
         Book book = bookService.findBookBySlug(slug);
-        BookReview review = new BookReview();
-        review.setUserName(user.getBookstoreUser().getName());
-        review.setTime(new Date());
-        review.setBook(book);
-        review.setText(reviewText);
-        review.setUserId(user.getBookstoreUser().getId());
-        review.setRating(ratingReview == null ? 0 : ratingReview);
+        BookReview review = new BookReview(null, book, user.getBookstoreUser().getId(), user.getBookstoreUser().getName(), new Date(),
+                reviewText, ratingReview == null ? 1 : ratingReview);
         bookReviewService.saveReview(review);
 
         return "redirect:/books/" + slug;
@@ -108,9 +104,8 @@ public class BooksController {
 
     @PostMapping("/changeBookStatus/review/{slug}")
     public String handleChangeBookStatus(
-            @RequestParam("value") Integer value,
-            @PathVariable("slug") String slug) {
-        ratingService.saveRating(ratingService.findBookById(bookService.findBookBySlug(slug).getId()), value);
+            @RequestBody BookRatingRequestData bookRatingRequestData, @PathVariable("slug") String slug) {
+        ratingService.saveRating(ratingService.findBookById(bookService.findBookBySlug(slug).getId()), bookRatingRequestData.getValue());
         return "redirect:/books/" + slug;
     }
 

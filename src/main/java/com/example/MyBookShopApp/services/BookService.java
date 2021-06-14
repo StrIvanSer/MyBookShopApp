@@ -1,13 +1,11 @@
 package com.example.MyBookShopApp.services;
 
 import com.example.MyBookShopApp.annotations.MethodDurationLoggable;
-import com.example.MyBookShopApp.data.BalanceTransaction;
 import com.example.MyBookShopApp.data.book.*;
 import com.example.MyBookShopApp.data.book.Book2Type.TypeStatus;
 import com.example.MyBookShopApp.data.google.api.books.Item;
 import com.example.MyBookShopApp.data.google.api.books.Root;
 import com.example.MyBookShopApp.errors.BookstoreApiWrongParameterException;
-import com.example.MyBookShopApp.repo.BalanceTransactionRepository;
 import com.example.MyBookShopApp.repo.Book2UserRepository;
 import com.example.MyBookShopApp.repo.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -80,11 +75,28 @@ public class BookService {
         return bookRepository.findPageOfBooksByPubDateBetweenOrderByPubDate(dateFrom, dateTo, nextPage);
     }
 
-    public Page<Book> getPageOfRecommendedBooks(Integer offset, Integer limit) {
+    /***
+     * Метод для получения рекомендованных книг, основан на недавно просмотренных книгах(в течении 24 часов) пользователем
+     * и на количестве оценок из 5*, исключены книги со статусом "Куплена" и "В архиве"
+     *
+     * @param limit лимит
+     * @param userId id пользователя
+     * @return список рекомендованных книг
+     */
+    public Page<Book> getPageOfRecommendedBooks(Integer offset, Integer limit, Integer userId) {
         Pageable nextPage = PageRequest.of(offset, limit);
-        return bookRepository.findAll(nextPage);
+        var timestamp = valueOf(now().minusMinutes(60 * 24));
+        return bookRepository.getPageOfRecommendBooks(userId, timestamp, nextPage);
     }
 
+    /***
+     * Метод для получения популярных книг, основан на количестве оценок из 5* и количества отложенных книг всеми
+     * пользователями.
+     *
+     * @param page страница
+     * @param limit лимит
+     * @return Список популярных книг
+     */
     @MethodDurationLoggable(className = "BookService", timeThreshold = 2000)
     public Page<Book> getPageOfPopularBooks(Integer page, Integer limit) {
         Pageable nextPage = PageRequest.of(page, limit);
