@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -27,8 +28,9 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     @Query(value = "SELECT b.* " +
             "FROM book AS b " +
             "JOIN recently_viewed AS rv ON rv.book_id = b.id " +
+            "WHERE rv.user_id = ?2 AND rv.last_veiw_date_time >= ?1 " +
             "ORDER BY rv.last_veiw_date_time DESC ", nativeQuery = true)
-    Page<Book> getPageOfRecentlyViewed(Pageable nextPage);
+    Page<Book> getPageOfRecentlyViewed(Timestamp limitDateTime, Integer userId, Pageable nextPage);
 
     Page<Book> findAllByGenre(Genre genre, Pageable nextPage);
 

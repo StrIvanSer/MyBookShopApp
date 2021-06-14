@@ -18,11 +18,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import static java.sql.Timestamp.valueOf;
+import static java.time.LocalDateTime.now;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
@@ -37,15 +41,12 @@ public class BookService {
     private final BookRepository bookRepository;
     private final Book2UserRepository book2UserRepository;
     private final RestTemplate restTemplate;
-    private final BalanceTransactionRepository balanceTransactionRepository;
 
     @Autowired
-    public BookService(BookRepository bookRepository, Book2UserRepository book2UserRepository, RestTemplate restTemplate,
-                       BalanceTransactionRepository balanceTransactionRepository) {
+    public BookService(BookRepository bookRepository, Book2UserRepository book2UserRepository, RestTemplate restTemplate) {
         this.bookRepository = bookRepository;
         this.book2UserRepository = book2UserRepository;
         this.restTemplate = restTemplate;
-        this.balanceTransactionRepository = balanceTransactionRepository;
     }
 
     public List<Book> getBooksByAuthor(String authorName) {
@@ -90,9 +91,10 @@ public class BookService {
         return bookRepository.getPageOfPopularBooks(nextPage);
     }
 
-    public Page<Book> getPageOfRecentlyViewedBooks(Integer offset, Integer limit) {
+    public Page<Book> getPageOfRecentlyViewedBooks(Integer offset, Integer limit, Integer userId) {
         Pageable nextPage = PageRequest.of(offset, limit);
-        return bookRepository.getPageOfRecentlyViewed(nextPage);
+        var timestamp = valueOf(now().minusMinutes(60 * 24 * 7));
+        return bookRepository.getPageOfRecentlyViewed(timestamp, userId, nextPage);
     }
 
     public Page<Book> getPageBookByGenreType(Genre.GenreType genreType, Integer offset, Integer limit) {
@@ -165,7 +167,7 @@ public class BookService {
                 !book2User.getBook2Type().getTypeStatus().equals(TypeStatus.PAID)) {
             book2User.getBook2Type().setTypeStatus(typeStatus);
             book2UserRepository.save(book2User);
-        } else  {
+        } else {
             Book2Type book2Type = new Book2Type();
             Book2User newBook2User = new Book2User();
             book2Type.setTypeStatus(typeStatus);
