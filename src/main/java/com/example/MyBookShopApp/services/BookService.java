@@ -16,11 +16,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static java.sql.Timestamp.valueOf;
 import static java.time.LocalDateTime.now;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -32,6 +32,12 @@ import static java.util.Objects.nonNull;
  */
 @Service
 public class BookService {
+
+    // Лимит 7 дней для недавно просмотренных книг
+    public static Timestamp LIMIT_DATE_TIME_RECENTLY_VIEWED = Timestamp.valueOf(now().minusMinutes(60 * 24 * 7));
+
+    // Лимит 1 день для недавно просмотренных книг для отображения в рекомендованных книгах
+    public static Timestamp LIMIT_DATE_TIME_RECENTLY_RECOMMEND = Timestamp.valueOf(now().minusMinutes(60 * 24));
 
     private final BookRepository bookRepository;
     private final Book2UserRepository book2UserRepository;
@@ -85,8 +91,7 @@ public class BookService {
      */
     public Page<Book> getPageOfRecommendedBooks(Integer offset, Integer limit, Integer userId) {
         Pageable nextPage = PageRequest.of(offset, limit);
-        var timestamp = valueOf(now().minusMinutes(60 * 24));
-        return bookRepository.getPageOfRecommendBooks(userId, timestamp, nextPage);
+        return bookRepository.getPageOfRecommendBooks(userId, LIMIT_DATE_TIME_RECENTLY_RECOMMEND, nextPage);
     }
 
     /***
@@ -103,10 +108,23 @@ public class BookService {
         return bookRepository.getPageOfPopularBooks(nextPage);
     }
 
+    /***
+     * Метод для получения популярных книг, основан на количестве оценок из 5*, недавно просмотренных книг текущем пользователем
+     * и количества отложенных книг всеми пользователями.
+     *
+     * @param page страница
+     * @param limit лимит
+     * @return Список популярных книг
+     */
+    @MethodDurationLoggable(className = "BookService", timeThreshold = 2000)
+    public Page<Book> getPageOfPopularBooksWithActiveUser(Integer page, Integer limit, Integer userId) {
+        Pageable nextPage = PageRequest.of(page, limit);
+        return bookRepository.getPageOfPopularBooksWithActiveUser(userId, LIMIT_DATE_TIME_RECENTLY_RECOMMEND, nextPage);
+    }
+
     public Page<Book> getPageOfRecentlyViewedBooks(Integer offset, Integer limit, Integer userId) {
         Pageable nextPage = PageRequest.of(offset, limit);
-        var timestamp = valueOf(now().minusMinutes(60 * 24 * 7));
-        return bookRepository.getPageOfRecentlyViewed(timestamp, userId, nextPage);
+        return bookRepository.getPageOfRecentlyViewed(LIMIT_DATE_TIME_RECENTLY_VIEWED, userId, nextPage);
     }
 
     public Page<Book> getPageBookByGenreType(Genre.GenreType genreType, Integer offset, Integer limit) {

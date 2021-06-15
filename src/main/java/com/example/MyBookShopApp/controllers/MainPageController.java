@@ -46,8 +46,9 @@ public class MainPageController {
     }
 
     @ModelAttribute("popularBooks")
-    public List<Book> popularBooks() {
-        return bookService.getPageOfPopularBooks(0, 6).getContent();
+    public List<Book> popularBooks(@AuthenticationPrincipal BookstoreUserDetails user) {
+        if (isNull(user)) return bookService.getPageOfPopularBooks(0, 6).getContent();
+        return bookService.getPageOfPopularBooksWithActiveUser(0, 6, user.getBookstoreUser().getId()).getContent();
     }
 
     @ModelAttribute("recentBooks")

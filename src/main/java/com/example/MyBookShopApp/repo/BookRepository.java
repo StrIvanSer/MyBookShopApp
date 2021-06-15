@@ -26,14 +26,30 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     Page<Book> getPageOfPopularBooks(Pageable nextPage);
 
     @Query(value = "SELECT b.* " +
+            "FROM book AS b " +
+            "JOIN rating_book AS rb ON rb.book_id = b.id  " +
+            "LEFT JOIN book2user AS bu ON bu.book_id = b.id  " +
+            "LEFT JOIN book2user_type AS but ON but.id = bu.book_type_id  " +
+            "LEFT JOIN recently_viewed AS rv ON b.id = rv.book_id AND rv.last_veiw_date_time > ?2 " +
+            "WHERE (type IS NULL OR type = 0) " +
+            "AND  b.id NOT IN (SELECT bu.book_id " +
+            "                       FROM book2user AS bu " +
+            "                       JOIN book2user_type AS but ON but.id = bu.book_type_id " +
+            "                           AND but.type IN (2,3) " +
+            "                           AND bu.user_id = ?1) " +
+            "GROUP BY b.id, bu.book_id, rb.five_star,  rv.last_veiw_date_time " +
+            "ORDER BY  rb.five_star DESC, rv.last_veiw_date_time ASC, COUNT(bu.book_id) DESC ", nativeQuery = true)
+    Page<Book> getPageOfPopularBooksWithActiveUser(Integer userId, Timestamp limitDateTime,Pageable nextPage);
+
+    @Query(value = "SELECT b.* " +
             "FROM recently_viewed AS rv " +
             "RIGHT JOIN book AS b ON b.id = rv.book_id AND rv.last_veiw_date_time > ?2 " +
             "JOIN rating_book AS rb ON rb.book_id = b.id " +
             "WHERE (rv.user_id = ?1 OR rv.user_id IS NULL) " +
             "    AND b.id NOT IN (SELECT bu.book_id " +
-                            "       FROM book2user AS bu " +
-                            "       JOIN book2user_type AS but ON but.id = bu.book_type_id AND but.type IN (2,3) " +
-                            "        AND bu.user_id = ?1) " +
+            "       FROM book2user AS bu " +
+            "       JOIN book2user_type AS but ON but.id = bu.book_type_id AND but.type IN (2,3) " +
+            "        AND bu.user_id = ?1) " +
             "GROUP BY  b.id, rv.last_veiw_date_time, rb.five_star " +
             "ORDER BY rv.last_veiw_date_time DESC NULLS LAST, rb.five_star DESC", nativeQuery = true)
     Page<Book> getPageOfRecommendBooks(Integer userId, Timestamp limitDateTime, Pageable nextPage);
