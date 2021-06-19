@@ -115,11 +115,6 @@ public class MainPageController {
         return "faq";
     }
 
-    @GetMapping("/contacts")
-    public String contactsPage() {
-        return "contacts";
-    }
-
     @GetMapping("/search")
     public String searchPage() {
         return "/search/index";

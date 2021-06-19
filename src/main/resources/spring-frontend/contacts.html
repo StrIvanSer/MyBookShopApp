@@ -9,7 +9,7 @@
 <!--[if IE 9]>
 <html class="ie9" lang="ru">
 <![endif]-->
-<html lang="ru" xmlns:th="http://www.thymeleaf.org"> <!--<![endif]-->
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> <!--<![endif]-->
 <head th:replace="~{fragments/head_fragment :: headFragment (pageName=#{footer.help})}"></head>
 <body class="Site">
 <header th:replace="~{/fragments/header_fragment::headFragment}"></header>
@@ -50,24 +50,26 @@
               <div class="Contacts-form">
                 <h2> Напишите нам:
                 </h2>
-                <form class="form" action="#" method="post">
-                  <div class="form-group">
+                <form class="form" th:action="${'/contact/addMessage'}" action="#" method="post">
+                  <div sec:authorize="!isAuthenticated()" class="form-group">
                     <input class="form-input" id="name" name="name" type="text" th:placeholder="#{contacts.name}" placeholder="Введите Имя" data-validate="require"/>
                   </div>
-                  <div class="form-group">
+                  <div sec:authorize="!isAuthenticated()" class="form-group">
                     <input class="form-input form-input_mail" id="mail" name="mail" type="text" th:placeholder="#{contacts.input.email}" placeholder="Введите e-mail" data-validate="mail require"/>
                   </div>
                   <div class="form-group">
                     <input class="form-input" id="topic" name="topic" type="text" placeholder="Введите тему" th:placeholder="#{contacts.theme}" data-validate="require"/>
                   </div>
                   <div class="form-group">
-                    <textarea class="form-textarea Contacts-message" name="message" id="message"  th:placeholder="#{contacts.message}" placeholder="Введите сообщение" data-validate="require"></textarea>
+                    <textarea class="form-textarea Contacts-message" name="text" id="text"  th:placeholder="#{contacts.message}" placeholder="Введите сообщение" data-validate="require"></textarea>
                   </div>
                   <div class="form-group">
                     <button class="btn btn_primary form-btn" type="submit" name="sendMessage" id="sendMessage" th:text="#{contacts.send}">Отправить
                     </button>
                   </div>
                 </form>
+                <H3 th:if="${newMess}" class="Profile-success" th:text="${responseMessage}"> Сообщение принято, наша служба поддержки в скором времени вам ответит
+                </H3>
               </div>
             </div>
           </div>

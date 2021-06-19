@@ -66,7 +66,6 @@ public class AuthUserController {
 
     }
 
-    //
     @PostMapping("/approveContact")
     @ResponseBody
     public ContactConfirmationResponse handleApproveContact(
@@ -79,7 +78,6 @@ public class AuthUserController {
 
     }
 
-    //
     @PostMapping("/reg")
     public String handleUserRegistration(RegistrationForm registrationForm, Model model) {
         if (nonNull(userRegister.registerNewUser(registrationForm))) {
@@ -91,7 +89,6 @@ public class AuthUserController {
         return "signin";
     }
 
-    //
     @PostMapping("/login")
     @ResponseBody
     public ContactConfirmationResponse handleLogin(@RequestBody ContactConfirmationPayload payload
@@ -117,8 +114,6 @@ public class AuthUserController {
             return null;
         }
     }
-
-    //
 
     @PostMapping("/profile/edit")
     public String editProfile(
