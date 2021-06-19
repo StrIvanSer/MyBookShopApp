@@ -51,7 +51,7 @@ class LoginAndReviewPageSeleniumTests {
                 .submit()
                 .clickBookBySlugId()
                 .pause();
-        assertTrue(driver.getPageSource().contains("Чтобы оставить отзыв авторизуйтесь"));
+        assertTrue(driver.getPageSource().contains("Чтобы оставить отзыв или поставить свою оценку для комментария авторизуйтесь"));
 
         loginAndReviewPage
                 .callMainPage()
@@ -74,7 +74,7 @@ class LoginAndReviewPageSeleniumTests {
                 .pause()
                 .clickBookBySlugId()
                 .pause();
-        assertFalse(driver.getPageSource().contains("Чтобы оставить отзыв авторизуйтесь"));
+        assertFalse(driver.getPageSource().contains("Чтобы оставить отзыв или поставить свою оценку для комментария авторизуйтесь"));
 
         loginAndReviewPage.
                 addTextReview()

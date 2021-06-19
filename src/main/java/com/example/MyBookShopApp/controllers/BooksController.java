@@ -116,7 +116,9 @@ public class BooksController {
     public String handleBookReviewRateChanging(@RequestBody BookReviewLikeValue reviewLikeValue,
                                                @PathVariable("bookSlug") String bookSlug,
                                                @AuthenticationPrincipal BookstoreUserDetails user) {
-        reviewLikeService.saveReviewLike(user.getBookstoreUser(), reviewLikeValue.getReviewid() ,reviewLikeValue.getValue());
+        if (nonNull(user)) {
+            reviewLikeService.saveReviewLike(user.getBookstoreUser(), reviewLikeValue.getReviewid(), reviewLikeValue.getValue());
+        }
         return "redirect:/books/" + bookSlug;
     }
 

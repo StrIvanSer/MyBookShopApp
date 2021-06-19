@@ -191,7 +191,7 @@ p.error-browser
                         <input type="reset" value="Сбросить">
                     </div>
                 </form>
-                <H2 sec:authorize="!isAuthenticated()"> Чтобы оставить отзыв авторизуйтесь</H2>
+                <H2 sec:authorize="!isAuthenticated()"> Чтобы оставить отзыв или поставить свою оценку для комментария авторизуйтесь</H2>
                 <span></span>
                 <div class="Product-comments">
                     <div class="Product-comments-header">
@@ -228,9 +228,9 @@ p.error-browser
                                     </div>
                                     <div class="Comment-footer">
                                         <div class="Comment-appeal">
-                                            <button class="btn btn_white btn_like" data-btntype="check"
+                                            <button   class="btn btn_white btn_like" data-btntype="check"
                                                     data-check="false" data-btnradio="one1" data-likeid="333"
-                                                    th:attr="data-bookslug = ${slugBook.slug}, data-likeid = ${review.id}">
+                                                      th:attr="data-bookslug = ${slugBook.slug}, data-likeid = ${review.id}">
                                                 <span
                                                         class="btn-icon">
                                                 <img src="/assets/img/icons/comment/like.svg"
