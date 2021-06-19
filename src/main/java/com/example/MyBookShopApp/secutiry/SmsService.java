@@ -11,7 +11,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import java.util.Random;
+import java.security.SecureRandom;
 
 @Service
 public class SmsService {
@@ -36,7 +36,7 @@ public class SmsService {
 
     public String generateCode() {
         //nnn nnn
-        Random random = new Random();
+        SecureRandom random = new SecureRandom();
         StringBuilder stringBuilder = new StringBuilder();
         while (stringBuilder.length() < 6) {
             stringBuilder.append(random.nextInt(9));

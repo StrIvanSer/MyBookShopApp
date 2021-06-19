@@ -1,7 +1,6 @@
 package com.example.MyBookShopApp.data;
 
 import com.sun.istack.NotNull;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.persistence.*;

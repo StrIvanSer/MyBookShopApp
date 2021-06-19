@@ -34,10 +34,10 @@ import static java.util.Objects.nonNull;
 public class BookService {
 
     // Лимит 7 дней для недавно просмотренных книг
-    public static Timestamp LIMIT_DATE_TIME_RECENTLY_VIEWED = Timestamp.valueOf(now().minusMinutes(60 * 24 * 7));
+    public static Timestamp LIMIT_DATE_TIME_RECENTLY_VIEWED = Timestamp.valueOf(now().minusMinutes(60L * 24L * 7L));
 
     // Лимит 1 день для недавно просмотренных книг для отображения в рекомендованных книгах
-    public static Timestamp LIMIT_DATE_TIME_RECENTLY_RECOMMEND = Timestamp.valueOf(now().minusMinutes(60 * 24));
+    public static Timestamp LIMIT_DATE_TIME_RECENTLY_RECOMMEND = Timestamp.valueOf(now().minusMinutes(60L * 24L));
 
     private final BookRepository bookRepository;
     private final Book2UserRepository book2UserRepository;

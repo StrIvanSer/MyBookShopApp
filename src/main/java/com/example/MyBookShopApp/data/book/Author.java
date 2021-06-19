@@ -11,6 +11,7 @@ import lombok.Setter;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "data model of author entity")
 @Table(name = "author")
-public class Author extends RepresentationModel<Author> {
+public class Author extends RepresentationModel<Author> implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +36,7 @@ public class Author extends RepresentationModel<Author> {
 
     @OneToMany
     @JsonIgnore
-    private List<Book> bookList = new ArrayList<>();
+    private  List<Book> bookList = new ArrayList<>();
 
     public Author(List<String> authors) {
         if(authors!=null){

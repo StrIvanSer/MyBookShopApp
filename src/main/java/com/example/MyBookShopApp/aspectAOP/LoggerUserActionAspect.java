@@ -17,6 +17,8 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class LoggerUserActionAspect {
 
+    static String USER_TEXT = "Пользователь: ";
+
     @Pointcut(value = "@annotation(com.example.MyBookShopApp.annotations.UserActionToPostponedLoggable)")
     public void loggingUserActionToPostponedPointcut() {
     }
@@ -25,18 +27,18 @@ public class LoggerUserActionAspect {
     public void beforeLoggingUserActionToCartAdvice(JoinPoint joinPoint, String slug, BookstoreUserDetails user,
                                                     UserActionToCartLoggable userActionToCartLoggable) {
         if (joinPoint.getSignature().getName().equals("handleChangeBookStatus")) {
-            log.info("Пользователь: " + user.getBookstoreUser().getEmail() + " положил в корзину книгу с идентификатором " + slug);
+            log.info(USER_TEXT + user.getBookstoreUser().getEmail() + " положил в корзину книгу с идентификатором " + slug);
         } else {
-            log.info("Пользователь: " + user.getBookstoreUser().getEmail() + " удалил из корзины книгу с идентификатором " + slug);
+            log.info(USER_TEXT + user.getBookstoreUser().getEmail() + " удалил из корзины книгу с идентификатором " + slug);
         }
     }
 
     @AfterReturning(value = " args(slug, user) && loggingUserActionToPostponedPointcut()", argNames = "joinPoint,slug,user")
     public void beforeLoggingUserActionToPostponedAdvice(JoinPoint joinPoint, String slug, BookstoreUserDetails user) {
         if (joinPoint.getSignature().getName().equals("handleChangeBookStatus")) {
-            log.info("Пользователь: " + user.getBookstoreUser().getEmail() + " предпочел отложить книгу с идентификатором " + slug);
+            log.info(USER_TEXT + user.getBookstoreUser().getEmail() + " предпочел отложить книгу с идентификатором " + slug);
         } else {
-            log.info("Пользователь: " + user.getBookstoreUser().getEmail() + " удалил из отложенного книгу с идентификатором " + slug);
+            log.info(USER_TEXT + user.getBookstoreUser().getEmail() + " удалил из отложенного книгу с идентификатором " + slug);
         }
     }
 }

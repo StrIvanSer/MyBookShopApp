@@ -13,10 +13,10 @@ import lombok.Setter;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -25,7 +25,7 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = false)
 @Table(name = "book")
 @ApiModel(description = "entity representing a book")
-public class Book extends RepresentationModel<Book> {
+public class Book extends RepresentationModel<Book> implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,8 +43,8 @@ public class Book extends RepresentationModel<Book> {
     private Author author;
 
     @JsonGetter("authors")
-    public String authorsFullName(){
-       return author.toString();
+    public String authorsFullName() {
+        return author.toString();
     }
 
     @Column(name = "is_bestseller")
@@ -93,7 +93,7 @@ public class Book extends RepresentationModel<Book> {
     private List<BookReview> bookReviewList = new ArrayList<>();
 
     @JsonProperty
-    public Integer discountPrice(){
+    public Integer discountPrice() {
         return priceOld - Math.toIntExact(Math.round(price * priceOld));
     }
 

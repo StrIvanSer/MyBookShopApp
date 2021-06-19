@@ -31,7 +31,7 @@ public class RecentControllerTest {
     private RecentController recentController;
 
     @Test
-    public void testGetNextSearchPage() throws Exception {
+    void testGetNextSearchPage() throws Exception {
         when(this.bookService.getPageOfRecentBooksData((java.util.Date) any(), (java.util.Date) any(), (Integer) any(),
                 (Integer) any())).thenReturn(new PageImpl<Book>(new ArrayList<Book>()));
         MockHttpServletRequestBuilder paramResult = MockMvcRequestBuilders.get("/books/recent/page").param("from", "foo");
@@ -46,7 +46,7 @@ public class RecentControllerTest {
     }
 
     @Test
-    public void testGetRecent() throws Exception {
+    void testGetRecent() throws Exception {
         when(this.bookService.getPageOfRecentBooksData((java.util.Date) any(), (java.util.Date) any(), (Integer) any(),
                 (Integer) any())).thenReturn(new PageImpl<Book>(new ArrayList<Book>()));
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/recent");
@@ -61,7 +61,7 @@ public class RecentControllerTest {
     }
 
     @Test
-    public void testGetRecent2() throws Exception {
+    void testGetRecent2() throws Exception {
         when(this.bookService.getPageOfRecentBooksData((java.util.Date) any(), (java.util.Date) any(), (Integer) any(),
                 (Integer) any())).thenReturn(new PageImpl<Book>(new ArrayList<Book>()));
         MockHttpServletRequestBuilder getResult = MockMvcRequestBuilders.get("/recent");

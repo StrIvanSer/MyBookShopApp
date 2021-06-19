@@ -13,9 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.support.BindingAwareModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,6 +26,8 @@ import static java.util.Objects.nonNull;
 @Controller
 @RequestMapping("/books")
 public class BookshopCartController {
+
+    private static final String CART_REDIRECT= "redirect:/books/cart";
 
     @ModelAttribute(name = "bookCart")
     public List<Book> bookCart() {
@@ -80,7 +80,7 @@ public class BookshopCartController {
             @AuthenticationPrincipal BookstoreUserDetails user) {
         Book book = bookService.findBookBySlug(slug);
         bookService.removeFromBook2User(book, user.getBookstoreUser());
-        return "redirect:/books/cart";
+        return CART_REDIRECT;
     }
 
     @PostMapping("/changeBookStatus/{slug}")
@@ -107,7 +107,7 @@ public class BookshopCartController {
         Double allSum = books.stream().mapToDouble(Book::discountPrice).sum();
         Integer accountMoney = (Integer) ((BindingAwareModelMap) model).get("accountMoney");
         if (accountMoney < allSum) {
-            return "redirect:/books/cart" + "?noMoney=true";
+            return CART_REDIRECT + "?noMoney=true";
         }
         books.forEach(book -> bookService.saveBook2User(book, user.getBookstoreUser(), PAID));
         String booksName = books.stream().map(book -> book.getTitle() + ", ").collect(Collectors.joining());
@@ -119,7 +119,7 @@ public class BookshopCartController {
         balanceTransaction.setTime(new Date());
         balanceTransaction.setTypeStatus(BalanceTransaction.TypeStatus.OK);
         balanceTransactionRepository.save(balanceTransaction);
-        return "redirect:/books/cart";
+        return CART_REDIRECT;
     }
 
 }

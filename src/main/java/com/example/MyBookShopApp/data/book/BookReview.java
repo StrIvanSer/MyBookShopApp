@@ -3,6 +3,7 @@ package com.example.MyBookShopApp.data.book;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
@@ -12,7 +13,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "book_review")
-public class BookReview {
+public class BookReview implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +21,7 @@ public class BookReview {
     @ManyToOne
     @JoinColumn(name = "book_id", referencedColumnName = "id", foreignKey =
     @ForeignKey(name = "fk_book_review_book"))
-    private Book book;
+    private  Book book;
     @Column(name = "user_id")
     private Integer userId;
     //Временно до появления авторизации

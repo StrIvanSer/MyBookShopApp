@@ -25,7 +25,7 @@ public class Genre implements Serializable {
     private String name;
 
     @OneToMany(mappedBy = "genre")
-    List<Book> bookListByGenre = new ArrayList<>();
+    private  List<Book> bookListByGenre = new ArrayList<>();
 
     @NotNull
     @Enumerated(EnumType.ORDINAL)

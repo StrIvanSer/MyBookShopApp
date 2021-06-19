@@ -33,16 +33,14 @@ public class MainPageController {
     private final BookService bookService;
     private final TagService tagService;
 
-    private static final Calendar calendar = Calendar.getInstance();
+    final Calendar calendar = Calendar.getInstance();
 
-    static {
-        calendar.add(Calendar.MONTH, -6);
-    }
 
     @Autowired
     public MainPageController(BookService bookService, TagService tagService) {
         this.bookService = bookService;
         this.tagService = tagService;
+        calendar.add(Calendar.MONTH, -6);
     }
 
     @ModelAttribute("popularBooks")

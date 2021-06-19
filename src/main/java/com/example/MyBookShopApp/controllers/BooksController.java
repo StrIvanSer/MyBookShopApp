@@ -23,7 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Date;
-import java.util.logging.Logger;
 
 import static java.util.Objects.nonNull;
 
@@ -36,6 +35,8 @@ public class BooksController {
     private final BookReviewService bookReviewService;
     private final RatingService ratingService;
     private final RecentlyViewedBooksService recentlyViewedBooksService;
+
+    private final static String BOOKS_REDIRECT = "redirect:/books/";
 
     @Autowired
     public BooksController(BookService bookService, ResourceStorage storage, BookReviewService bookReviewService,
@@ -65,20 +66,15 @@ public class BooksController {
         bookToUpdate.setImage(savePath);
         bookService.save(bookToUpdate); //save new path in db here
 
-        return ("redirect:/books/" + slug);
+        return (BOOKS_REDIRECT + slug);
     }
 
     @GetMapping("/download/{hash}")
     public ResponseEntity<ByteArrayResource> bookFile(@PathVariable("hash") String hash) throws IOException {
 
         Path path = storage.getBookFilePath(hash);
-        Logger.getLogger(this.getClass().getSimpleName()).info("book file path: " + path);
-
         MediaType mediaType = storage.getBookFileMime(hash);
-        Logger.getLogger(this.getClass().getSimpleName()).info("book file mime type: " + mediaType);
-
         byte[] data = storage.getBookFileByteArray(hash);
-        Logger.getLogger(this.getClass().getSimpleName()).info("book file data len: " + data.length);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + path.getFileName().toString())
@@ -99,14 +95,14 @@ public class BooksController {
                 reviewText, ratingReview == null ? 1 : ratingReview);
         bookReviewService.saveReview(review);
 
-        return "redirect:/books/" + slug;
+        return BOOKS_REDIRECT + slug;
     }
 
     @PostMapping("/changeBookStatus/review/{slug}")
     public String handleChangeBookStatus(
             @RequestBody BookRatingRequestData bookRatingRequestData, @PathVariable("slug") String slug) {
         ratingService.saveRating(ratingService.findBookById(bookService.findBookBySlug(slug).getId()), bookRatingRequestData.getValue());
-        return "redirect:/books/" + slug;
+        return BOOKS_REDIRECT + slug;
     }
 
     @GetMapping("/myarchive")

@@ -10,6 +10,8 @@ import java.security.NoSuchAlgorithmException;
 @Service
 public class PaymentService {
 
+    static String MD5_INSTANCE ="MD5";
+
     @Value("${robbokassa.mercha.login}")
     private String merchaLogin;
 
@@ -17,15 +19,15 @@ public class PaymentService {
     private String firstPass;
 
     public String getPaymentUrl(Integer sum, Long invId) throws NoSuchAlgorithmException {
-        MessageDigest md = MessageDigest.getInstance("MD5");
-        md.update((merchaLogin + ":" + sum.toString() + ":" + invId.toString() + ":" + firstPass).getBytes());
+        MessageDigest messageDigest = MessageDigest.getInstance(MD5_INSTANCE);
+        messageDigest.update((merchaLogin + ":" + sum.toString() + ":" + invId.toString() + ":" + firstPass).getBytes());
         return "https://auth.robokassa.ru/Merchant/Index.aspx" +
                 "?MerchantLogin=" + merchaLogin +
                 "&InvId=" + invId.toString()  +
                 "&Culture=ru" +
                 "&Encoding=utf-8" +
                 "&OutSum=" + sum.toString() +
-                "&SignatureValue=" + DatatypeConverter.printHexBinary(md.digest()).toUpperCase() +
+                "&SignatureValue=" + DatatypeConverter.printHexBinary(messageDigest.digest()).toUpperCase() +
                 "&IsTest=1";
     }
 }

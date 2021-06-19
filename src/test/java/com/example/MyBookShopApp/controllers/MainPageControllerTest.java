@@ -58,16 +58,14 @@ class MainPageControllerTest {
         mockMvc.perform(get("/profile"))
                 .andDo(print())
                 .andExpect(authenticated());
-//                .andExpect(xpath("/html/body/header/div[1]/div/div/div[3]/div/a[4]/span[1]")
-//                        .string("skillbox"));
     }
 
     @Test
+    @WithUserDetails("skillbox@inbox.ru")
     public void testSearchQuery() throws Exception {
         mockMvc.perform(get("/search/If These Walls Could Talk 2"))
-                .andDo(print());
-//                .andExpect(xpath("/html/body/div/div/main/div[2]/div/div[1]/div[2]/strong/a")
-//                        .string("If These Walls Could Talk 2"));
+                .andDo(print())
+                .andExpect(authenticated());
     }
 
 }

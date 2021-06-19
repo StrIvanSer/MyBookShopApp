@@ -20,7 +20,7 @@ public class Book2User implements Serializable {
     @ManyToOne(optional=false)
     @JoinColumn(name = "book_id", referencedColumnName = "id", foreignKey =
     @ForeignKey(name = "fk_book2user_book"))
-    private Book book;
+    private  Book book;
 
     @ManyToOne(optional=false)
     @JoinColumn(name = "user_id", referencedColumnName = "id", foreignKey =
@@ -30,6 +30,6 @@ public class Book2User implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "book_type_id", referencedColumnName = "id", foreignKey =
     @ForeignKey(name = "fk_book2user_type"))
-    private Book2Type book2Type;
+    private  Book2Type book2Type;
 
 }

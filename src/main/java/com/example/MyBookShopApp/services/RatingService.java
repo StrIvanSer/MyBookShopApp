@@ -26,9 +26,6 @@ public class RatingService {
 
     public void saveRating(RatingBook ratingBook, Integer value) {
         switch (value) {
-            case 1:
-                ratingBook.setOneStar(ratingBook.getOneStar() + 1);
-                break;
             case 2:
                 ratingBook.setTwoStart(ratingBook.getTwoStart() + 1);
                 break;
@@ -40,6 +37,9 @@ public class RatingService {
                 break;
             case 5:
                 ratingBook.setFiveStar(ratingBook.getFiveStar() + 1);
+                break;
+            default:
+                ratingBook.setOneStar(ratingBook.getOneStar() + 1);
                 break;
         }
         ratingRepository.save(ratingBook);

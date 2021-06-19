@@ -56,25 +56,6 @@ public class AuthorServiceTest {
     }
 
     @Test
-    public void testGetAuthorsInAlphabetOrder3() {
-        Author author = new Author();
-        author.setLastName("Doe");
-        author.setBookList(new ArrayList<Book>());
-        author.setId(1);
-        author.setDescription("The characteristics of someone or something");
-        author.add(Link.of("Href"));
-        author.setFirstName("Jane");
-
-        Author author1 = new Author();
-        author1.setLastName("Doe");
-        author1.setBookList(new ArrayList<Book>());
-        author1.setId(1);
-        author1.setDescription("The characteristics of someone or something");
-        author1.add(Link.of("Href"));
-        author1.setFirstName("Jane");
-  }
-
-    @Test
     public void testGetAuthorsById() {
         Author author = new Author();
         author.setLastName("JOe");

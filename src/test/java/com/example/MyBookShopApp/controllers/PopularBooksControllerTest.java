@@ -31,7 +31,7 @@ public class PopularBooksControllerTest {
     private PopularBooksController popularBooksController;
 
     @Test
-    public void testGetNextSearchPage() throws Exception {
+    void testGetNextSearchPage() throws Exception {
         when(this.bookService.getPageOfPopularBooks((Integer) any(), (Integer) any()))
                 .thenReturn(new PageImpl<Book>(new ArrayList<Book>()));
         MockHttpServletRequestBuilder getResult = MockMvcRequestBuilders.get("/books/popular");

@@ -19,6 +19,8 @@ import javax.mail.MessagingException;
 @Service
 public class BookstoreUserRegister {
 
+    private static final String PASS_ERROR = "passErrorSize";
+
     private final BookstoreUserRepository bookstoreUserRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
@@ -108,7 +110,7 @@ public class BookstoreUserRegister {
 
     public Model checkPassword(Model model, String password, String passwordReply) {
         if (password.length() < 6) {
-            model.addAttribute("passErrorSize", "Пароль менее 6 символов");
+            model.addAttribute(PASS_ERROR, "Пароль менее 6 символов");
         } else if (!password.equals(passwordReply)) {
             model.addAttribute("passError", "Пароли не совпадают");
         }
@@ -138,7 +140,7 @@ public class BookstoreUserRegister {
 
         if (!password.equals("") && !isChange(user, phone, mail, name)) {
             model = checkPassword(model, password, passwordReply);
-            if (!model.containsAttribute("passErrorSize") && !model.containsAttribute("passError")) {
+            if (!model.containsAttribute(PASS_ERROR) && !model.containsAttribute("passError")) {
                 user.setPassword(encodePass(password));
                 saveUser(user);
                 model.addAttribute("change", true);
@@ -148,7 +150,7 @@ public class BookstoreUserRegister {
 
         if (!password.equals("")) {
             model = checkPassword(model, password, passwordReply);
-            if (model.containsAttribute("passErrorSize") || model.containsAttribute("passError")) {
+            if (model.containsAttribute(PASS_ERROR) || model.containsAttribute("passError")) {
                 return model;
             }
         }

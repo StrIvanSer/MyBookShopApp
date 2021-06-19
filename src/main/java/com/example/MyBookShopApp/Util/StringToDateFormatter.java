@@ -1,7 +1,5 @@
 package com.example.MyBookShopApp.Util;
 
-import com.sun.istack.NotNull;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,7 +22,6 @@ public class StringToDateFormatter {
         try {
             return DATE_SHORT_TIME_FORMAT.parse(date);
         } catch (ParseException e) {
-            e.printStackTrace();
             return new Date();
         }
     }

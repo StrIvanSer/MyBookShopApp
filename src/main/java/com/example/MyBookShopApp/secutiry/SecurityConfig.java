@@ -24,6 +24,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JWTRequestFilter filter;
     private final JWTBlackListService jwtBlackListService;
 
+    private static final String SIGN_IN = "/signin";
+
     //
     @Autowired
     public SecurityConfig(BookstoreUserDetailsService bookstoreUserDetailsService, JWTRequestFilter filter,
@@ -63,10 +65,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/my", "/profile", "/books/changeBookStatus/**", "/books/postponed", "/books/cart", "/recently_views").authenticated()//.hasRole("USER")
                 .antMatchers("/**").permitAll()
                 .and().formLogin()
-                .loginPage("/signin").failureUrl("/signin")//страница логина
+                .loginPage(SIGN_IN).failureUrl(SIGN_IN)//страница логина
                 .and().logout().logoutUrl("/logout")
                 .logoutSuccessHandler(new CustomLogoutHandler(jwtBlackListService))
-                .logoutSuccessUrl("/signin").deleteCookies("token")
+                .logoutSuccessUrl(SIGN_IN).deleteCookies("token")
                 .and().oauth2Login()
                 .and().oauth2Client();
 

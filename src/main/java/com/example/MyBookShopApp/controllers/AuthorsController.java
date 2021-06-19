@@ -62,10 +62,4 @@ public class AuthorsController {
         return "/books/author";
     }
 
-//    @GetMapping("/api/authors")
-//    @ResponseBody
-//    public Map<String, List<Author>> authors() {
-//        return authorService.getAuthorsInAlphabetOrder();
-//    }
-
 }
