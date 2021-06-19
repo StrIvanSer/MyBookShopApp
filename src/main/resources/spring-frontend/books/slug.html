@@ -10,7 +10,8 @@
 <![endif]-->
 <!--[if gt IE 9]><!-->
 <html lang="ru"> <!--<![endif]-->
-<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> <!--<![endif]-->
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<!--<![endif]-->
 <head th:replace="~{fragments/head_fragment :: headFragment (pageName=#{topbar.news})}"></head>
 <body class="Site">
 <!--if lt IE 8
@@ -164,27 +165,28 @@ p.error-browser
                         <!--        +btn('button')(data-sendstatus='UNLINK' data-bookid="[1111]")._muted Вернуть из архива-->
                     </div>
                 </div>
-                <form sec:authorize="isAuthenticated()" th:action="${'/books/addReview/' + slugBook.slug }" method="post"
+                <form sec:authorize="isAuthenticated()" th:action="${'/books/addReview/' + slugBook.slug }"
+                      method="post"
                       oninput="daysoutput.value=dayscount.value">
                     <fieldset>
                         <label for="reviewText">Текст отзыва</label>
                         <textarea id="reviewText" rows="5" name="reviewText" required></textarea><br><br>
                         <!-- поле обязательно для заполнения -->
                     </fieldset>
-                    <span class="Rating Rating_input" >
+                    <span class="Rating Rating_input">
                     <span class="Rating-stars">
                       <span th:replace="~{fragments/rating_fragment :: star (false)}"></span>
-                      <input name="ratingReview" type="radio" value="1" >
+                      <input name="ratingReview" type="radio" value="1">
                       <span th:replace="~{fragments/rating_fragment :: star (false)}"></span>
-                      <input name="ratingReview" type="radio" value="2" >
+                      <input name="ratingReview" type="radio" value="2">
                       <span th:replace="~{fragments/rating_fragment :: star (false)}"></span>
-                      <input name="ratingReview" type="radio" value="3" >
+                      <input name="ratingReview" type="radio" value="3">
                       <span th:replace="~{fragments/rating_fragment :: star (false)}"></span>
-                      <input name="ratingReview" type="radio" value="4" >
+                      <input name="ratingReview" type="radio" value="4">
                       <span th:replace="~{fragments/rating_fragment :: star (false)}"></span>
                       <input name="ratingReview" type="radio" value="5" id="ratingReview5">
                     </span></span></span>
-                    <div class="buttons" >
+                    <div class="buttons">
                         <input type="submit" value="Добавить отзыв" id="addReview">
                         <input type="reset" value="Сбросить">
                     </div>
@@ -209,7 +211,8 @@ p.error-browser
                                     <strong class="Comment-title"><span th:text="${review.getUserName()}"></span><span
                                             class="Comment-rating"><span
                                             class="Rating Rating_comment">
-                                         <span class="Rating-stars" th:replace="~{fragments/rating_fragment :: ratingStars(${review.getRating()}, '')}">
+                                         <span class="Rating-stars"
+                                               th:replace="~{fragments/rating_fragment :: ratingStars(${review.getRating()}, '')}">
                                              </svg></span></span></span></span>
                                     </strong><span class="Comment-date"
                                                    th:text="${#dates.format(review.time, 'hh:mm dd.MM.yyyy')}"></span>
@@ -226,21 +229,32 @@ p.error-browser
                                     <div class="Comment-footer">
                                         <div class="Comment-appeal">
                                             <button class="btn btn_white btn_like" data-btntype="check"
-                                                    data-check="false" data-btnradio="one1" data-likeid="333"><span
-                                                    class="btn-icon"><img src="/assets/img/icons/comment/like.svg"
-                                                                          alt="like.svg"/></span><span
-                                                    class="btn-content">500</span>
+                                                    data-check="false" data-btnradio="one1" data-likeid="333"
+                                                    th:attr="data-bookslug = ${slugBook.slug}, data-likeid = ${review.id}">
+                                                <span
+                                                        class="btn-icon">
+                                                <img src="/assets/img/icons/comment/like.svg"
+                                                     alt="like.svg"/>
+                                                </span>
+                                                <span
+                                                        class="btn-content" th:text="${review.getLikeCount()}">500</span>
                                             </button>
                                             <button class="btn btn_white btn_dislike" data-btntype="check"
-                                                    data-check="false" data-btnradio="one1" data-likeid="333"><span
-                                                    class="btn-icon"><img src="/assets/img/icons/comment/dislike.svg"
-                                                                          alt="dislike.svg"/></span><span
-                                                    class="btn-content">50</span>
+                                                    data-check="false" data-btnradio="one1" data-likeid="333"
+                                                    th:attr="data-bookslug = ${slugBook.slug}, data-likeid = ${review.id}">
+                                                <span
+                                                        class="btn-icon">
+                                                <img src="/assets/img/icons/comment/dislike.svg"
+                                                     alt="dislike.svg"/>
+                                                 </span>
+                                                <span
+                                                        class="btn-content" th:text="${review.getDisLikeCount()}">50
+                                                </span>
                                             </button>
                                         </div>
-<!--                                        <button class="Spoiler-trigger btn btn_primary btn_nr" type="button"-->
-<!--                                                data-showtext="Свернуть отзыв" data-hidetext="Показать отзыв полностью">-->
-<!--                                        </button>-->
+                                        <!--                                        <button class="Spoiler-trigger btn btn_primary btn_nr" type="button"-->
+                                        <!--                                                data-showtext="Свернуть отзыв" data-hidetext="Показать отзыв полностью">-->
+                                        <!--                                        </button>-->
                                     </div>
                                 </div>
                             </div>

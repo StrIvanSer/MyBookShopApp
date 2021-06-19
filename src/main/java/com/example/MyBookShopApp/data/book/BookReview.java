@@ -4,7 +4,9 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -21,10 +23,9 @@ public class BookReview implements Serializable {
     @ManyToOne
     @JoinColumn(name = "book_id", referencedColumnName = "id", foreignKey =
     @ForeignKey(name = "fk_book_review_book"))
-    private  Book book;
+    private Book book;
     @Column(name = "user_id")
     private Integer userId;
-    //Временно до появления авторизации
     @Column(name = "user_name")
     private String userName;
     private Date time;
@@ -32,5 +33,15 @@ public class BookReview implements Serializable {
     private String text;
     @Column(name = "rating", columnDefinition = "int default 4")
     private Integer rating;
+    @OneToMany(mappedBy = "bookReview", cascade = CascadeType.ALL)
+    private List<BookReviewLike> bookReviewLikes = new ArrayList<>();
+
+    public long getLikeCount() {
+        return bookReviewLikes.stream().filter(like -> like.getValue()==1).count();
+    }
+
+    public long getDisLikeCount() {
+        return bookReviewLikes.stream().filter(like -> like.getValue()==-1).count();
+    }
 
 }
