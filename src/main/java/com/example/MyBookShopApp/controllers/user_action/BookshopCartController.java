@@ -2,6 +2,7 @@ package com.example.MyBookShopApp.controllers.user_action;
 
 
 import com.example.MyBookShopApp.annotations.UserActionToCartLoggable;
+import com.example.MyBookShopApp.annotations.UserActionToPostponedLoggable;
 import com.example.MyBookShopApp.data.BalanceTransaction;
 import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.repo.BalanceTransactionRepository;
@@ -19,8 +20,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.example.MyBookShopApp.data.book.Book2Type.TypeStatus.CART;
-import static com.example.MyBookShopApp.data.book.Book2Type.TypeStatus.PAID;
+import static com.example.MyBookShopApp.data.book.Book2Type.TypeStatus.*;
 import static java.util.Objects.nonNull;
 
 @Controller
@@ -89,8 +89,8 @@ public class BookshopCartController {
             @PathVariable("slug") String slug,
             @AuthenticationPrincipal BookstoreUserDetails user) {
         Book book = bookService.findBookBySlug(slug);
-        if (bookService.isPaid(book, user.getBookstoreUser().getId())) {
-            return "redirect:/my" + "?isPaid=true";
+        if (bookService.isPaid(book, user.getBookstoreUser().getId(), false)) {
+            return "redirect:/books/" + slug + "?isPaid=true";
         }
         if (bookService.getCartBooks(user.getBookstoreUser().getId()).contains(book)) {
             return "redirect:/books/" + slug;

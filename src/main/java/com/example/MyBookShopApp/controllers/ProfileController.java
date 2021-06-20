@@ -3,7 +3,6 @@ package com.example.MyBookShopApp.controllers;
 import com.example.MyBookShopApp.data.BalanceTransaction;
 import com.example.MyBookShopApp.data.BalanceTransaction.TypeStatus;
 import com.example.MyBookShopApp.data.book.Book;
-import com.example.MyBookShopApp.repo.BalanceTransactionRepository;
 import com.example.MyBookShopApp.secutiry.BalanceTransactionService;
 import com.example.MyBookShopApp.secutiry.BookstoreUserDetails;
 import com.example.MyBookShopApp.secutiry.BookstoreUserRegister;
@@ -19,10 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
 import java.util.List;
 
-import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 @Controller
@@ -78,6 +75,13 @@ public class ProfileController {
         }
         model.addAttribute("bookPaid", books);
         return "my";
+    }
+
+    @GetMapping("/my/myarchive")
+    public String myarchivePage(Model model, @AuthenticationPrincipal BookstoreUserDetails user) {
+        List<Book> books = bookService.getArchiveBooks(user.getBookstoreUser().getId());
+        model.addAttribute("bookArchive", books);
+        return "myarchive";
     }
 
     @GetMapping("/profile")

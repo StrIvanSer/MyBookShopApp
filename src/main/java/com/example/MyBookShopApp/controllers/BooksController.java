@@ -1,5 +1,6 @@
 package com.example.MyBookShopApp.controllers;
 
+import com.example.MyBookShopApp.annotations.UserActionToCartLoggable;
 import com.example.MyBookShopApp.data.BookRatingRequestData;
 import com.example.MyBookShopApp.data.BookReviewLikeValue;
 import com.example.MyBookShopApp.data.ResourceStorage;
@@ -17,12 +18,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.Date;
 
+import static com.example.MyBookShopApp.data.book.Book2Type.TypeStatus.ARCHIVED;
 import static java.util.Objects.nonNull;
 
 @Controller
@@ -51,12 +54,19 @@ public class BooksController {
     }
 
     @GetMapping("/{slug}")
-    public String bookPage(@PathVariable("slug") String slug, Model model, @AuthenticationPrincipal BookstoreUserDetails user) {
+    public String bookPage(
+            @PathVariable("slug") String slug,
+            Model model,
+            @AuthenticationPrincipal BookstoreUserDetails user) {
         Book book = bookService.findBookBySlug(slug);
         if (nonNull(user)) recentlyViewedBooksService.addRecentlyViewedBooksToUser(book, user.getBookstoreUser());
         model.addAttribute("slugBook", book);
         model.addAttribute("rating", ratingService.findBookById(book.getId()));
         model.addAttribute("ratingTotalAndAvg", ratingService.getTotalAndAvgStars(book.getId()));
+        if(nonNull(model.asMap().get("noPaid"))){
+            boolean isPaid = (boolean) model.asMap().get("noPaid");
+            if(isPaid) model.addAttribute("errorArchive", "Вы не можете убрать в архив не купленную книгу");
+        }
         return "/books/slug";
     }
 
@@ -107,11 +117,6 @@ public class BooksController {
         return BOOKS_REDIRECT + slug;
     }
 
-    @GetMapping("/myarchive")
-    public String myarchivePage() {
-        return "myarchive";
-    }
-
     @PostMapping("/rateBookReview/{bookSlug}")
     public String handleBookReviewRateChanging(@RequestBody BookReviewLikeValue reviewLikeValue,
                                                @PathVariable("bookSlug") String bookSlug,
@@ -120,6 +125,21 @@ public class BooksController {
             reviewLikeService.saveReviewLike(user.getBookstoreUser(), reviewLikeValue.getReviewid(), reviewLikeValue.getValue());
         }
         return "redirect:/books/" + bookSlug;
+    }
+
+    @PostMapping("/changeBookStatus/archive/{slug}")
+    @UserActionToCartLoggable
+    public String handleChangeBookStatus(
+            @PathVariable("slug") String slug,
+            @AuthenticationPrincipal BookstoreUserDetails user,
+            final RedirectAttributes redirectAttrs) {
+        Book book = bookService.findBookBySlug(slug);
+        if (bookService.isPaid(book, user.getBookstoreUser().getId(), true)) {
+            bookService.saveBook2User(book, user.getBookstoreUser(), ARCHIVED);
+            return "redirect:/books/" + slug;
+        }
+        redirectAttrs.addFlashAttribute("noPaid", true);
+        return "redirect:/books/" + slug ;
     }
 
 }

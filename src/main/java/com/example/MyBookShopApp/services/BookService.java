@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 import static java.time.LocalDateTime.now;
+import static java.util.Arrays.asList;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
@@ -189,12 +190,20 @@ public class BookService {
         return bookRepository.getPaidBooks(id);
     }
 
+    public List<Book> getArchiveBooks(Integer id) {
+        return bookRepository.getArchiveBooks(id);
+    }
+
     @MethodDurationLoggable(className = "BookService", timeThreshold = 1200)
     public void saveBook2User(Book book, BookstoreUser user, TypeStatus typeStatus) {
         Book2User book2User = book2UserRepository.findByUserIdAndBookId(user.getId(), book.getId());
 
         if (nonNull(book2User) && !book2User.getBook2Type().getTypeStatus().equals(typeStatus) &&
-                !book2User.getBook2Type().getTypeStatus().equals(TypeStatus.PAID)) {
+                !book2User.getBook2Type().getTypeStatus().equals(TypeStatus.PAID)
+                && !book2User.getBook2Type().getTypeStatus().equals(TypeStatus.ARCHIVED)) {
+            book2User.getBook2Type().setTypeStatus(typeStatus);
+            book2UserRepository.save(book2User);
+        } else if (book2User.getBook2Type().getTypeStatus().equals(TypeStatus.PAID)) {
             book2User.getBook2Type().setTypeStatus(typeStatus);
             book2UserRepository.save(book2User);
         } else {
@@ -211,10 +220,6 @@ public class BookService {
     @MethodDurationLoggable(className = "BookService", timeThreshold = 500)
     public List<Book> getPostponedBooks(Integer id) {
         return bookRepository.getPostponedBooks(id);
-    }
-
-    public List<Book> findBooksBySlugIn(String[] cookieSlugs) {
-        return bookRepository.findBooksBySlugIn(cookieSlugs);
     }
 
     @Value("${google.books.api.key}")
@@ -250,8 +255,11 @@ public class BookService {
         return list;
     }
 
-    public boolean isPaid(Book book, Integer id) {
-        Book2User book2User = book2UserRepository.findByUserIdAndBookIdAndBook2Type_TypeStatus(id, book.getId(), TypeStatus.PAID);
-        return !isNull(book2User);
+    public boolean isPaid(Book book, Integer id, Boolean checkArchive) {
+        Book2User book2User = book2UserRepository.findByUserIdAndBookIdAndBook2Type_TypeStatusIn(id, book.getId(), asList(TypeStatus.PAID, TypeStatus.ARCHIVED));
+        if (checkArchive && nonNull(book2User)) {
+            return !book2User.getBook2Type().getTypeStatus().equals(TypeStatus.ARCHIVED);
+        }
+        return nonNull(book2User);
     }
 }
