@@ -203,7 +203,7 @@ public class BookService {
                 && !book2User.getBook2Type().getTypeStatus().equals(TypeStatus.ARCHIVED)) {
             book2User.getBook2Type().setTypeStatus(typeStatus);
             book2UserRepository.save(book2User);
-        } else if (book2User.getBook2Type().getTypeStatus().equals(TypeStatus.PAID)) {
+        } else if (nonNull(book2User) && book2User.getBook2Type().getTypeStatus().equals(TypeStatus.PAID)) {
             book2User.getBook2Type().setTypeStatus(typeStatus);
             book2UserRepository.save(book2User);
         } else {
