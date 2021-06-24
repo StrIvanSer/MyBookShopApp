@@ -7,7 +7,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.example.MyBookShopApp.data.book.Book;
-import com.example.MyBookShopApp.data.book.Tag;
+import com.example.MyBookShopApp.data.tag.Tag;
 import com.example.MyBookShopApp.repo.TagRepository;
 
 import java.util.ArrayList;

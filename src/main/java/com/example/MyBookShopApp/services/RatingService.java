@@ -2,9 +2,9 @@ package com.example.MyBookShopApp.services;
 
 
 import com.example.MyBookShopApp.annotations.MethodDurationLoggable;
-import com.example.MyBookShopApp.data.book.RatingBook;
-import com.example.MyBookShopApp.data.book.RatingCount;
-import com.example.MyBookShopApp.data.book.RatingCountI;
+import com.example.MyBookShopApp.data.rating.RatingBook;
+import com.example.MyBookShopApp.data.rating.RatingCount;
+import com.example.MyBookShopApp.data.rating.RatingCountI;
 import com.example.MyBookShopApp.repo.RatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

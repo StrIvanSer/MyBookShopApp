@@ -11,10 +11,10 @@ import com.example.MyBookShopApp.data.book.Author;
 import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.data.book.BookReview;
 import com.example.MyBookShopApp.data.book.Genre;
-import com.example.MyBookShopApp.data.book.RatingBook;
-import com.example.MyBookShopApp.data.book.RatingCount;
-import com.example.MyBookShopApp.data.book.RatingCountI;
-import com.example.MyBookShopApp.data.book.Tag;
+import com.example.MyBookShopApp.data.rating.RatingBook;
+import com.example.MyBookShopApp.data.rating.RatingCount;
+import com.example.MyBookShopApp.data.rating.RatingCountI;
+import com.example.MyBookShopApp.data.tag.Tag;
 import com.example.MyBookShopApp.data.file.BookFile;
 import com.example.MyBookShopApp.repo.RatingRepository;
 

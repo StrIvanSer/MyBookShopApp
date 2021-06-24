@@ -1,7 +1,7 @@
 package com.example.MyBookShopApp.repo;
 
-import com.example.MyBookShopApp.data.book.RatingBook;
-import com.example.MyBookShopApp.data.book.RatingCountI;
+import com.example.MyBookShopApp.data.rating.RatingBook;
+import com.example.MyBookShopApp.data.rating.RatingCountI;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

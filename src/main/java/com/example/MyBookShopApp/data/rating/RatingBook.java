@@ -1,7 +1,6 @@
-package com.example.MyBookShopApp.data.book;
+package com.example.MyBookShopApp.data.rating;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import io.swagger.annotations.ApiModelProperty;
+import com.example.MyBookShopApp.data.book.Book;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

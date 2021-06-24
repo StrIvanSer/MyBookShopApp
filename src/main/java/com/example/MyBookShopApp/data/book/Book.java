@@ -1,6 +1,7 @@
 package com.example.MyBookShopApp.data.book;
 
 import com.example.MyBookShopApp.data.file.BookFile;
+import com.example.MyBookShopApp.data.tag.Tag;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -1,10 +1,10 @@
 package com.example.MyBookShopApp.controllers;
 
 
+import com.example.MyBookShopApp.data.SearchWordDto;
 import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.data.book.BooksPageDto;
-import com.example.MyBookShopApp.data.SearchWordDto;
-import com.example.MyBookShopApp.data.book.Tag;
+import com.example.MyBookShopApp.data.tag.TagCountI;
 import com.example.MyBookShopApp.errors.EmptySearchException;
 import com.example.MyBookShopApp.secutiry.BookstoreUserDetails;
 import com.example.MyBookShopApp.services.BookService;
@@ -40,7 +40,7 @@ public class MainPageController {
     public MainPageController(BookService bookService, TagService tagService) {
         this.bookService = bookService;
         this.tagService = tagService;
-        calendar.add(Calendar.MONTH, -6);
+        calendar.add(Calendar.MONTH, -1);
     }
 
     @ModelAttribute("popularBooks")
@@ -96,8 +96,8 @@ public class MainPageController {
     }
 
     @ModelAttribute("tags")
-    public List<Tag> tags() {
-        return tagService.getAll();
+    public List<TagCountI> tags() {
+        return tagService.getTagSize();
     }
 
     @GetMapping("/")

@@ -1,7 +1,8 @@
 package com.example.MyBookShopApp.services;
 
 
-import com.example.MyBookShopApp.data.book.Tag;
+import com.example.MyBookShopApp.data.tag.Tag;
+import com.example.MyBookShopApp.data.tag.TagCountI;
 import com.example.MyBookShopApp.repo.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,4 +26,9 @@ public class TagService {
     public Tag getTag(Integer tagId) {
         return tagRepository.getOne(tagId);
     }
+
+    public List<TagCountI> getTagSize(){
+        return tagRepository.getTagSize();
+    }
+
 }

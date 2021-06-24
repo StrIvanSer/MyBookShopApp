@@ -39,11 +39,11 @@ p.error-browser
             <div class="Tags" id="tags">
                 <div th:each="tag : ${tags}" class="Tag"
                      th:classappend="
-                     ${(tag.bookList.size() > 60 ? 'Tag_lg' : '') +
-                     (tag.bookList.size() <= 60 && tag.bookList.size() > 40  ? 'Tag_md' : '') +
-                     (tag.bookList.size() <= 40 && tag.bookList.size() > 20 ? 'Tag_sm' : '') +
-                     (tag.bookList.size() <= 20 && tag.bookList.size() >= 10 ? 'Tag_xs' : '')}">
-                    <a th:href="${'/tags/' + tag.id}" th:text="${tag.getName()}">english</a>
+                     ${(tag.getSize() > 60 ? 'Tag_lg' : '') +
+                     (tag.getSize() <= 60 && tag.getSize() > 40  ? 'Tag_md' : '') +
+                     (tag.getSize() <= 40 && tag.getSize() > 20 ? 'Tag_sm' : '') +
+                     (tag.getSize() <= 20 && tag.getSize() >= 10 ? 'Tag_xs' : '')}">
+                    <a th:href="${'/tags/' + tag.getId}" th:text="${tag.getName()}">english</a>
                 </div>
 
             </div>

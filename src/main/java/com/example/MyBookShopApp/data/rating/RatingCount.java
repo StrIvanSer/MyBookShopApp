@@ -1,4 +1,4 @@
-package com.example.MyBookShopApp.data.book;
+package com.example.MyBookShopApp.data.rating;
 
 import lombok.Getter;
 import lombok.Setter;
