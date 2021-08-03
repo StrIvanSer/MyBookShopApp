@@ -32,13 +32,13 @@ p.error-browser
             <div class="Product">
                 <div class="ProductCard">
                     <div class="ProductCard-look">
-                        <form id="imgForm" method="POST" enctype="multipart/form-data" action="#"
-                              th:action="${'/books/' + slugBook.slug + '/img/save'}">
+                        <form  id="imgForm" method="POST" enctype="multipart/form-data" action="#"
+                              th:action="${'/books/img/save/' + slugBook.slug}">
                             <div class="ProductCard-photo" id="uploadButton"><img th:src="${slugBook.image}"
                                                                                   src="/assets/img/content/main/card.jpg"
                                                                                   alt="card.jpg"/>
                             </div>
-                            <input type="file" name="file" id="dialog" style="display: none" accept="image/*">
+                            <input sec:authorize="hasRole('ADMIN')" type="file" name="file" id="dialog" style="display: none" accept="image/*">
                         </form>
                     </div>
                     <div class="ProductCard-desc">
@@ -225,6 +225,10 @@ p.error-browser
                                     <div class="Spoiler-visible">
                                         <p th:text="${review.text}"></p>
                                     </div>
+                                    <div sec:authorize="hasRole('ADMIN')" class="Spoiler-visible">
+                                        <a  th:href="${'/admin/removeReview/' + review.id  + '/' + slug}">DELETE</a>
+                                    </div>
+
                                     <div class="Spoiler-hide">
                                         <p></p>
                                     </div>

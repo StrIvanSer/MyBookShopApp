@@ -1624,7 +1624,21 @@ insert into book_file (id, hash, type_id, path, book_id) values (3 , 'qwer342laf
 --  2);
 INSERT INTO users(email, name, password, phone)
 	VALUES ('skillbox@inbox.ru', 'skilbox', '$2a$10$oLkwvcXuaEk9r/XtuTQdjuyqaWuYhHgK1ioZyOhhaDJalwu/toW/S', '+7 (999) 999-99-99'),
-	('test@inbox.ru', 'spring', '$2a$10$oLkwvcXuaEk9r/XtuTQdjuyqaWuYhHgK1ioZyOhhaDJalwu/toW/S', '+7 (999) 999-99-99');
+	('test@inbox.ru', 'spring', '$2a$10$oLkwvcXuaEk9r/XtuTQdjuyqaWuYhHgK1ioZyOhhaDJalwu/toW/S', '+7 (999) 999-99-99')	,
+	('admin@inbox.ru', 'admin', '$2a$10$oLkwvcXuaEk9r/XtuTQdjuyqaWuYhHgK1ioZyOhhaDJalwu/toW/S', '+7 (999) 999-99-99');
+
+INSERT INTO role(id, name)
+VALUES (1, 'ROLE_USER'),
+       (2, 'ROLE_ADMIN');
+
+INSERT INTO users_roles (bookstore_user_id, roles_id)
+VALUES (1, 1);
+
+INSERT INTO users_roles (bookstore_user_id, roles_id)
+VALUES (2, 1);
+
+INSERT INTO users_roles (bookstore_user_id, roles_id)
+VALUES (3, 2);
 
 insert into book_review (book_id, user_id, user_name, time, text, rating) values (33, 1, 'skilbox', '01.12.2020', 'Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.', 5);
 insert into book_review (book_id, user_id, user_name, time, text, rating) values (96, 2, 'spring', '22.09.2020', 'In congue. Etiam justo. Etiam pretium iaculis justo.', 2);
@@ -2839,14 +2853,15 @@ INSERT INTO book2user_type(type)
     (0),
     (0),
     (1),
-    (0);
+    (0),
+    (1);
 
 INSERT INTO book2user(user_id,  book_id, book_type_id)
 	VALUES (1, 143, 1),
 	(1, 273, 2),
 	(1, 54, 3),
 	(1, 1, 4),
--- 	(2, 2, 5),
+	(3, 2, 5),
 	(2, 273, 6);
 
 

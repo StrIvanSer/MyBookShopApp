@@ -19,5 +19,8 @@ public class BookReviewService {
     bookReviewRepository.save(review);
   }
 
+  public void removeReview(Integer id) {
+    bookReviewRepository.deleteById(id);
+  }
 }
 

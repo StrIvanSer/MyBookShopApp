@@ -70,7 +70,7 @@ public class BooksController {
         return "/books/slug";
     }
 
-    @PostMapping("/{slug}/img/save")
+    @PostMapping("/img/save/{slug}")
     public String saveNewBookImage(@RequestParam("file") MultipartFile file, @PathVariable("slug") String slug) throws IOException {
 
         String savePath = storage.saveNewBookImage(file, slug);

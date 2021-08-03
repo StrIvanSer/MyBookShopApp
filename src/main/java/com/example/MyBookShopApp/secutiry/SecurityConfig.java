@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -18,6 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final BookstoreUserDetailsService bookstoreUserDetailsService;
@@ -25,6 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JWTBlackListService jwtBlackListService;
 
     private static final String SIGN_IN = "/signin";
+    private static final String SIGN = "/index";
 
     //
     @Autowired
@@ -63,9 +66,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .authorizeRequests()
                 .antMatchers("/my/*", "/profile", "/books/changeBookStatus/**", "/books/postponed", "/books/cart", "/recently_views").authenticated()//.hasRole("USER")
+                .antMatchers("/books/img/save/**").authenticated()
                 .antMatchers("/**").permitAll()
                 .and().formLogin()
-                .loginPage(SIGN_IN).failureUrl(SIGN_IN)//страница логина
+                .loginPage(SIGN_IN)
+                .failureUrl(SIGN_IN)//страница логина
                 .and().logout().logoutUrl("/logout")
                 .logoutSuccessHandler(new CustomLogoutHandler(jwtBlackListService))
                 .logoutSuccessUrl(SIGN_IN).deleteCookies("token")

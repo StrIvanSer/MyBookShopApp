@@ -34,7 +34,8 @@ public class BookstoreUserDetails implements UserDetailsI, OAuth2User {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+        return bookstoreUser.getRoles();
+//        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     @Override
@@ -76,4 +77,5 @@ public class BookstoreUserDetails implements UserDetailsI, OAuth2User {
     public String getName() {
         return null;
     }
+
 }

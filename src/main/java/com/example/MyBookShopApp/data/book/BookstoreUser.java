@@ -1,11 +1,11 @@
 package com.example.MyBookShopApp.data.book;
 
+import com.example.MyBookShopApp.data.Role;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -30,5 +30,17 @@ public class BookstoreUser implements Serializable {
     private Boolean isOAuth2;
     @Column(name = "id_oauth")
     private String idOAuth;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> roles;
+
+    public StringBuilder getRolesName() {
+        StringBuilder nameRoles = new StringBuilder();
+        roles.forEach(role -> {
+            nameRoles.append(role.getName());
+            nameRoles.append(" ");
+        });
+        return nameRoles;
+    }
 
 }
