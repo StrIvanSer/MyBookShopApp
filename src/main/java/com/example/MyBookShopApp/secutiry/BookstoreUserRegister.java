@@ -2,10 +2,9 @@ package com.example.MyBookShopApp.secutiry;
 
 import com.example.MyBookShopApp.data.UserUpdateData;
 import com.example.MyBookShopApp.data.book.BookstoreUser;
+import com.example.MyBookShopApp.data.book.BookstoreUserDto;
 import com.example.MyBookShopApp.repo.BookstoreUserRepository;
 import com.example.MyBookShopApp.secutiry.jwt.JWTUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -122,7 +121,7 @@ public class BookstoreUserRegister {
         user.setEmail(updateData.getEmail());
         user.setPhone(updateData.getPhone());
         user.setName(updateData.getName());
-        if(!updateData.getPassword().equals("")){
+        if (!updateData.getPassword().equals("")) {
             user.setPassword(passwordEncoder.encode(updateData.getPassword()));
         }
         bookstoreUserRepository.save(user);
@@ -164,4 +163,35 @@ public class BookstoreUserRegister {
     public UserUpdateData getUpdateUser(String token) {
         return updateUserService.getUpdateUser(token);
     }
+
+    public BookstoreUserDto getUserDtoById(Integer id) {
+        BookstoreUser user = bookstoreUserRepository.getOne(id);
+        return new BookstoreUserDto(user);
+    }
+
+
+    public Model editProfileByAdmin(BookstoreUserDto userDto, Integer id, Model model) {
+        BookstoreUser user = bookstoreUserRepository.getOne(id);
+        if (!isChange(user, userDto.getPhone(), userDto.getEmail(), userDto.getName()) && userDto.getPassword().equals("")) {
+            model.addAttribute("noChange", true);
+            return model;
+        }
+
+        if (!userDto.getPassword().equals("")) {
+            model = checkPassword(model, userDto.getPassword(), userDto.getPasswordConfirm());
+            if (model.containsAttribute(PASS_ERROR) || model.containsAttribute("passError")) {
+                return model;
+            }
+        }
+        user.setPassword(encodePass(userDto.getPassword()));
+        user.setPhone(userDto.getPhone());
+        user.setName(userDto.getName());
+        user.setEmail(userDto.getEmail());
+        bookstoreUserRepository.save(user);
+        model.addAttribute("changeAccept", true);
+        model.addAttribute("acceptEditMessage", "Данные успешно изменены");
+        return model;
+
+    }
+
 }

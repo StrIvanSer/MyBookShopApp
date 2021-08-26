@@ -12,8 +12,6 @@ import java.util.Set;
 @Table(name = "users")
 @Setter
 @Getter
-//@NoArgsConstructor
-//@AllArgsConstructor
 @EqualsAndHashCode
 public class BookstoreUser implements Serializable {
 

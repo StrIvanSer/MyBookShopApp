@@ -81,15 +81,15 @@ public class Book extends RepresentationModel<Book> implements Serializable {
     @JsonIgnore
     private Genre genre;
 
-    @ManyToMany(mappedBy = "bookList")
+    @ManyToMany(mappedBy = "bookList", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Tag> tagList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "book")
+    @OneToMany(mappedBy = "book", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<BookFile> bookFileList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "book")
+    @OneToMany(mappedBy = "book", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<BookReview> bookReviewList = new ArrayList<>();
 

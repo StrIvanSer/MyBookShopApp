@@ -5,7 +5,9 @@ import com.example.MyBookShopApp.data.book.Genre;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -39,7 +41,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
             "                           AND bu.user_id = ?1) " +
             "GROUP BY b.id, bu.book_id, rb.five_star,  rv.last_veiw_date_time " +
             "ORDER BY  rb.five_star DESC, rv.last_veiw_date_time ASC, COUNT(bu.book_id) DESC ", nativeQuery = true)
-    Page<Book> getPageOfPopularBooksWithActiveUser(Integer userId, Timestamp limitDateTime,Pageable nextPage);
+    Page<Book> getPageOfPopularBooksWithActiveUser(Integer userId, Timestamp limitDateTime, Pageable nextPage);
 
     @Query(value = "SELECT b.* " +
             "FROM recently_viewed AS rv " +
@@ -122,5 +124,23 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
             " JOIN book2user_type AS but ON but.id = bu.book_type_id" +
             " WHERE but.type = 3 AND bu.user_id = ?1", nativeQuery = true)
     List<Book> getArchiveBooks(Integer idUser);
+
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM book2user " +
+            "WHERE book_id = ?1", nativeQuery = true)
+    void deleteCascadeUserToBookById(Integer id);
+
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM rating_book " +
+            "WHERE book_id = ?1", nativeQuery = true)
+    void deleteCascadeRatingBookById(Integer id);
+
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM recently_viewed " +
+            "WHERE book_id = ?1", nativeQuery = true)
+    void deleteCascadeRecentlyBookById(Integer id);
 }
 

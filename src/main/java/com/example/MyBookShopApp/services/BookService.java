@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,6 +26,7 @@ import static java.time.LocalDateTime.now;
 import static java.util.Arrays.asList;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
+import static javax.transaction.Transactional.TxType.REQUIRES_NEW;
 
 /**
  * Сервис для работы с данными класса book
@@ -261,5 +263,13 @@ public class BookService {
             return !book2User.getBook2Type().getTypeStatus().equals(TypeStatus.ARCHIVED);
         }
         return nonNull(book2User);
+    }
+
+    @Transactional(REQUIRES_NEW)
+    public void removeBook(Integer id) {
+        bookRepository.deleteCascadeUserToBookById(id);
+        bookRepository.deleteCascadeRatingBookById(id);
+        bookRepository.deleteCascadeRecentlyBookById(id);
+        bookRepository.deleteById(id);
     }
 }

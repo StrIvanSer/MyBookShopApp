@@ -42,6 +42,9 @@ p.error-browser
                         </form>
                     </div>
                     <div class="ProductCard-desc">
+                        <div sec:authorize="hasRole('ADMIN')" class="Spoiler-visible">
+                            <a  th:href="${'/admin/removeBook/' + slugBook.getId() }">DELETE BOOK</a>
+                        </div>
                         <div class="ProductCard-header">
                             <h1 class="ProductCard-title" th:text="${slugBook.title}">Мара и морок
                             </h1>

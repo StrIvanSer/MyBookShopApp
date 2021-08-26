@@ -125,7 +125,8 @@ public class AuthUserController {
             Model model,
             @AuthenticationPrincipal BookstoreUserDetails user) throws MessagingException {
         model.addAttribute("curUsr", userRegister.getCurrentUser());
-        model = userRegister.editProfile(user.getBookstoreUser(), phone, mail, name, password, passwordReply, model);
+        model = userRegister.
+                editProfile(user.getBookstoreUser(), phone, mail, name, password, passwordReply, model);
         return "profile";
     }
 
