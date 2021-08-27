@@ -20,6 +20,7 @@ import static java.util.Objects.nonNull;
 public class ContactController {
 
     private final MessageRepo messageRepo;
+    private static final String NEW_MESS = "newMess";
 
     @Autowired
     public ContactController(MessageRepo messageRepo) {
@@ -28,10 +29,10 @@ public class ContactController {
 
     @GetMapping("/contacts")
     public String contactsPage(Model model) {
-        if (nonNull(model.asMap().get("newMess"))) {
+        if (nonNull(model.asMap().get(NEW_MESS))) {
             String responseMessage = "Уважаемый " + model.asMap().get("name") + " Сообщение принято, наша " +
                     "служба поддержки в скором времени вам ответит на вашу почту: " + model.asMap().get("mail");
-            model.addAttribute("newMess", true);
+            model.addAttribute(NEW_MESS, true);
             model.addAttribute("responseMessage", responseMessage);
         }
         return "contacts";
@@ -63,7 +64,7 @@ public class ContactController {
         messageRepo.save(message);
         redirectAttrs.addFlashAttribute("name", message.getName());
         redirectAttrs.addFlashAttribute("mail", message.getEmail());
-        redirectAttrs.addFlashAttribute("newMess", true);
+        redirectAttrs.addFlashAttribute(NEW_MESS, true);
         return "redirect:/contacts";
     }
 

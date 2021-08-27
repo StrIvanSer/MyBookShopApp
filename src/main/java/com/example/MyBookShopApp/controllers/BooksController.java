@@ -124,7 +124,7 @@ public class BooksController {
         if (nonNull(user)) {
             reviewLikeService.saveReviewLike(user.getBookstoreUser(), reviewLikeValue.getReviewid(), reviewLikeValue.getValue());
         }
-        return "redirect:/books/" + bookSlug;
+        return BOOKS_REDIRECT + bookSlug;
     }
 
     @PostMapping("/changeBookStatus/archive/{slug}")
@@ -139,7 +139,7 @@ public class BooksController {
             return "redirect:/books/" + slug;
         }
         redirectAttrs.addFlashAttribute("noPaid", true);
-        return "redirect:/books/" + slug ;
+        return BOOKS_REDIRECT + slug ;
     }
 
 }
