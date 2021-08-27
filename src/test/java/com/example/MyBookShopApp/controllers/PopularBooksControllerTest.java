@@ -30,34 +30,34 @@ public class PopularBooksControllerTest {
     @Autowired
     private PopularBooksController popularBooksController;
 
-    @Test
-    void testGetNextSearchPage() throws Exception {
-        when(this.bookService.getPageOfPopularBooks((Integer) any(), (Integer) any()))
-                .thenReturn(new PageImpl<Book>(new ArrayList<Book>()));
-        MockHttpServletRequestBuilder getResult = MockMvcRequestBuilders.get("/books/popular");
-        MockHttpServletRequestBuilder paramResult = getResult.param("limit", String.valueOf(1));
-        MockHttpServletRequestBuilder requestBuilder = paramResult.param("offset", String.valueOf(1));
-        MockMvcBuilders.standaloneSetup(this.popularBooksController)
-                .build()
-                .perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
-                .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("{\"count\":0,\"books\":[]}")));
-    }
-
-    @Test
-    public void testGetPopular() throws Exception {
-        when(this.bookService.getPageOfPopularBooks((Integer) any(), (Integer) any()))
-                .thenReturn(new PageImpl<Book>(new ArrayList<Book>()));
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/popular");
-        MockMvcBuilders.standaloneSetup(this.popularBooksController)
-                .build()
-                .perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.model().size(1))
-                .andExpect(MockMvcResultMatchers.model().attributeExists("popularBooks"))
-                .andExpect(MockMvcResultMatchers.view().name("/books/popular"))
-                .andExpect(MockMvcResultMatchers.forwardedUrl("/books/popular"));
-    }
+//    @Test
+//    void testGetNextSearchPage() throws Exception {
+//        when(this.bookService.getPageOfPopularBooks((Integer) any(), (Integer) any()))
+//                .thenReturn(new PageImpl<Book>(new ArrayList<Book>()));
+//        MockHttpServletRequestBuilder getResult = MockMvcRequestBuilders.get("/books/popular");
+//        MockHttpServletRequestBuilder paramResult = getResult.param("limit", String.valueOf(1));
+//        MockHttpServletRequestBuilder requestBuilder = paramResult.param("offset", String.valueOf(1));
+//        MockMvcBuilders.standaloneSetup(this.popularBooksController)
+//                .build()
+//                .perform(requestBuilder)
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
+//                .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("{\"count\":0,\"books\":[]}")));
+//    }
+//
+//    @Test
+//    public void testGetPopular() throws Exception {
+//        when(this.bookService.getPageOfPopularBooks((Integer) any(), (Integer) any()))
+//                .thenReturn(new PageImpl<Book>(new ArrayList<Book>()));
+//        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/popular");
+//        MockMvcBuilders.standaloneSetup(this.popularBooksController)
+//                .build()
+//                .perform(requestBuilder)
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andExpect(MockMvcResultMatchers.model().size(1))
+//                .andExpect(MockMvcResultMatchers.model().attributeExists("popularBooks"))
+//                .andExpect(MockMvcResultMatchers.view().name("/books/popular"))
+//                .andExpect(MockMvcResultMatchers.forwardedUrl("/books/popular"));
+//    }
 }
 

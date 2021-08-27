@@ -1,5 +1,6 @@
 package com.example.MyBookShopApp.selenium;
 
+import liquibase.pro.packaged.S;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -9,6 +10,7 @@ import static com.example.MyBookShopApp.selenium.MainPage.URL_MAIN_PAGE;
 public class LoginAndReviewPage {
 
     private final ChromeDriver driver;
+    public static String PASS = "123123";
 
     public LoginAndReviewPage(ChromeDriver driver) {
         this.driver = driver;
@@ -51,8 +53,7 @@ public class LoginAndReviewPage {
 
     public LoginAndReviewPage setUpCode() {
         WebElement element = driver.findElement(By.id("mailcode"));
-        String password = "123123";
-        element.sendKeys(password);
+        element.sendKeys(PASS);
         return this;
     }
 

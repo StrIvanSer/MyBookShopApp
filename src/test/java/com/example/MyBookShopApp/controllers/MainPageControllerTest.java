@@ -36,14 +36,7 @@ class MainPageControllerTest {
     }
 
     //
-    @Test
-    public void accessOnlyAuthorizedPageFailTest() throws Exception {
-        mockMvc.perform(get("/my"))//get запрос
-                .andDo(print())//распечатка в консоль
-                .andExpect(status().is3xxRedirection())//проверка статуса
-                .andExpect(redirectedUrl("http://localhost/signin"));//проверка редиректа
-    }
-//
+
     @Test
     public void correctLoginTest() throws Exception {
         mockMvc.perform(formLogin("/signin").user("skillbox@inbox.ru").password("123123"))

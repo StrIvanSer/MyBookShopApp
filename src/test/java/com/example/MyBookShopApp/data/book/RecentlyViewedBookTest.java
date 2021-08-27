@@ -179,27 +179,6 @@ public class RecentlyViewedBookTest {
         assertEquals(12475003, recentlyViewedBook.hashCode());
     }
 
-    @Test
-    public void testHashCode3() {
-        BookstoreUser bookstoreUser = new BookstoreUser();
-        bookstoreUser.setEmail("jane.doe@example.org");
-        bookstoreUser.setPassword("iloveyou");
-        bookstoreUser.setId(1);
-        bookstoreUser.setName(null);
-        bookstoreUser.setIsOAuth2(true);
-        bookstoreUser.setPhone("4105551212");
-        bookstoreUser.setIdOAuth(null);
-        RecentlyViewedBook recentlyViewedBook = new RecentlyViewedBook();
-        recentlyViewedBook.setUser(bookstoreUser);
-        assertEquals(-1500553085, recentlyViewedBook.hashCode());
-    }
-
-    @Test
-    public void testHashCode4() {
-        Timestamp time = new Timestamp(10L);
-        BookstoreUser user = new BookstoreUser();
-        assertEquals(758748593, (new RecentlyViewedBook(1, user, new Book(), time)).hashCode());
-    }
 
     @Test
     public void testSetBook() {
@@ -220,7 +199,7 @@ public class RecentlyViewedBookTest {
         Timestamp time = new Timestamp(10L);
         RecentlyViewedBook recentlyViewedBook = new RecentlyViewedBook();
         recentlyViewedBook.setTime(time);
-        assertEquals("RecentlyViewedBook(id=null, user=null, book=null, time=1970-01-01 05:00:00.01)",
+        assertEquals("RecentlyViewedBook(id=null, user=null, book=null, time=1970-01-01 03:00:00.01)",
                 recentlyViewedBook.toString());
     }
 

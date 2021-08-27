@@ -84,7 +84,7 @@ public class RatingServiceTest {
         ratingBook.setOneStar(1);
         ratingBook.setFourStart(1);
         when(this.ratingRepository.save((RatingBook) any())).thenReturn(ratingBook);
-        this.ratingService.saveRating(new RatingBook(), 42);
+        this.ratingService.saveRating(ratingBook, 42);
         verify(this.ratingRepository).save((RatingBook) any());
     }
 

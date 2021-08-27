@@ -60,15 +60,12 @@ public class GenreBookControllerTest {
 
     @Test
     public void testGetGenrePage() {
-        BookRepository bookRepository = mock(BookRepository.class);
-        when(bookRepository.findAllByGenre((Genre) any(), (org.springframework.data.domain.Pageable) any()))
+        when(bookService.getPageBookByGenre((Genre) any(), (Integer) any(), (Integer) any()))
                 .thenReturn(new PageImpl<Book>(new ArrayList<Book>()));
-//        BookService bookService = new BookService(bookRepository, mock(Book2UserRepository.class));
         GenreBookController genreBookController = new GenreBookController(new GenreService(mock(GenreRepo.class)),
                 bookService);
         Genre genre = new Genre();
         assertEquals("genres/slug", genreBookController.getGenrePage(genre, new ConcurrentModel()));
-        verify(bookRepository).findAllByGenre((Genre) any(), (org.springframework.data.domain.Pageable) any());
     }
 
     @Test

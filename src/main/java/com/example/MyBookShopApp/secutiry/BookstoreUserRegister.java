@@ -19,6 +19,7 @@ import javax.mail.MessagingException;
 public class BookstoreUserRegister {
 
     private static final String PASS_ERROR = "passErrorSize";
+    private static final String ERROR = "passError";
 
     private final BookstoreUserRepository bookstoreUserRepository;
     private final PasswordEncoder passwordEncoder;
@@ -139,7 +140,7 @@ public class BookstoreUserRegister {
 
         if (!password.equals("") && !isChange(user, phone, mail, name)) {
             model = checkPassword(model, password, passwordReply);
-            if (!model.containsAttribute(PASS_ERROR) && !model.containsAttribute("passError")) {
+            if (!model.containsAttribute(PASS_ERROR) && !model.containsAttribute(ERROR)) {
                 user.setPassword(encodePass(password));
                 saveUser(user);
                 model.addAttribute("change", true);
@@ -149,7 +150,7 @@ public class BookstoreUserRegister {
 
         if (!password.equals("")) {
             model = checkPassword(model, password, passwordReply);
-            if (model.containsAttribute(PASS_ERROR) || model.containsAttribute("passError")) {
+            if (model.containsAttribute(PASS_ERROR) || model.containsAttribute(ERROR)) {
                 return model;
             }
         }
@@ -179,7 +180,7 @@ public class BookstoreUserRegister {
 
         if (!userDto.getPassword().equals("")) {
             model = checkPassword(model, userDto.getPassword(), userDto.getPasswordConfirm());
-            if (model.containsAttribute(PASS_ERROR) || model.containsAttribute("passError")) {
+            if (model.containsAttribute(PASS_ERROR) || model.containsAttribute(ERROR)) {
                 return model;
             }
         }
